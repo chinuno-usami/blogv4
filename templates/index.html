@@ -1,0 +1,8 @@
+{% extends "terminimal/templates/index.html" %}
+{% block footer %}
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -{{ date_macros::now_year() }} Published by {{ config.extra.author }}. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+{% endblock footer %}

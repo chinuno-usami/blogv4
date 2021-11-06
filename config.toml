@@ -1,0 +1,53 @@
+# The URL the site will be built for
+base_url = "https://www.chinuno.com/blogv4"
+title = "今生"
+description = "转生成为从零开始的小萌新"
+theme = "terminimal"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+generate_rss = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+taxonomies = [
+    {name = "tags", rss = true, paginate_by = 10},
+    {name = "categories", rss = true, paginate_by = 10}
+]
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+[extra]
+# Put all your custom variables here
+
+use_full_hack_font = true
+accent_color = "red"
+background_color = "red"
+logo_text = "转生成为从零开始的小萌新"
+
+# 不支持模板，手动重载掉主题
+# copyright_html = "<span>© 2015-{{ date_macros::now_year() }} Published by {{ config.extra.author }} All rights reserved q(≧▽≦q)</span>"
+menu_items = [
+    # each of these is optional, name and url are required
+    # $BASE_URL is going to be substituted by base_url from configuration
+    {name = "博文", url = "$BASE_URL"},
+    
+    # tags should only be enabled if you have "tags" taxonomy
+    # see documentation below for more details
+    {name = "标签", url = "$BASE_URL/tags"},
+    {name = "分类", url = "$BASE_URL/categories"},
+    {name = "归档", url = "$BASE_URL/archive"},
+    {name = "关于", url = "$BASE_URL/about"},
+    {name = "前世", url = "https://www.chinuno.com"},
+    
+    # set newtab to true to make the link open in new tab
+    {name = "github", url = "https://github.com/chinuno-usami", newtab = true},
+
+]
+enable_post_view_navigation = true
+post_view_navigation_prompt = "太吉尔好看啦！让我再多瞧瞧！"
+author = "Chinuno Usami"
