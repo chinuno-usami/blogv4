@@ -13,5 +13,6 @@ categories = ["about"]
 - Twitter：[@chinuno_usami](https://twitter.com/chinuno_usami)
 - Github：[chinuno-usami](https://github.com/chinuno-usami)
 - Telgram：[@chinuno_usami](https://t.me/chinuno_usami)
+- Steam：[Chinuno_Usami](https://steamcommunity.com/profiles/76561198046366321/)
 
 
