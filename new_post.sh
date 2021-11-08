@@ -27,7 +27,8 @@ description = ""
 date = ${TIMESTAMPE}
 path = "${URL_PATH}"
 [taxonomies]
-categories = []
+tags = []
+categories = ["blog"]
 +++
 
 <!-- more -->
