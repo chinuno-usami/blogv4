@@ -1,5 +1,4 @@
 {% extends "terminimal/templates/page.html" %}
-
 {% block title %}{{ page.title }}{% endblock %}
 {% block content %}
     <div class="post">
@@ -44,4 +43,15 @@
 	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
         {{ post_macros::earlier_later(page=page) }}
     </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
 {% endblock content %}
