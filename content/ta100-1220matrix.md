@@ -4,7 +4,7 @@ description = ""
 date = 2021-11-09 13:08:01+08:00
 path = "ta100-1220matrix"
 [taxonomies]
-tags = ["百人计划", "TA", "图形学"]
+tags = ["百人计划", "TA", "图形学", "线性代数"]
 categories = ["blog"]
 +++
 

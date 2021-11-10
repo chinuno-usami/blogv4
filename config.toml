@@ -9,7 +9,9 @@ compile_sass = true
 generate_rss = true
 
 # Whether to build a search index to be used later on by a JavaScript library
-build_search_index = true
+build_search_index = false
+
+default_language = "zh"
 
 taxonomies = [
     {name = "tags", rss = true, paginate_by = 10},
@@ -51,3 +53,7 @@ menu_items = [
 enable_post_view_navigation = true
 post_view_navigation_prompt = "太吉尔好看啦！让我再多瞧瞧！"
 author = "Chinuno Usami"
+
+[languages]
+[languages.zh]
+generate_feed = true

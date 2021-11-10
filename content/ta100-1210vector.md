@@ -87,7 +87,8 @@ layout(std140) uniform Transform { // set = 1, binding = 0
 };
 void main() {
     gl_Position = ViewProj * Model * vec4(Vertex_Position, 1.0);
-    // 计算TBN矩阵，转换为世界坐标
+    // 法向量乘以正规矩阵，防止模型缩放时法向量偏移，不与平面垂直
+    // 这里的情况不做这步操作应该没有影响
     fragNormal = mat3(transpose(inverse(Model))) * Vertex_Normal;
 }
 ```
