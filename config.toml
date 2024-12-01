@@ -56,4 +56,4 @@ author = "Chinuno Usami"
 
 [languages]
 [languages.zh]
-generate_feed = true
+generate_feeds = true
