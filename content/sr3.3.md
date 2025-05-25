@@ -43,14 +43,20 @@ categories = ["blog"]
 阿格莱雅应该也在怀疑，所以收集预言家的石板跟若虫一起找真相。可惜石板没来得及找齐。  
 当前石板内容自己翻译了一遍：
 
-> Has the sun never risen
-> Has the night never fallen
-> Has the fire never ignited
-> Has the hera never existed
+> Has the sun never risen  
+> Has the night never fallen  
+> Has the fire never ignited  
+> Has the hera never existed  
 
 都是问句。若虫还有一个位置、石板应该还能凑一句话。这里的hera是否指的就是昔涟呢。  
 白厄是否也跟清洗者一样把前世的记忆灌进去了呢  
 如果说刻法勒就是过去的白厄，那么是不是跟黄金替罪羊一样，利用了过去的自己来达成获取火种的目标呢
+
+## 若虫
+关于若虫我想还有一种可能性。  
+若虫都是颜文字，通过金线（网络）维系。虫鸣秘闻一大部分都会告诉你要去社区查攻略，并且两个兑换码邮件：一个摩斯密文暗示逐火谎言，一个代遐碟发送告别信。都是通过系统外交互做的（其他人的消息都是通过游戏内短信发的哦）。  
+那么这里的若虫是不是代表制作组或者社区的其他玩家呢？  
+大胆猜测一下7月的时候会搞个什么大动作，把玩家弄到游戏里，像尼尔结局一样
 
 ## 黑潮
 而黑潮是刻法勒造成的。因为过去轮回都没有黑潮,所以没见过泰坦提到黑潮的预言。  
