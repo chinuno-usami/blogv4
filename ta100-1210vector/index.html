@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 1.2.1 向量基础</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-1210vector/">TA百人计划 图形 1.2.1 向量基础</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-08
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/xian-xing-dai-shu/">#线性代数</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1210vector/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1210vector/#xiang-liang-de-ding-yi">向量的定义</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1210vector/#xiang-liang-gen-biao-liang-bi-jiao">向量跟标量比较</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1210vector/#xiang-liang-he-dian-bi-jiao">向量和点比较</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1210vector/#ling-xiang-liang">零向量</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1210vector/#xiang-liang-ji-suan">向量计算</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1210vector/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1210vector/#ge-chong-xiang-liang-ji-suan-de-ji-he-yi-yi">各种向量计算的几何意义</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1210vector/#lian-lian-kan-shi-xian-lan-bo-te-ban-lan-bo-te">连连看实现兰伯特、半兰伯特</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>这东西实在太熟了。毕竟一直在做的CV、DL都绕不过线性代数。所以文章最后搞了个好玩的。</p>
+<span id="continue-reading"></span>
+<p>地址：<a href="https://www.bilibili.com/video/BV1n54y1Y7wB">【技术美术百人计划】图形 1.2.1 向量基础</a></p>
+<h1 id="bi-ji">笔记</h1>
+<h2 id="xiang-liang-de-ding-yi">向量的定义</h2>
+<ul>
+<li>向量是有大小和方向的有向线段</li>
+<li>向量没有位置，只有大小和方向</li>
+<li>箭头方向就是向量方向，从头指向尾</li>
+<li>可以用来表示空间上的位移（向量拆分为各个轴上的分量分别位移）</li>
+<li>向量表示：(a,b,c) 几维就几个 （其实应该用矩阵表示的。。）</li>
+</ul>
+<h2 id="xiang-liang-gen-biao-liang-bi-jiao">向量跟标量比较</h2>
+<p>向量有方向，标量没有。</p>
+<h2 id="xiang-liang-he-dian-bi-jiao">向量和点比较</h2>
+<p>表示形式一样，几何意义不一样<br />
+点只表示一个位置，没有大小没有方向<br />
+向量不表示位置，有大小跟方向<br />
+表示形式上。点可以看成原点出发到点位置的一个向量</p>
+<h2 id="ling-xiang-liang">零向量</h2>
+<p>大小为0，没有方向</p>
+<h2 id="xiang-liang-ji-suan">向量计算</h2>
+<h3 id="gen-biao-liang-ji-suan">跟标量计算</h3>
+<ul>
+<li>不能相加减（一直习惯了各种标量+矩阵的自动转换还真忘了这点）</li>
+<li>可以相乘除，每一个分量分别乘上标量值</li>
+</ul>
+<h3 id="mo">模</h3>
+<p>向量长度。计算方式：每个分量平方开根号$\sqrt{x^2+y^2+z^2...}$</p>
+<h3 id="dan-wei-xiang-liang">单位向量</h3>
+<p>向量/模 $\frac{\vec a}{||\vec a||}$,使向量长度归为1，成为一个长度为1，实际只表示方向的向量</p>
+<h3 id="xiang-liang-xiang-jia-jian">向量相加/减</h3>
+<p>每个分量分别相加/减</p>
+<h3 id="liang-dian-jian-ju-chi">两点间距离</h3>
+<p>两点以向量表示，向量相减得到的新向量模为两点距离</p>
+<h3 id="dian-ji">点积</h3>
+<p>两个矩阵每列每行相乘后求和,满足交换律，结果是个标量<br />
+兰伯特模型根据点积表示向量相似度的特性计算漫反射光照强度<br />
+另外，各种AI算法里常用<code>余弦相似度</code>计算特征之间的相似度</p>
+<h3 id="tou-ying">投影</h3>
+<p>一个向量在另一个向量上的长度。在另一个向量方向上的分量。</p>
+<h3 id="xji">×积</h3>
+<p>每个分量交叉相乘后相减，不满足交换律,结果是个向量<br />
+结果和两个向量垂直</p>
+<h1 id="zuo-ye">作业</h1>
+<h2 id="ge-chong-xiang-liang-ji-suan-de-ji-he-yi-yi">各种向量计算的几何意义</h2>
+<h3 id="gen-biao-liang-ji-suan-1">跟标量计算</h3>
+<ul>
+<li>只有乘除，向量长度缩放为标量倍数，负值就方向相反</li>
+</ul>
+<h3 id="xiang-liang-zhi-jian-de-ji-suan">向量之间的计算</h3>
+<ul>
+<li>相加：两个向量为边的平行四边形对角线/向量沿着另一个向量方向平移后的位置为结束点，原始方向为起始点的一个新的向量</li>
+<li>相减：减向量结尾指向被减向量结尾的一个向量/模可当成两点间距离</li>
+<li>点积：两个向量的相似程度，正交情况下点积为0，值越大表示向量夹角越小。</li>
+<li>投影：一个向量在另一个向量方向上的长度</li>
+<li>叉积：垂直于两个向量所在的平面</li>
+</ul>
+<h3 id="qi-ta">其他</h3>
+<ul>
+<li>模：向量的长度</li>
+<li>标准化（归一化）：向量长度归一，一般只需要方向情况下用到</li>
+</ul>
+<h2 id="lian-lian-kan-shi-xian-lan-bo-te-ban-lan-bo-te">连连看实现兰伯特、半兰伯特</h2>
+<p>连就不连啦。用glsl实现一个放网页上动态显示</p>
+<iframe id="inlineFrameExample"
+    title="Inline Frame Example"
+    style="width:100%;height:auto;aspect-ratio:16/9;"
+    src="exp.html">
+</iframe>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 顶点着色器
+</span><span style="color:#b48ead;">#version</span><span> 300 es
+</span><span>precision highp </span><span style="color:#b48ead;">float</span><span>;
+</span><span style="color:#b48ead;">in vec3</span><span> Vertex_Position;
+</span><span style="color:#b48ead;">in vec3</span><span> Vertex_Normal;
+</span><span style="color:#b48ead;">out vec3</span><span> fragNormal;
+</span><span style="color:#b48ead;">layout</span><span>(std140) </span><span style="color:#b48ead;">uniform</span><span> CameraViewProj { </span><span style="color:#65737e;">// set = 0, binding = 0
+</span><span>    </span><span style="color:#b48ead;">mat4</span><span> ViewProj;
+</span><span>};
+</span><span style="color:#b48ead;">layout</span><span>(std140) </span><span style="color:#b48ead;">uniform</span><span> Transform { </span><span style="color:#65737e;">// set = 1, binding = 0
+</span><span>    </span><span style="color:#b48ead;">mat4</span><span> Model;
+</span><span>};
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#bf616a;">gl_Position </span><span>= ViewProj * Model * </span><span style="color:#b48ead;">vec4</span><span>(Vertex_Position, </span><span style="color:#d08770;">1.0</span><span>);
+</span><span>    </span><span style="color:#65737e;">// 法向量乘以正规矩阵，防止模型缩放时法向量偏移，不与平面垂直
+</span><span>    </span><span style="color:#65737e;">// 这里的情况不做这步操作应该没有影响
+</span><span>    fragNormal = </span><span style="color:#b48ead;">mat3</span><span>(</span><span style="color:#96b5b4;">transpose</span><span>(</span><span style="color:#bf616a;">inverse</span><span>(Model))) * Vertex_Normal;
+</span><span>}
+</span></code></pre>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 兰伯特
+</span><span style="color:#b48ead;">#version</span><span> 300 es
+</span><span>precision highp </span><span style="color:#b48ead;">float</span><span>;
+</span><span style="color:#b48ead;">in vec3</span><span> fragNormal;
+</span><span style="color:#b48ead;">out vec4</span><span> o_Target;
+</span><span style="color:#b48ead;">layout</span><span>(std140) </span><span style="color:#b48ead;">uniform</span><span> LambertMaterial_lightDir { </span><span style="color:#65737e;">// set = 2, binding = 0
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> lightDir;
+</span><span>};
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#65737e;">// 这里光照方向是自己xjb构造的，先做个归一化
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> light = </span><span style="color:#96b5b4;">normalize</span><span>(lightDir);
+</span><span>    </span><span style="color:#65737e;">// 基本颜色。简单给个纯白
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> base = </span><span style="color:#b48ead;">vec3</span><span>(</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">1</span><span>);
+</span><span>    </span><span style="color:#65737e;">// 灵魂部分。法线和光照方向点乘，再给个颜色
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> col = </span><span style="color:#96b5b4;">dot</span><span>(fragNormal, light)* base;
+</span><span>    o_Target = </span><span style="color:#b48ead;">vec4</span><span>(col,</span><span style="color:#d08770;">1.0</span><span>);
+</span><span>}
+</span></code></pre>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 半兰伯特
+</span><span style="color:#b48ead;">#version</span><span> 300 es
+</span><span>precision highp </span><span style="color:#b48ead;">float</span><span>;
+</span><span style="color:#b48ead;">in vec3</span><span> fragNormal;
+</span><span style="color:#b48ead;">out vec4</span><span> o_Target;
+</span><span style="color:#b48ead;">layout</span><span>(std140) </span><span style="color:#b48ead;">uniform</span><span> LambertMaterial_lightDir { </span><span style="color:#65737e;">// set = 2, binding = 0
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> lightDir;
+</span><span>};
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> light = </span><span style="color:#96b5b4;">normalize</span><span>(lightDir);
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> base = </span><span style="color:#b48ead;">vec3</span><span>(</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">1</span><span>);
+</span><span>    </span><span style="color:#65737e;">// 区别在于重新映射范围[-1,1] -&gt; [0,1]
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> col = </span><span style="color:#96b5b4;">dot</span><span>(fragNormal, light)* base*</span><span style="color:#d08770;">0.5</span><span>+</span><span style="color:#d08770;">0.5</span><span>;
+</span><span>    o_Target = </span><span style="color:#b48ead;">vec4</span><span>(col,</span><span style="color:#d08770;">1.0</span><span>);
+</span><span>}
+</span></code></pre>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

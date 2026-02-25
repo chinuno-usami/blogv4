@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+Allow: /
+Sitemap: https://www.chinuno.com/blogv4/sitemap.xml

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>C++实现10分鈡魔法parser</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/magic-in-ten-min-cpp-parser/">C++实现10分鈡魔法parser</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2025-10-20
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/c/">#c++</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/magic/">#magic</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/han-shu-shi-bian-cheng/">#函数式编程</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/monad/">#monad</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/magic-in-ten-min-cpp-parser/#jie-xi-qi-dan-zi">解析器单子</a>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>十分鈡魔法中2个parser部分其他语言都没实现：https://magic.huohuo.moe/html/ParserM.html https://magic.huohuo.moe/html/Parsec.html<br />
+自己试着用c++实现一下。</p>
+<span id="continue-reading"></span>
+<p>原版省略的不少内容，理解起来稍微费劲。应该是参考的这两份文章实现的，可以前置先了解一下：https://people.cs.nott.ac.uk/pszgmh/monparsing.pdf https://people.cs.nott.ac.uk/pszgmh/pearl.pdf</p>
+<h1 id="jie-xi-qi-dan-zi">解析器单子</h1>
+<p>属于一种函数生成器，生成的函数输入待解析内容，返回(结果, 剩余待解析内容)<br />
+类似于这样的函数签名:</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">class</span><span> T&gt;
+</span><span>std::option&lt;std::pair&lt;T, std::string_view&gt;&gt; </span><span style="color:#8fa1b3;">parse</span><span>(std::</span><span style="color:#bf616a;">string_view</span><span>);
+</span></code></pre>
+<p>C++不需要HKT包装一层,原java实现是monad持有一个parser对象用来执行。<br />
+这里就直接在parser monad里面带个可执行对象用来执行</p>
+<p>最终实现如下：</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">optional</span><span>&gt;
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">functional</span><span>&gt;
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">utility</span><span>&gt;
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">vector</span><span>&gt;
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">string_view</span><span>&gt;
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">iostream</span><span>&gt;
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">class</span><span> T&gt;
+</span><span style="color:#b48ead;">using </span><span>Maybe = std::optional&lt;T&gt;;
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">class</span><span> T&gt;
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Parser </span><span style="color:#eff1f5;">{
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">Parser</span><span style="color:#eff1f5;">() </span><span>= </span><span style="color:#b48ead;">delete</span><span style="color:#eff1f5;">;
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">Parser</span><span style="color:#eff1f5;">(std::function&lt;Maybe&lt;std::pair&lt;T, std::string_view&gt;&gt;(std::string_view)&gt; </span><span style="color:#bf616a;">action</span><span style="color:#eff1f5;">): </span><span style="color:#bf616a;">op</span><span style="color:#eff1f5;">(action) {
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">~Parser</span><span style="color:#eff1f5;">() {
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    Maybe&lt;std::pair&lt;T, std::string_view&gt;&gt; </span><span style="color:#8fa1b3;">run</span><span style="color:#eff1f5;">(std::string_view </span><span style="color:#bf616a;">s</span><span style="color:#eff1f5;">) </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">op</span><span style="color:#eff1f5;">(s);
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#65737e;">// 封装值内容到Parser中
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">static</span><span style="color:#eff1f5;"> Parser&lt;T&gt; </span><span style="color:#8fa1b3;">pure</span><span style="color:#eff1f5;">(T </span><span style="color:#bf616a;">value</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        Parser&lt;T&gt; </span><span style="color:#bf616a;">p</span><span style="color:#eff1f5;">([value] (std::string_view res) -&gt; </span><span style="color:#bf616a;">Maybe</span><span style="color:#eff1f5;">&lt;std::pair&lt;T, std::string_view&gt;&gt; {
+</span><span style="color:#eff1f5;">            Maybe&lt;std::pair&lt;T, std::string_view&gt;&gt; </span><span style="color:#bf616a;">ret</span><span style="color:#eff1f5;">({value, res});
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> ret;
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> p;
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">static</span><span style="color:#eff1f5;"> Parser&lt;T&gt; </span><span style="color:#8fa1b3;">fail</span><span style="color:#eff1f5;">() {
+</span><span style="color:#eff1f5;">        Parser&lt;T&gt; </span><span style="color:#bf616a;">p</span><span style="color:#eff1f5;">([] (std::string_view) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> std::nullopt;
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> p;
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#65737e;">// 本身内容叠加输入操作
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">template </span><span style="color:#eff1f5;">&lt;</span><span style="color:#b48ead;">class</span><span style="color:#eff1f5;"> U&gt;
+</span><span style="color:#eff1f5;">    Parser&lt;U&gt; </span><span style="color:#8fa1b3;">flatMap</span><span style="color:#eff1f5;">(std::function&lt;Parser&lt;U&gt;(T)&gt; </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">) </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        Parser&lt;U&gt; </span><span style="color:#bf616a;">parser</span><span style="color:#eff1f5;">([self</span><span>=*</span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">, f](std::string_view s) -&gt; </span><span style="color:#bf616a;">Maybe</span><span style="color:#eff1f5;">&lt;std::pair&lt;U, std::string_view&gt;&gt; {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> res </span><span>=</span><span style="color:#eff1f5;"> self.</span><span style="color:#bf616a;">run</span><span style="color:#eff1f5;">(s);
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">if </span><span style="color:#eff1f5;">(</span><span>!</span><span style="color:#eff1f5;">res) {
+</span><span style="color:#eff1f5;">                </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> std::nullopt;
+</span><span style="color:#eff1f5;">            }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">            Parser&lt;U&gt; next </span><span>= </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">(res-&gt;</span><span style="color:#bf616a;">first</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> next.</span><span style="color:#bf616a;">run</span><span style="color:#eff1f5;">(res-&gt;</span><span style="color:#bf616a;">second</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> parser;
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">template </span><span style="color:#eff1f5;">&lt;</span><span style="color:#b48ead;">class</span><span style="color:#eff1f5;"> U&gt;
+</span><span style="color:#eff1f5;">    Parser&lt;U&gt; </span><span style="color:#8fa1b3;">map</span><span style="color:#eff1f5;">(std::function&lt;U(T)&gt; </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">flatMap</span><span style="color:#eff1f5;">&lt;U&gt;([f](T x) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> Parser&lt;U&gt;::</span><span style="color:#bf616a;">pure</span><span style="color:#eff1f5;">(</span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">(x));
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">template </span><span style="color:#eff1f5;">&lt;</span><span style="color:#b48ead;">class</span><span style="color:#eff1f5;"> U, </span><span style="color:#b48ead;">class</span><span style="color:#eff1f5;"> V&gt;
+</span><span style="color:#eff1f5;">    Parser&lt;V&gt; </span><span style="color:#8fa1b3;">combine</span><span style="color:#eff1f5;">(Parser&lt;U&gt; </span><span style="color:#bf616a;">p</span><span style="color:#eff1f5;">, std::function&lt;V(T, U)&gt; </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">) </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">flatMap</span><span style="color:#eff1f5;">&lt;V&gt;([</span><span>=</span><span style="color:#eff1f5;">] (T a) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> p.</span><span style="color:#b48ead;">template </span><span style="color:#bf616a;">flatMap</span><span style="color:#eff1f5;">&lt;V&gt;([</span><span>=</span><span style="color:#eff1f5;">] (U b) {
+</span><span style="color:#eff1f5;">                </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> Parser&lt;V&gt;::</span><span style="color:#bf616a;">pure</span><span style="color:#eff1f5;">(</span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">(a,b));
+</span><span style="color:#eff1f5;">            });
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">template </span><span style="color:#eff1f5;">&lt;</span><span style="color:#b48ead;">class</span><span style="color:#eff1f5;"> U&gt;
+</span><span style="color:#eff1f5;">    Parser&lt;T&gt; </span><span style="color:#8fa1b3;">skip</span><span style="color:#eff1f5;">(Parser&lt;U&gt; </span><span style="color:#bf616a;">p</span><span style="color:#eff1f5;">) </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">combine</span><span style="color:#eff1f5;">&lt;U, T&gt;(p, [](T a, U) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> a;
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">template </span><span style="color:#eff1f5;">&lt;</span><span style="color:#b48ead;">class</span><span style="color:#eff1f5;"> U&gt;
+</span><span style="color:#eff1f5;">    Parser&lt;U&gt; </span><span style="color:#8fa1b3;">use</span><span style="color:#eff1f5;">(Parser&lt;U&gt; </span><span style="color:#bf616a;">p</span><span style="color:#eff1f5;">) </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">combine</span><span style="color:#eff1f5;">&lt;U, U&gt;(p, [](T, U b) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> b;
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#65737e;">// or居然是keyword
+</span><span style="color:#eff1f5;">    Parser&lt;T&gt; </span><span style="color:#8fa1b3;">or_</span><span style="color:#eff1f5;">(Parser&lt;T&gt; </span><span style="color:#bf616a;">p</span><span style="color:#eff1f5;">) </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        Parser&lt;T&gt; </span><span style="color:#bf616a;">parser</span><span style="color:#eff1f5;">([self</span><span>=*</span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">, p](std::string_view s) -&gt; </span><span style="color:#bf616a;">Maybe</span><span style="color:#eff1f5;">&lt;std::pair&lt;T, std::string_view&gt;&gt; {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> res </span><span>=</span><span style="color:#eff1f5;"> self.</span><span style="color:#bf616a;">run</span><span style="color:#eff1f5;">(s);
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">if </span><span style="color:#eff1f5;">(res) {
+</span><span style="color:#eff1f5;">                </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> res;
+</span><span style="color:#eff1f5;">            } </span><span style="color:#b48ead;">else </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">                </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> p.</span><span style="color:#bf616a;">run</span><span style="color:#eff1f5;">(s);
+</span><span style="color:#eff1f5;">            }
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> parser;
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    Parser&lt;std::vector&lt;T&gt;&gt; </span><span style="color:#8fa1b3;">many</span><span style="color:#eff1f5;">() </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        Parser&lt;std::vector&lt;T&gt;&gt; </span><span style="color:#bf616a;">parser</span><span style="color:#eff1f5;">([self</span><span>=*</span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">](std::string_view s) -&gt; </span><span style="color:#bf616a;">Maybe</span><span>&lt;</span><span style="color:#eff1f5;">std::pair&lt;std::vector&lt;T&gt;, std::string_view&gt;</span><span>&gt; </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> res </span><span>=</span><span style="color:#eff1f5;"> self.</span><span style="color:#bf616a;">run</span><span style="color:#eff1f5;">(s);
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">if </span><span style="color:#eff1f5;">(</span><span>!</span><span style="color:#eff1f5;">res) {
+</span><span style="color:#eff1f5;">                </span><span style="color:#b48ead;">return </span><span style="color:#eff1f5;">std::</span><span style="color:#bf616a;">make_pair</span><span style="color:#eff1f5;">(std::</span><span style="color:#bf616a;">vector</span><span style="color:#eff1f5;">&lt;T&gt;(), s);
+</span><span style="color:#eff1f5;">            }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">            </span><span style="color:#65737e;">// 递归处理剩余部分
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> many_parser </span><span>=</span><span style="color:#eff1f5;"> self.</span><span style="color:#bf616a;">many</span><span style="color:#eff1f5;">();
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> rs </span><span>=</span><span style="color:#eff1f5;"> many_parser.</span><span style="color:#bf616a;">run</span><span style="color:#eff1f5;">(res-&gt;</span><span style="color:#bf616a;">second</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">if </span><span style="color:#eff1f5;">(rs) {
+</span><span style="color:#eff1f5;">                std::vector&lt;T&gt; values </span><span>=</span><span style="color:#eff1f5;"> rs-&gt;</span><span style="color:#bf616a;">first</span><span style="color:#eff1f5;">;
+</span><span style="color:#eff1f5;">                values.</span><span style="color:#bf616a;">insert</span><span style="color:#eff1f5;">(values.</span><span style="color:#bf616a;">begin</span><span style="color:#eff1f5;">(), res-&gt;</span><span style="color:#bf616a;">first</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">                </span><span style="color:#b48ead;">return </span><span style="color:#eff1f5;">std::</span><span style="color:#bf616a;">make_pair</span><span style="color:#eff1f5;">(values, rs-&gt;</span><span style="color:#bf616a;">second</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">            }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">            std::vector&lt;T&gt; values;
+</span><span style="color:#eff1f5;">            values.</span><span style="color:#bf616a;">insert</span><span style="color:#eff1f5;">(values.</span><span style="color:#bf616a;">begin</span><span style="color:#eff1f5;">(), res-&gt;</span><span style="color:#bf616a;">first</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return </span><span style="color:#eff1f5;">std::</span><span style="color:#bf616a;">make_pair</span><span style="color:#eff1f5;">(values, res-&gt;</span><span style="color:#bf616a;">second</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> parser;
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#65737e;">// many1
+</span><span style="color:#eff1f5;">    Parser&lt;std::vector&lt;T&gt;&gt; </span><span style="color:#8fa1b3;">some</span><span style="color:#eff1f5;">() </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">flatMap</span><span style="color:#eff1f5;">&lt;std::vector&lt;T&gt;&gt;([self</span><span>=*</span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">](T x) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> many_parser </span><span>=</span><span style="color:#eff1f5;"> self.</span><span style="color:#bf616a;">many</span><span style="color:#eff1f5;">();
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> many_parser.</span><span style="color:#b48ead;">template </span><span style="color:#bf616a;">flatMap</span><span style="color:#eff1f5;">&lt;std::vector&lt;T&gt;&gt;([x](std::vector&lt;T&gt; xs) {
+</span><span style="color:#eff1f5;">                xs.</span><span style="color:#bf616a;">insert</span><span style="color:#eff1f5;">(xs.</span><span style="color:#bf616a;">begin</span><span style="color:#eff1f5;">(), x);
+</span><span style="color:#eff1f5;">                </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> Parser&lt;std::vector&lt;T&gt;&gt;::</span><span style="color:#bf616a;">pure</span><span style="color:#eff1f5;">(xs);
+</span><span style="color:#eff1f5;">            });
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#b48ead;">private</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    std::function&lt;Maybe&lt;std::pair&lt;T, std::string_view&gt;&gt;(std::string_view)&gt; op;
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    Parser&lt;</span><span style="color:#b48ead;">char</span><span>&gt; </span><span style="color:#bf616a;">id</span><span>([](std::string_view s) -&gt; </span><span style="color:#bf616a;">Maybe</span><span>&lt;std::pair&lt;</span><span style="color:#b48ead;">char</span><span>, std::string_view&gt;&gt; {
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(s.</span><span style="color:#bf616a;">empty</span><span>()) {
+</span><span>            </span><span style="color:#b48ead;">return</span><span> std::nullopt;
+</span><span>        } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>            </span><span style="color:#b48ead;">return </span><span>std::</span><span style="color:#bf616a;">make_pair</span><span>(s.</span><span style="color:#bf616a;">front</span><span>(), s.</span><span style="color:#bf616a;">substr</span><span>(</span><span style="color:#d08770;">1</span><span>));
+</span><span>        }
+</span><span>    });
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> pred = [id](std::function&lt;</span><span style="color:#b48ead;">bool</span><span>(</span><span style="color:#b48ead;">char</span><span>)&gt; f) {
+</span><span>        </span><span style="color:#b48ead;">return</span><span> id.</span><span style="color:#bf616a;">flatMap</span><span>&lt;</span><span style="color:#b48ead;">char</span><span>&gt;([f](</span><span style="color:#b48ead;">char</span><span> c) -&gt; </span><span style="color:#bf616a;">Parser</span><span>&lt;</span><span style="color:#b48ead;">char</span><span>&gt; {
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#bf616a;">f</span><span>(c)) {
+</span><span>                </span><span style="color:#b48ead;">return</span><span> Parser&lt;</span><span style="color:#b48ead;">char</span><span>&gt;::</span><span style="color:#bf616a;">pure</span><span>(c);
+</span><span>            } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>                </span><span style="color:#b48ead;">return</span><span> Parser&lt;</span><span style="color:#b48ead;">char</span><span>&gt;::</span><span style="color:#bf616a;">fail</span><span>();
+</span><span>            }
+</span><span>        });
+</span><span>    };
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> character = [pred](</span><span style="color:#b48ead;">char</span><span> x) {
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">pred</span><span>([x](</span><span style="color:#b48ead;">char</span><span> c) {
+</span><span>            </span><span style="color:#b48ead;">return</span><span> c == x;
+</span><span>        });
+</span><span>    };
+</span><span>
+</span><span>    Parser&lt;</span><span style="color:#b48ead;">int</span><span>&gt; digit = </span><span style="color:#bf616a;">pred</span><span>([](</span><span style="color:#b48ead;">char</span><span> c) {
+</span><span>        </span><span style="color:#b48ead;">return</span><span> c &gt;= &#39;</span><span style="color:#a3be8c;">0</span><span>&#39; &amp;&amp; c &lt;= &#39;</span><span style="color:#a3be8c;">9</span><span>&#39;;
+</span><span>    }).</span><span style="color:#bf616a;">flatMap</span><span>&lt;</span><span style="color:#b48ead;">int</span><span>&gt;([](</span><span style="color:#b48ead;">char</span><span> c) {
+</span><span>        </span><span style="color:#b48ead;">return</span><span> Parser&lt;</span><span style="color:#b48ead;">int</span><span>&gt;::</span><span style="color:#bf616a;">pure</span><span>(c-&#39;</span><span style="color:#a3be8c;">0</span><span>&#39;);
+</span><span>    });
+</span><span>
+</span><span>    Parser&lt;</span><span style="color:#b48ead;">int</span><span>&gt; nat = digit.</span><span style="color:#bf616a;">some</span><span>().</span><span style="color:#bf616a;">map</span><span>&lt;</span><span style="color:#b48ead;">int</span><span>&gt;([](std::vector&lt;</span><span style="color:#b48ead;">int</span><span>&gt; xs) {
+</span><span>        </span><span style="color:#b48ead;">int</span><span> ret = </span><span style="color:#d08770;">0</span><span>;
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">auto</span><span> x: xs) {
+</span><span>            ret = ret * </span><span style="color:#d08770;">10 </span><span>+ x;
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">return</span><span> ret;
+</span><span>    });
+</span><span>
+</span><span>    Parser&lt;</span><span style="color:#b48ead;">int</span><span>&gt; integer = (</span><span style="color:#bf616a;">character</span><span>(&#39;</span><span style="color:#a3be8c;">-</span><span>&#39;).</span><span style="color:#bf616a;">use</span><span>(nat).</span><span style="color:#bf616a;">map</span><span>&lt;</span><span style="color:#b48ead;">int</span><span>&gt;([](</span><span style="color:#b48ead;">int</span><span> i) {
+</span><span>        </span><span style="color:#b48ead;">return </span><span>-i;
+</span><span>    })).</span><span style="color:#bf616a;">or_</span><span>(nat);
+</span><span>
+</span><span>    Parser&lt;</span><span style="color:#b48ead;">double</span><span>&gt; real = (integer.</span><span style="color:#bf616a;">combine</span><span>&lt;</span><span style="color:#b48ead;">double</span><span>, </span><span style="color:#b48ead;">double</span><span>&gt;(
+</span><span>        </span><span style="color:#65737e;">// 解析小数部分
+</span><span>        </span><span style="color:#bf616a;">character</span><span>(&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;)
+</span><span>        .</span><span style="color:#bf616a;">use</span><span>(digit.</span><span style="color:#bf616a;">some</span><span>())
+</span><span>        .</span><span style="color:#bf616a;">map</span><span>&lt;</span><span style="color:#b48ead;">double</span><span>&gt;([](std::vector&lt;</span><span style="color:#b48ead;">int</span><span>&gt; xs) {
+</span><span>            </span><span style="color:#b48ead;">double</span><span> ans = </span><span style="color:#d08770;">0</span><span>, base = </span><span style="color:#d08770;">0.1</span><span>;
+</span><span>            </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> i : xs) {
+</span><span>                ans += base * i;
+</span><span>                base *= </span><span style="color:#d08770;">0.1</span><span>;
+</span><span>            }
+</span><span>            </span><span style="color:#b48ead;">return</span><span> ans;
+</span><span>        }),
+</span><span>        </span><span style="color:#65737e;">// 整数和小数部分相加
+</span><span>        [](</span><span style="color:#b48ead;">int</span><span> a, </span><span style="color:#b48ead;">double</span><span> b) {
+</span><span>            </span><span style="color:#b48ead;">double</span><span> ret = </span><span style="color:#96b5b4;">fabs</span><span>(a) + b;
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(a &lt; </span><span style="color:#d08770;">0</span><span>) {
+</span><span>                ret = -ret;
+</span><span>            }
+</span><span>            </span><span style="color:#b48ead;">return</span><span> ret;
+</span><span>        }))
+</span><span>        </span><span style="color:#65737e;">// 纯整数情况
+</span><span>        .</span><span style="color:#bf616a;">or_</span><span>(integer.</span><span style="color:#bf616a;">map</span><span>&lt;</span><span style="color:#b48ead;">double</span><span>&gt;([](</span><span style="color:#b48ead;">int</span><span> i) { </span><span style="color:#b48ead;">return</span><span> i;}));
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> digitRes = digit.</span><span style="color:#bf616a;">run</span><span>(&quot;</span><span style="color:#a3be8c;">996</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(digitRes) {
+</span><span>        std::cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">(</span><span>&quot; &lt;&lt; typeid(digitRes-&gt;</span><span style="color:#bf616a;">first</span><span>).</span><span style="color:#bf616a;">name</span><span>() &lt;&lt; &quot;</span><span style="color:#a3be8c;">:</span><span>&quot; &lt;&lt; digitRes-&gt;</span><span style="color:#bf616a;">first </span><span>&lt;&lt; &quot;</span><span style="color:#a3be8c;">,</span><span>&quot; &lt;&lt; digitRes-&gt;</span><span style="color:#bf616a;">second </span><span>&lt;&lt; &quot;</span><span style="color:#a3be8c;">)</span><span>&quot; &lt;&lt; std::endl;
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> natRes = nat.</span><span style="color:#bf616a;">run</span><span>(&quot;</span><span style="color:#a3be8c;">1234</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(natRes) {
+</span><span>        std::cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">(</span><span>&quot; &lt;&lt; typeid(natRes-&gt;</span><span style="color:#bf616a;">first</span><span>).</span><span style="color:#bf616a;">name</span><span>() &lt;&lt; &quot;</span><span style="color:#a3be8c;">:</span><span>&quot; &lt;&lt;natRes-&gt;</span><span style="color:#bf616a;">first </span><span>&lt;&lt; &quot;</span><span style="color:#a3be8c;">,</span><span>&quot; &lt;&lt; natRes-&gt;</span><span style="color:#bf616a;">second </span><span>&lt;&lt; &quot;</span><span style="color:#a3be8c;">)</span><span>&quot; &lt;&lt; std::endl;
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> integerRes = integer.</span><span style="color:#bf616a;">run</span><span>(&quot;</span><span style="color:#a3be8c;">-4321qwerty</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(integerRes) {
+</span><span>        std::cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">(</span><span>&quot; &lt;&lt; typeid(integerRes-&gt;</span><span style="color:#bf616a;">first</span><span>).</span><span style="color:#bf616a;">name</span><span>() &lt;&lt; &quot;</span><span style="color:#a3be8c;">:</span><span>&quot; &lt;&lt;integerRes-&gt;</span><span style="color:#bf616a;">first </span><span>&lt;&lt; &quot;</span><span style="color:#a3be8c;">,</span><span>&quot; &lt;&lt; integerRes-&gt;</span><span style="color:#bf616a;">second </span><span>&lt;&lt; &quot;</span><span style="color:#a3be8c;">)</span><span>&quot; &lt;&lt; std::endl;
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> realRes = real.</span><span style="color:#bf616a;">run</span><span>(&quot;</span><span style="color:#a3be8c;">-114.514</span><span>&quot;);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(realRes) {
+</span><span>        std::cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">(</span><span>&quot; &lt;&lt; typeid(realRes-&gt;</span><span style="color:#bf616a;">first</span><span>).</span><span style="color:#bf616a;">name</span><span>() &lt;&lt; &quot;</span><span style="color:#a3be8c;">:</span><span>&quot; &lt;&lt;realRes-&gt;</span><span style="color:#bf616a;">first </span><span>&lt;&lt; &quot;</span><span style="color:#a3be8c;">,</span><span>&quot; &lt;&lt; realRes-&gt;</span><span style="color:#bf616a;">second </span><span>&lt;&lt; &quot;</span><span style="color:#a3be8c;">)</span><span>&quot; &lt;&lt; std::endl;
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span><span>
+</span></code></pre>
+<p>输出：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>(i:9,96)
+</span><span>(i:1234,)
+</span><span>(i:-4321,qwerty)
+</span><span>(d:-114.514,)
+</span></code></pre>
+<p>@</p>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 2.7 LDR与HDR</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-2700hdr/">TA百人计划 图形 2.7 LDR与HDR</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-27
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#ldr">LDR</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#hdr">HDR</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#wei-shen-me-xu-yao-hdr">为什么需要HDR</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#huo-qu-hdrzi-yuan">获取HDR资源</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#unityzhong-de-hdr">Unity中的HDR</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#hdryou-que-dian">HDR优缺点</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#hdryu-bloom">HDR与bloom</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#hdryu-tone-mapping-se-diao-ying-she">HDR与Tone mapping(色调映射)</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#lut">LUT</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2700hdr/#shi-shi-iblzai-hdrhe-ldrde-qu-bie">试试IBL在HDR和LDR的区别</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>新工作。工作时间↑↑↑、更新频率↓↓↓。没想到新工作还跟现在学的这东西扯上点关系，后面作业就尽量用OpenGL写了。</p>
+<span id="continue-reading"></span>
+<p>地址：<a href="https://www.bilibili.com/video/BV1VA41137Wp">【技术美术百人计划】图形 2.7 LDR与HDR</a></p>
+<h1 id="bi-ji">笔记</h1>
+<ul>
+<li>HDR = High Dynamic Range</li>
+<li>LDR = Low Dynamic Range</li>
+<li>动态范围 = 最高亮度 / 最低亮度</li>
+</ul>
+<h2 id="ldr">LDR</h2>
+<p>色彩范围在0-1之间，使用8位(0-255)存储</p>
+<h2 id="hdr">HDR</h2>
+<p>HDR色彩范围可以突破1。使用更多存储空间(OpenGL中定义了GL_RGB16F, GL_RGBA16F, GL_RGB32F不同精度)。
+常用hdr、tif、exr、raw存储。<br />
+hdr存储格式：常规的8位精度RGB通道(0-1范围)+alpha通道存储指数信息。精度不如所有通道用高精度存储来得好，但是节省空间。</p>
+<h2 id="wei-shen-me-xu-yao-hdr">为什么需要HDR</h2>
+<ol>
+<li>使用更高的精度描述色彩信息，能够超过1.0的色彩范围，用来描述高亮度部分，进行物理计算时更加真实。</li>
+<li>超过1.0的部分运用bloom效果，提高画面品质。</li>
+</ol>
+<h2 id="huo-qu-hdrzi-yuan">获取HDR资源</h2>
+<p>http://www.hdrlabs.com/sibl/archive.html<br />
+https://www.openfootage.net/hdri-panorama/</p>
+<h2 id="unityzhong-de-hdr">Unity中的HDR</h2>
+<h3 id="camera-hdrshe-zhi">Camera-HDR设置</h3>
+<p>开启<code>Camera</code>中的<code>Allow HDR</code></p>
+<ol>
+<li>场景将渲染为 HDR 图像缓冲区</li>
+<li>屏幕后处理：Bloom &amp; Tonemapping</li>
+<li>完成转化：HDR -&gt; LDR</li>
+<li>LDR图像发送给显示器</li>
+</ol>
+<h3 id="lightmap-hdrshe-zhi">Lightmap HDR设置</h3>
+<p><code>Project Settings</code>中<code>Player</code>的<code>Lightmap Encoding</code>选为<code>High Quality</code></p>
+<ol>
+<li>选择 High Quality 将启用 HDR 光照贴图支持，而 Normal Quality 将切换为使用 RGBM 编码。</li>
+<li>GBM 编码：将颜色存储在 RGB 通道中，将乘数 (M) 存储在 Alpha 通道中</li>
+</ol>
+<h3 id="shi-se-qi-hdrshe-zhi">拾色器 HDR设置</h3>
+<p>shader中<code>Properties</code>块拾色器前添加<code>[HDR]</code></p>
+<pre data-lang="hlsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-hlsl "><code class="language-hlsl" data-lang="hlsl"><span>....
+</span><span>Properties
+</span><span>{
+</span><span>  [HDR]_BackColor(&quot;BackColor&quot;, Color) = (1,1,1,1)
+</span><span>  ....
+</span><span>}
+</span></code></pre>
+<ol>
+<li>使用 Intensity 滑动条可以调整颜色的强度</li>
+<li>滑动条每增加1，则提供的光量增加一倍</li>
+<li>使用 Intensity 滑动条下的曝光样本可以看到当前颜色值在任一方向的预览效果</li>
+</ol>
+<h2 id="hdryou-que-dian">HDR优缺点</h2>
+<h3 id="you-dian">优点</h3>
+<ol>
+<li>画面中亮度超过1的部分不会被截为1，增加白色部分的细节并且减少曝光，</li>
+<li>更好地支持Bloom效果</li>
+<li>减少画面较暗部分的色阶感</li>
+</ol>
+<h3 id="que-dian">缺点</h3>
+<ol>
+<li>渲染速度较慢，需要更多显存</li>
+<li>不支持硬件抗锯齿</li>
+<li>部分手机不支持</li>
+</ol>
+<h2 id="hdryu-bloom">HDR与bloom</h2>
+<p>相关内容：<a href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/07%20Bloom/">LearnOpengl bloom</a></p>
+<ol>
+<li>截取画面中超过一定阈值的部分</li>
+<li>对这部分进行模糊处理（一般为高斯模糊）</li>
+<li>原图和模糊后的图片进行叠加</li>
+</ol>
+<h2 id="hdryu-tone-mapping-se-diao-ying-she">HDR与Tone mapping(色调映射)</h2>
+<ul>
+<li>将HDR颜色映射回LDR颜色空间</li>
+<li>一般不使用线性映射，效果差。
+参考：<a href="https://zhuanlan.zhihu.com/p/21983679">Tone mapping进化论</a></li>
+</ul>
+<h3 id="aces">ACES</h3>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2700hdr/aces.png" alt="aces" /><br />
+<code>美国电影艺术与科学学会</code>发明的。完全体：<a href="http://www.oscars.org/science-technology/sci-tech-projects/aces">Academy Color Encoding System（ACES）</a><br />
+tone mapping只是其中的一部分<br />
+目前效果最好的tone mapping算法</p>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span>float3 </span><span style="color:#8fa1b3;">ACESToneMapping</span><span>(float3 </span><span style="color:#bf616a;">color</span><span>, </span><span style="color:#b48ead;">float </span><span style="color:#bf616a;">adapted_lum</span><span>)
+</span><span>{
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> A = </span><span style="color:#d08770;">2.51f</span><span>;
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> B = </span><span style="color:#d08770;">0.03f</span><span>;
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> C = </span><span style="color:#d08770;">2.43f</span><span>;
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> D = </span><span style="color:#d08770;">0.59f</span><span>;
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> E = </span><span style="color:#d08770;">0.14f</span><span>;
+</span><span>
+</span><span>	color *= adapted_lum;
+</span><span>	</span><span style="color:#b48ead;">return </span><span>(color * (A * color + B)) / (color * (C * color + D) + E);
+</span><span>}
+</span></code></pre>
+<h3 id="reinhard">Reinhard</h3>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2700hdr/reinhard.png" alt="Reinhard" /><br />
+效果较为灰暗</p>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span>float3 </span><span style="color:#8fa1b3;">ReinhardToneMapping</span><span>(float3 </span><span style="color:#bf616a;">color</span><span>, </span><span style="color:#b48ead;">float </span><span style="color:#bf616a;">adapted_lum</span><span>) 
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">const float</span><span> MIDDLE_GREY = </span><span style="color:#d08770;">1</span><span>;
+</span><span>    color *= MIDDLE_GREY / adapted_lum;
+</span><span>    </span><span style="color:#b48ead;">return</span><span> color / (</span><span style="color:#d08770;">1.0f </span><span>+ color);
+</span><span>}
+</span></code></pre>
+<h3 id="ce">CE</h3>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2700hdr/ce.png" alt="ce" />
+<code>CryEngine 2</code>使用的tone mapping方法。色彩鲜艳，对比度高。</p>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span>float3 </span><span style="color:#8fa1b3;">CEToneMapping</span><span>(float3 </span><span style="color:#bf616a;">color</span><span>, </span><span style="color:#b48ead;">float </span><span style="color:#bf616a;">adapted_lum</span><span>) 
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">1 </span><span>- </span><span style="color:#96b5b4;">exp</span><span>(-adapted_lum * color);
+</span><span>}
+</span></code></pre>
+<h3 id="filmic">Filmic</h3>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2700hdr/filmic.png" alt="filmic" /><br />
+神秘海域2用的tone mapping<br />
+曲线拟合到人工调整的效果。效果不错，但计算量大。</p>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span>float3 </span><span style="color:#8fa1b3;">F</span><span>(float3 </span><span style="color:#bf616a;">x</span><span>)
+</span><span>{
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> A = </span><span style="color:#d08770;">0.22f</span><span>;
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> B = </span><span style="color:#d08770;">0.30f</span><span>;
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> C = </span><span style="color:#d08770;">0.10f</span><span>;
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> D = </span><span style="color:#d08770;">0.20f</span><span>;
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> E = </span><span style="color:#d08770;">0.01f</span><span>;
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> F = </span><span style="color:#d08770;">0.30f</span><span>;
+</span><span> 
+</span><span>	</span><span style="color:#b48ead;">return </span><span>((x * (A * x + C * B) + D * E) / (x * (A * x + B) + D * F)) - E / F;
+</span><span>}
+</span><span>
+</span><span>float3 </span><span style="color:#8fa1b3;">Uncharted2ToneMapping</span><span>(float3 </span><span style="color:#bf616a;">color</span><span>, </span><span style="color:#b48ead;">float </span><span style="color:#bf616a;">adapted_lum</span><span>)
+</span><span>{
+</span><span>	</span><span style="color:#b48ead;">const float</span><span> WHITE = </span><span style="color:#d08770;">11.2f</span><span>;
+</span><span>	</span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">F</span><span>(</span><span style="color:#d08770;">1.6f </span><span>* adapted_lum * color) / </span><span style="color:#bf616a;">F</span><span>(WHITE);
+</span><span>}
+</span></code></pre>
+<h2 id="lut">LUT</h2>
+<p>look up table。常用于后期调色滤镜。<br />
+原理为，把颜色RGB值作为纹理坐标对lut进行采样获得新的颜色。<br />
+制作方法：ps中对画面进行调整，然后把想用的调整过程应用到基准图中，调整后的基准图就是需要的lut图。</p>
+<h1 id="zuo-ye">作业</h1>
+<h2 id="shi-shi-iblzai-hdrhe-ldrde-qu-bie">试试IBL在HDR和LDR的区别</h2>
+<p>在<a href="https://learnopengl-cn.github.io/07%20PBR/03%20IBL/02%20Specular%20IBL/">LearnOpenGL的IBL示例</a>上进行修改<br />
+<img src="https://www.chinuno.com/blogv4/ta100-2700hdr/hdr.png" alt="hdr" />
+<img src="https://www.chinuno.com/blogv4/ta100-2700hdr/ldr.png" alt="ldr" />
+第一张为HDR效果、第二张为LDR效果。使用的<code>Reinhard</code>的tone mapping方式。<br />
+从对比结果上来看，LDR的小球反射纹理相较于HDR可以明显看到细节较少,特别是小球中间区域白色部分和反射的窗外风景。亮部颜色缺失不自然。</p>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

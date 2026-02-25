@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 1.2.3 MVP矩阵运算</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-1230mvp/">TA百人计划 图形 1.2.3 MVP矩阵运算</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-09
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/xian-xing-dai-shu/">#线性代数</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#wei-shen-me-xue-ju-zhen-bian-huan">为什么学矩阵变换</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#mvpju-zhen-shi-shen-me">MVP矩阵是什么</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#mju-zhen">M矩阵</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#vju-zhen">V矩阵</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#pju-zhen">P矩阵</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#ying-yong">应用</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#guang-zha-hua-bu-chong">光栅化补充</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#mo-xing-kong-jian-shi-jie-kong-jian-shi-ye-kong-jian-de-qu-bie">模型空间、世界空间、视野空间的区别</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1230mvp/#tui-dao-pju-zhen">推导p矩阵</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>不同空间的坐标转换部分的内容。p矩阵推导不知道对不对捏</p>
+<span id="continue-reading"></span>
+<p>链接：<a href="https://www.bilibili.com/video/BV1M5411P7d3">【技术美术百人计划】图形 1.2.3 MVP矩阵运算</a></p>
+<h1 id="bi-ji">笔记</h1>
+<h2 id="wei-shen-me-xue-ju-zhen-bian-huan">为什么学矩阵变换</h2>
+<ol>
+<li>将3D物体转换到2D平面</li>
+<li>掌握矩阵变换过程才能运用矩阵变换达到自己想要的目的</li>
+</ol>
+<h2 id="mvpju-zhen-shi-shen-me">MVP矩阵是什么</h2>
+<p><code>MVP</code>矩阵表示的是<code>模型(Model)</code>、<code>观察(View)</code>、<code>投影(Projection)</code>三个矩阵。<br />
+起始情况获得的物体坐标位于<code>局部空间(Local Space)</code>下，将它的坐标称为<code>局部坐标(Local Coordinate)</code>。<br />
+之后需要依次转换到<code>世界坐标(World Coordinate)</code>、<code>观察坐标(View Coordinate)</code>、<code>裁剪坐标(Clip Coordinate)</code>,最后转为<code>屏幕坐标(Screen Coordinate)</code>。</p>
+<h2 id="mju-zhen">M矩阵</h2>
+<p>将坐标从模型空间转换到世界空间<br />
+模型空间：以模型自身为中心的坐标空间<br />
+世界空间：世界为中心的坐标空间</p>
+<h3 id="cao-zuo-ju-zhen">操作矩阵</h3>
+<p>$M=\left[\begin{matrix}
+1&amp;0&amp;0&amp;tx\newline
+0&amp;1&amp;0&amp;ty\newline
+0&amp;0&amp;1&amp;tz\newline
+0&amp;0&amp;0&amp;1\newline
+\end{matrix}\right]
+\left[\begin{matrix}
+cos\theta &amp;0&amp;sin\theta&amp;0\newline
+0&amp;1&amp;0&amp;0\newline
+-sin\theta&amp;0&amp;cos\theta&amp;0\newline
+0&amp;0&amp;0&amp;1\newline
+\end{matrix}\right]
+\left[\begin{matrix}
+kx&amp;0&amp;0&amp;0\newline
+0&amp;ky&amp;0&amp;0\newline
+0&amp;0&amp;kz&amp;0\newline
+0&amp;0&amp;0&amp;1\newline
+\end{matrix}\right]
+$<br />
+从右到左进行计算</p>
+<ol>
+<li>进行缩放操作</li>
+<li>进行旋转操作</li>
+<li>进行平移操作</li>
+</ol>
+<h2 id="vju-zhen">V矩阵</h2>
+<p>将坐标从世界空间转换到摄像机为中心的观察空间<br />
+相当于把摄像头从它自己的局部空间转换到世界空间操作的逆操作。因为摄像头没有大小，本身就是观察空间的原点，不需要缩放。</p>
+<h3 id="cao-zuo-ju-zhen-1">操作矩阵</h3>
+<p>$M=\left[\begin{matrix}
+1&amp;0&amp;0&amp;0\newline
+0&amp;cos\theta&amp;-sin\theta&amp;0\newline
+0&amp;sin\theta&amp;cos\theta&amp;0\newline
+0&amp;0&amp;0&amp;1\newline
+\end{matrix}\right]
+\left[\begin{matrix}
+1&amp;0&amp;0&amp;tx\newline
+0&amp;1&amp;0&amp;ty\newline
+0&amp;0&amp;1&amp;tz\newline
+0&amp;0&amp;0&amp;1\newline
+\end{matrix}\right]
+$<br />
+unity下使用的是左手坐标系，但是观察空间用的右手坐标系。所以z分量需要取反。所以在unity中应该这样
+$M=\left[\begin{matrix}
+1 &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; 1 &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; -1&amp;0 \newline
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}\right]
+\left[\begin{matrix}
+1&amp;0&amp;0&amp;0\newline
+0&amp;cos\theta&amp;-sin\theta&amp;0\newline
+0&amp;sin\theta&amp;cos\theta&amp;0\newline
+0&amp;0&amp;0&amp;1\newline
+\end{matrix}\right]
+\left[\begin{matrix}
+1&amp;0&amp;0&amp;tx\newline
+0&amp;1&amp;0&amp;ty\newline
+0&amp;0&amp;1&amp;tz\newline
+0&amp;0&amp;0&amp;1\newline
+\end{matrix}\right]
+$</p>
+<h2 id="pju-zhen">P矩阵</h2>
+<p>这东西看视频没看懂。入门精要讲的要详细易懂些。<a href="https://candycat1992.github.io/unity_shaders_book/unity_shaders_book_chapter_4.pdf">https://candycat1992.github.io/unity_shaders_book/unity_shaders_book_chapter_4.pdf</a><br />
+将观察空间下的坐标转换到其次裁剪空间下。对x,y,z分量进行缩放。并没有真的做投影操作。<br />
+变换后的矩阵里w分量正好具有特殊意义，可以用来裁剪视锥体外的顶点。<br />
+只要满足$\begin{cases} -w \leq x \leq w \newline -w \leq y \leq w \newline -w \leq z \leq w\end{cases}$的顶点就能保留下来</p>
+<h3 id="tou-shi-tou-ying">透视投影</h3>
+<p>满足近大远小的透视规则。视锥体是个平截头四棱锥。</p>
+<h3 id="zheng-jiao-tou-ying">正交投影</h3>
+<p>没有透视关系。视锥体是个长方体。</p>
+<h3 id="cao-zuo-ju-zhen-2">操作矩阵</h3>
+<p>透视投影：
+$P=\left[\begin{matrix}
+\frac{cot\frac{FOV}{2}}{Aspect} &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; cot\frac{FOV}{2} &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; \frac{Far+Near}{Far-Near} &amp; -\frac{2\cdot Near\cdot Far}{Far-Near} \newline
+0 &amp; 0 &amp; -1 &amp; 0
+\end{matrix}\right]$<br />
+正交投影：
+$P=\left[\begin{matrix}
+\frac{1}{Aspect\cdot Size} &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; \frac{1}{Size} &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; -\frac{2}{Far-Near} &amp; -\frac{Far+Near}{Far-Near} \newline
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}\right]$</p>
+<p>各个参数含义参考精要PDF84页</p>
+<h2 id="ying-yong">应用</h2>
+<ul>
+<li>世界空间：顶点坐标乘以M矩阵转换为世界空间坐标，取zx作为uv进行采样可以获得不规则平面的Tilling。</li>
+<li>视觉空间：顶点坐标转换到视觉空间下，根据远近距离显隐变换。</li>
+</ul>
+<h2 id="guang-zha-hua-bu-chong">光栅化补充</h2>
+<p><a href="https://www.zhihu.com/zvideo/1347581841478709248">光栅化过程</a></p>
+<h1 id="zuo-ye">作业</h1>
+<h2 id="mo-xing-kong-jian-shi-jie-kong-jian-shi-ye-kong-jian-de-qu-bie">模型空间、世界空间、视野空间的区别</h2>
+<h3 id="mo-xing-kong-jian">模型空间</h3>
+<p>每个模型独立的空间坐标系。以模型中心为原点。</p>
+<h3 id="shi-jie-kong-jian">世界空间</h3>
+<p>以世界中心为原点，整个世界独一无二的坐标系。</p>
+<h3 id="shi-ye-kong-jian">视野空间</h3>
+<p>以摄像机为原点，每个摄像机各自拥有各自的视野空间。</p>
+<h2 id="tui-dao-pju-zhen">推导p矩阵</h2>
+<p>这部分参考的<a href="https://www.bilibili.com/video/BV1X7411F744?p=4">GAMES101</a></p>
+<h3 id="zheng-jiao-tou-ying-1">正交投影</h3>
+<p><img src="https://www.chinuno.com/blogv4/ta100-1230mvp/ortho.png" alt="正交投影" /><br />
+基本思想是。先把视锥体的中心点平移到坐标原点，然后缩放到每个分量[-1,1]范围内的一个<code>规范视域体</code>。<br />
+按照入门精要这里的插图描述，视锥体中心点为$\left[0, 0, -\frac{Far-Near}{2}\right]^T$<br />
+平移矩阵$M_{Trans} = \left[\begin{matrix}
+1 &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; 1 &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; 1 &amp; -\frac{Far-Near}{2} \newline
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}\right]$<br />
+z轴缩放比例$\frac{2}{Far-Near}$, y轴缩放比例$\frac{1}{Size}$ ，x轴缩放比例$\frac{1}{Aspect\cdot Size}$<br />
+缩放矩阵$M_{Scale}=\left[\begin{matrix}
+\frac{1}{Aspect\cdot Size} &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; \frac{1}{Size} &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; \frac{2}{Far-Near} &amp; 0 \newline
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}\right]$<br />
+正交投影矩阵$M_{Ortho}=M_{Scale}\times M_{Trans} = \left[\begin{matrix}
+\frac{1}{Aspect\cdot Size} &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; \frac{1}{Size} &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; \frac{2}{Far-Near} &amp; \frac{Near-Far}{Far-Near} \newline
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}\right]$</p>
+<h3 id="tou-shi-tou-ying-1">透视投影</h3>
+<p><img src="https://www.chinuno.com/blogv4/ta100-1230mvp/persp.png" alt="透视投影" /><br />
+基本思想：把视锥体变换为正交投影的长方体形式，再以正交投影方式计算。<br />
+把任意平面变换到近平面同一尺寸。使视锥体成长方体。<br />
+任意一点(x,y,z)的坐标变换后将变成
+$\left[\begin{matrix}
+\frac{Near}{z} \cdot x &amp; \frac{Near}{z} \cdot y &amp; Unknown&amp; 1
+\end{matrix}\right]^T$。这里z的值并不是不变的！$z'=Near+Far-Near\cdot \frac{Far}{z}$，在Near到Far范围内实际上映射后的z值会更偏向于远平面。这里不关心具体情况用Unknown代替<br />
+点乘上非0系数后仍然是同一个点。这里z值一定是大于0的，所以可以乘上一个z变成$\left[\begin{matrix}
+Near \cdot x &amp; Near \cdot y &amp; Unknown&amp; z
+\end{matrix}\right]^T$。写成矩阵形式
+$M_{Persp\rightarrow Ortho}=\left[\begin{matrix}
+Near &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; Near &amp; 0 &amp; 0 \newline
+? &amp; ? &amp; ? &amp; ? \newline
+0 &amp; 0 &amp; 1 &amp; 0
+\end{matrix}\right]$<br />
+取点在近平面的情况，那么变换前后坐标不变。<br />
+$M_{Persp\rightarrow Ortho}\cdot \left[\begin{matrix}x\newline y\newline\ Near\newline 1 \end{matrix}\right]=\left[\begin{matrix}Near\cdot x\newline Near\cdot y\newline\ Near^2\newline Near \end{matrix}\right]$<br />
+只考虑第三行，结果已经跟x、y没关系了，所以前两个数为0。矩阵为
+$M_{Persp\rightarrow Ortho}=\left[\begin{matrix}
+Near &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; Near &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; ? &amp; ? \newline
+0 &amp; 0 &amp; 1 &amp; 0
+\end{matrix}\right]$<br />
+同时。取点在远平面的情况。z值也是确定的，并且取远平面的中心点代入，x和y的值都取0。<br />
+$M_{Persp\rightarrow Ortho}\cdot \left[\begin{matrix}0\newline 0\newline\ Far\newline 1 \end{matrix}\right]=\left[\begin{matrix}0\newline 0\newline\ Far^2\newline Far \end{matrix}\right]$<br />
+设第三行未知的两个数分别为a和b.<br />
+计算$\begin{cases}a\cdot Near+b=Near^2\newline
+a\cdot Far+b=Far^2\end{cases}$得到$a=Near+Far,b=-Near\cdot Far$<br />
+最终透视投影到正交投影变换的矩阵$M_{Persp\rightarrow Ortho}=\left[\begin{matrix}
+Near &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; Near &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; Near+Far &amp; -Near\cdot Far \newline
+0 &amp; 0 &amp; 1 &amp; 0
+\end{matrix}\right]$<br />
+最后透视投影的矩阵$M_{Persp}=M_{Ortho}\cdot M_{Persp\rightarrow Ortho}=
+\left[\begin{matrix}
+\frac{1}{Aspect\cdot Size} &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; \frac{1}{Size} &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; \frac{2}{Far-Near} &amp; \frac{Near-Far}{Far-Near} \newline
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}\right]
+\left[\begin{matrix}
+Near &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; Near &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; Near+Far &amp; -Near\cdot Far \newline
+0 &amp; 0 &amp; 1 &amp; 0
+\end{matrix}\right]$<br />
+$=\left[\begin{matrix}
+\frac{Near}{Aspect\cdot Size} &amp; 0 &amp; 0 &amp; 0\newline
+0 &amp; \frac{Near}{Size} &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; \frac{3Near+Far}{Far-Near} &amp; -\frac{2Far\cdot Near}{Far-Near}\newline
+0 &amp; 0 &amp; 1 &amp; 0
+\end{matrix}\right]
+$<br />
+这里Size为近平面的高$h=tan\frac{FOV}{2}\cdot Near$。代入获得。<br />
+$\left[\begin{matrix}
+\frac{cot\frac{FOV}{2}}{Aspect} &amp; 0 &amp; 0 &amp; 0 \newline
+0 &amp; cot\frac{FOV}{2} &amp; 0 &amp; 0 \newline
+0 &amp; 0 &amp; \frac{3Near+Far}{Far-Near} &amp; -\frac{2Far\cdot Near}{Far-Near}\newline
+0 &amp; 0 &amp; 1 &amp; 0
+\end{matrix}\right]$</p>
+<p>为什么两个矩阵算出来的z跟精要里给出来的不一样捏？总觉得这插图跟实际的z方向是相反的。</p>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

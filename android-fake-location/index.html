@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>Android伪造定位之研究</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/android-fake-location/">Android伪造定位之研究</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2022-10-09
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/android/">#Android</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/gps/">#GPS</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/location/">#location</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/xposed/">#Xposed</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/android-fake-location/#xiu-gai-ding-wei">修改定位</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/android-fake-location/#xi-tong-api">系统api</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/android-fake-location/#xiu-gai-xi-tong-yuan-ma">修改系统源码</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/android-fake-location/#xposed">xposed</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>研究几种伪造定位的方案</p>
+<span id="continue-reading"></span><h1 id="xiu-gai-ding-wei">修改定位</h1>
+<p>三种方式：</p>
+<ol>
+<li>使用系统模拟定位api</li>
+<li>xposed</li>
+<li>修改系统源码</li>
+</ol>
+<h2 id="xi-tong-api">系统api</h2>
+<p>容易被识别</p>
+<h3 id="pan-duan-shi-fou-ke-mo-ni-tong-shi-ye-shi-shi-bie-fang-fa">判断是否可模拟（同时也是识别方法）</h3>
+<p>sdk 22 以下（android6.0）
+使用</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>android.provider.</span><span style="color:#ebcb8b;">Settings</span><span>.</span><span style="color:#ebcb8b;">Secure</span><span>.</span><span style="color:#bf616a;">getInt</span><span>(</span><span style="color:#bf616a;">getContentResolver</span><span>(), android.provider.</span><span style="color:#ebcb8b;">Settings</span><span>.</span><span style="color:#ebcb8b;">Secure</span><span>.</span><span style="color:#d08770;">ALLOW_MOCK_LOCATION</span><span>, </span><span style="color:#d08770;">0</span><span>) != </span><span style="color:#d08770;">0
+</span></code></pre>
+<p>判断
+sdk22之后：</p>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span style="color:#b48ead;">try </span><span>{
+</span><span>	</span><span style="color:#ebcb8b;">LocationManager</span><span> locationManager = (</span><span style="color:#ebcb8b;">LocationManager</span><span>) mContext.</span><span style="color:#bf616a;">getSystemService</span><span>(</span><span style="color:#ebcb8b;">Context</span><span>.</span><span style="color:#d08770;">LOCATION_SERVICE</span><span>);</span><span style="color:#65737e;">//获得LocationManager引用
+</span><span>	</span><span style="color:#ebcb8b;">String</span><span> providerStr = </span><span style="color:#ebcb8b;">LocationManager</span><span>.</span><span style="color:#d08770;">GPS_PROVIDER</span><span>;
+</span><span>	</span><span style="color:#ebcb8b;">LocationProvider</span><span> provider = locationManager.</span><span style="color:#bf616a;">getProvider</span><span>(providerStr);
+</span><span>	</span><span style="color:#b48ead;">if </span><span>(provider != </span><span style="color:#d08770;">null</span><span>) {
+</span><span>		locationManager.</span><span style="color:#bf616a;">addTestProvider</span><span>(
+</span><span>				provider.</span><span style="color:#bf616a;">getName</span><span>()
+</span><span>				, provider.</span><span style="color:#bf616a;">requiresNetwork</span><span>()
+</span><span>				, provider.</span><span style="color:#bf616a;">requiresSatellite</span><span>()
+</span><span>				, provider.</span><span style="color:#bf616a;">requiresCell</span><span>()
+</span><span>				, provider.</span><span style="color:#bf616a;">hasMonetaryCost</span><span>()
+</span><span>				, provider.</span><span style="color:#bf616a;">supportsAltitude</span><span>()
+</span><span>				, provider.</span><span style="color:#bf616a;">supportsSpeed</span><span>()
+</span><span>				, provider.</span><span style="color:#bf616a;">supportsBearing</span><span>()
+</span><span>				, provider.</span><span style="color:#bf616a;">getPowerRequirement</span><span>()
+</span><span>				, provider.</span><span style="color:#bf616a;">getAccuracy</span><span>());
+</span><span>	} </span><span style="color:#b48ead;">else </span><span>{
+</span><span>		locationManager.</span><span style="color:#bf616a;">addTestProvider</span><span>(
+</span><span>				providerStr
+</span><span>				, </span><span style="color:#d08770;">true</span><span>, </span><span style="color:#d08770;">true</span><span>, </span><span style="color:#d08770;">false</span><span>, </span><span style="color:#d08770;">false</span><span>, </span><span style="color:#d08770;">true</span><span>, </span><span style="color:#d08770;">true</span><span>, </span><span style="color:#d08770;">true
+</span><span>				, </span><span style="color:#ebcb8b;">Criteria</span><span>.</span><span style="color:#d08770;">POWER_HIGH</span><span>, </span><span style="color:#ebcb8b;">Criteria</span><span>.</span><span style="color:#d08770;">ACCURACY_FINE</span><span>);
+</span><span>	}
+</span><span>	locationManager.</span><span style="color:#bf616a;">setTestProviderEnabled</span><span>(providerStr, </span><span style="color:#d08770;">true</span><span>);
+</span><span>	locationManager.</span><span style="color:#bf616a;">setTestProviderStatus</span><span>(providerStr, </span><span style="color:#ebcb8b;">LocationProvider</span><span>.</span><span style="color:#d08770;">AVAILABLE</span><span>, </span><span style="color:#d08770;">null</span><span>, </span><span style="color:#ebcb8b;">System</span><span>.</span><span style="color:#bf616a;">currentTimeMillis</span><span>());
+</span><span>	</span><span style="color:#65737e;">// 模拟位置可用
+</span><span>	canMockPosition = </span><span style="color:#d08770;">true</span><span>;
+</span><span>	locationManager.</span><span style="color:#bf616a;">setTestProviderEnabled</span><span>(providerStr, </span><span style="color:#d08770;">false</span><span>);
+</span><span>	locationManager.</span><span style="color:#bf616a;">removeTestProvider</span><span>(providerStr);
+</span><span>} </span><span style="color:#b48ead;">catch </span><span>(</span><span style="color:#ebcb8b;">SecurityException </span><span style="color:#bf616a;">e</span><span>) {
+</span><span>	canMockPosition = </span><span style="color:#d08770;">false</span><span>;
+</span><span>}
+</span></code></pre>
+<h3 id="shen-qing-quan-xian">申请权限</h3>
+<pre data-lang="xml" style="background-color:#2b303b;color:#c0c5ce;" class="language-xml "><code class="language-xml" data-lang="xml"><span>&lt;</span><span style="color:#bf616a;">uses-permission </span><span style="color:#d08770;">android:name</span><span>=&quot;</span><span style="color:#a3be8c;">android.permission.ACCESS_MOCK_LOCATION</span><span>&quot;/&gt;
+</span><span>&lt;</span><span style="color:#bf616a;">uses-permission </span><span style="color:#d08770;">android:name</span><span>=&quot;</span><span style="color:#a3be8c;">android.permission.ACCESS_COARSE_LOCATION</span><span>&quot;/&gt;
+</span><span>&lt;</span><span style="color:#bf616a;">uses-permission </span><span style="color:#d08770;">android:name</span><span>=&quot;</span><span style="color:#a3be8c;">android.permission.ACCESS_FINE_LOCATION</span><span>&quot;/&gt;
+</span><span>&lt;</span><span style="color:#bf616a;">uses-permission </span><span style="color:#d08770;">android:name</span><span>=&quot;</span><span style="color:#a3be8c;">android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS</span><span>&quot;/&gt;
+</span><span>&lt;</span><span style="color:#bf616a;">uses-permission </span><span style="color:#d08770;">android:name</span><span>=&quot;</span><span style="color:#a3be8c;">android.permission.ACCESS_LOCATION_EXTRA_COMMANDS</span><span>&quot;/&gt;
+</span></code></pre>
+<h3 id="shi-yong-fang-shi">使用方式</h3>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span>manager.</span><span style="color:#bf616a;">setTestProviderLocation</span><span>(</span><span style="color:#d08770;">PROVIDER_NAME</span><span>, location);</span><span style="color:#65737e;">// 开始修改,PROVIDER_NAME为实际使用的provider名字，location为位置信息
+</span><span>manager.</span><span style="color:#bf616a;">removeTestProvider</span><span>(</span><span style="color:#d08770;">PROVDER_NAME</span><span>);</span><span style="color:#65737e;">//停止修改
+</span><span>
+</span><span style="color:#65737e;">// 经纬度转location
+</span><span style="color:#b48ead;">public </span><span style="color:#ebcb8b;">Location </span><span style="color:#bf616a;">generateLocation</span><span>(</span><span style="color:#ebcb8b;">LatLng</span><span> latLng) {
+</span><span>	</span><span style="color:#ebcb8b;">Location</span><span> loc = </span><span style="color:#b48ead;">new </span><span style="color:#ebcb8b;">Location</span><span>(&quot;</span><span style="color:#a3be8c;">gps</span><span>&quot;);
+</span><span>
+</span><span>
+</span><span>	loc.</span><span style="color:#bf616a;">setAccuracy</span><span>(</span><span style="color:#d08770;">2.0</span><span style="color:#b48ead;">F</span><span>);
+</span><span>	loc.</span><span style="color:#bf616a;">setAltitude</span><span>(</span><span style="color:#d08770;">55.0</span><span style="color:#b48ead;">D</span><span>);
+</span><span>	loc.</span><span style="color:#bf616a;">setBearing</span><span>(</span><span style="color:#d08770;">1.0</span><span style="color:#b48ead;">F</span><span>);
+</span><span>	</span><span style="color:#ebcb8b;">Bundle</span><span> bundle = </span><span style="color:#b48ead;">new </span><span style="color:#ebcb8b;">Bundle</span><span>();
+</span><span>	bundle.</span><span style="color:#bf616a;">putInt</span><span>(&quot;</span><span style="color:#a3be8c;">satellites</span><span>&quot;, </span><span style="color:#d08770;">7</span><span>);
+</span><span>	loc.</span><span style="color:#bf616a;">setExtras</span><span>(bundle);
+</span><span>
+</span><span>
+</span><span>	loc.</span><span style="color:#bf616a;">setLatitude</span><span>(latLng.latitude);
+</span><span>	loc.</span><span style="color:#bf616a;">setLongitude</span><span>(latLng.longitude);
+</span><span>
+</span><span>	loc.</span><span style="color:#bf616a;">setTime</span><span>(</span><span style="color:#ebcb8b;">System</span><span>.</span><span style="color:#bf616a;">currentTimeMillis</span><span>());
+</span><span>	</span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#ebcb8b;">Build</span><span>.</span><span style="color:#d08770;">VERSION</span><span>.</span><span style="color:#d08770;">SDK_INT </span><span>&gt;= </span><span style="color:#d08770;">17</span><span>) {
+</span><span>		loc.</span><span style="color:#bf616a;">setElapsedRealtimeNanos</span><span>(</span><span style="color:#ebcb8b;">SystemClock</span><span>.</span><span style="color:#bf616a;">elapsedRealtimeNanos</span><span>());
+</span><span>	}
+</span><span>	</span><span style="color:#b48ead;">return</span><span> loc;
+</span><span>}
+</span></code></pre>
+<h3 id="can-kao-apiwen-dang">参考api文档</h3>
+<p>https://developer.android.com/reference/android/location/LocationManager</p>
+<h3 id="can-kao-xiang-mu">参考项目</h3>
+<p>https://github.com/shoyu666/GpsMock/blob/master/app/src/main/java/com/nixiaoning/test/gpsmock/MockService.java#L41</p>
+<h3 id="can-kao-wen-zhang-bao-han-mo-ni-bu-xing-bu-fen">参考文章（包含模拟步行部分）</h3>
+<p>https://www.cnblogs.com/baiqiantao/p/10692941.html</p>
+<h3 id="qi-ta">其他</h3>
+<p>一个说法为，伪造定位的频率要高于app获取定位的频率，否则会导致app取到真实的位置。<br />
+需要在开发者设置中设置当前app为模拟定位app，这样就可以使用当前app模拟定位了。</p>
+<h2 id="xiu-gai-xi-tong-yuan-ma">修改系统源码</h2>
+<p>在GPS获取位置信息后会调用native层的<code>GnssCallback</code> jni回调到java的framework层<code>reportLocation</code>方法。<br />
+修改思路为，添加控制开关，阻断<code>GnssCallback::gnssLocationCbImpl</code>里面的jni回调，阻止系统获取真实的GPS位置<br />
+然后添加一个public系统函数另外调用<code>reportLocation</code>方法回报虚假的位置信息，在自己的app里调用这个新方法即可</p>
+<h2 id="xposed">xposed</h2>
+<p>使用xposed模块修改目标app的定位获取结果。未root情况下可以考虑太极/<a href="https://github.com/WindySha/Xpatch">Xpatch</a>/<a href="https://github.com/LSPosed/LSPatch">LSPatch</a> 方案。
+app除了GPS外可能还会用到wifi、基站辅助定位。xposed可以hook相关接口同时修改用于辅助定位的信息。
+针对集成地图sdk的app也可以针对sdk做hook：</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span>XposedHelpers.findAndHookMethod(&quot;</span><span style="color:#a3be8c;">com.amap.api.location.AMapLocation</span><span>&quot;, realClassLoader, &quot;</span><span style="color:#a3be8c;">getLongitude</span><span>&quot;, object : XC_MethodHook() {
+</span><span>	@Throws(Throwable::class)
+</span><span>	</span><span style="color:#b48ead;">override fun </span><span style="color:#8fa1b3;">beforeHookedMethod</span><span>(param: MethodHookParam) {
+</span><span>		</span><span style="color:#d08770;">super</span><span>.beforeHookedMethod(param)
+</span><span>	}
+</span><span>	@Throws(Throwable::class)
+</span><span>	</span><span style="color:#b48ead;">override</span><span> fun afterHookedMethod(param: MethodHookParam) {
+</span><span>		</span><span style="color:#d08770;">super</span><span>.afterHookedMethod(param)
+</span><span>		param.result = (param.result as double) + 偏移量    </span><span style="color:#65737e;">//偏移量 = 目标经度 - 实际经度， 只需要计算一次就可以
+</span><span>	}
+</span><span>})
+</span></code></pre>
+<p>对于有加固的app会自定义classloader，需要找到真正的classLoader</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">//拓展方法， 拿到壳的classLoader
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">considerFindRealClassLoader</span><span>(pkgClassLoader: ClassLoader, callback: (realClsLoader: ClassLoader) -&gt; </span><span style="color:#b48ead;">Unit</span><span>) {
+</span><span>	XposedHelpers.findAndHookMethod(&quot;</span><span style="color:#a3be8c;">com.stub.StubApp</span><span>&quot;, pkgClassLoader, &quot;</span><span style="color:#a3be8c;">attachBaseContext</span><span>&quot;, Context::class.java, object : XC_MethodHook() {
+</span><span>		@Throws(Throwable::class)
+</span><span>		</span><span style="color:#b48ead;">override fun </span><span style="color:#8fa1b3;">beforeHookedMethod</span><span>(param: MethodHookParam) {
+</span><span>			</span><span style="color:#d08770;">super</span><span>.beforeHookedMethod(param)
+</span><span>		}
+</span><span>		@Throws(Throwable::class)
+</span><span>		</span><span style="color:#b48ead;">override</span><span> fun afterHookedMethod(param: MethodHookParam) {
+</span><span>			</span><span style="color:#d08770;">super</span><span>.afterHookedMethod(param)
+</span><span>			logD(&quot;</span><span style="color:#a3be8c;">发现壳啦</span><span>&quot;)
+</span><span>			</span><span style="color:#65737e;">//获取到的参数args[0]就是360的Context对象，通过这个对象来获取classloader
+</span><span>			</span><span style="color:#b48ead;">val </span><span>context = it.args[</span><span style="color:#d08770;">0</span><span>] as Context
+</span><span>			</span><span style="color:#65737e;">//获取360的classloader，之后hook加固后的就使用这个classloader
+</span><span>			</span><span style="color:#b48ead;">val </span><span>classLoader = context.classLoader
+</span><span>			callback.invoke(classLoader)
+</span><span>		}
+</span><span>	})
+</span><span>}
+</span><span style="color:#65737e;">//最终代码如下
+</span><span>considerFindRealClassLoader(lpparam.classLoader) {
+</span><span>	realClassLoader -&gt;
+</span><span>	    XposedHelpers.findAndHookMethod(&quot;</span><span style="color:#a3be8c;">com.amap.api.location.AMapLocation</span><span>&quot;, realClassLoader, &quot;</span><span style="color:#a3be8c;">getLongitude</span><span>&quot;, object : XC_MethodHook() {
+</span><span>		@Throws(Throwable::class)
+</span><span>		</span><span style="color:#b48ead;">override fun </span><span style="color:#8fa1b3;">beforeHookedMethod</span><span>(param: MethodHookParam) {
+</span><span>			</span><span style="color:#d08770;">super</span><span>.beforeHookedMethod(param)
+</span><span>		}
+</span><span>		@Throws(Throwable::class)
+</span><span>		</span><span style="color:#b48ead;">override</span><span> fun afterHookedMethod(param: MethodHookParam) {
+</span><span>			</span><span style="color:#d08770;">super</span><span>.afterHookedMethod(param)
+</span><span>			param.result = </span><span style="color:#d08770;">114.032524
+</span><span>		}
+</span><span>	})
+</span><span>}
+</span></code></pre>
+<h3 id="xiu-gai-si-lu">修改思路</h3>
+<p>将获取wifi、基站等信息的接口hook后直接返回null，这样就会忽略其他信息直接使用GPS的位置信息。<br />
+而hook掉GPS信息获取接口后就能返回自定义的位置信息了。<br />
+参考实现： https://blog.csdn.net/qq_24542767/article/details/103567975 、 https://github.com/Mikotwa/FuckLocation  、 https://github.com/bigsinger/fakegps</p>
+<p>@</p>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

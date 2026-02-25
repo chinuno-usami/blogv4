@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 1.1 渲染流水线</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-1100rendering-pipeline/">TA百人计划 图形 1.1 渲染流水线</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-08
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1100rendering-pipeline/#bi-ji-zuo-ye">笔记&#x2F;作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1100rendering-pipeline/#ying-yong-jie-duan">应用阶段</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1100rendering-pipeline/#ji-he-jie-duan">几何阶段</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1100rendering-pipeline/#guang-zha-hua-jie-duan">光栅化阶段</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1100rendering-pipeline/#hou-chu-li">后处理</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>开始从零开始跟着计划学习</p>
+<span id="continue-reading"></span>
+<p>地址：<a href="https://www.bilibili.com/video/BV1L54y1s7xw">【技术美术百人计划】图形 1.1 渲染流水线</a></p>
+<h1 id="bi-ji-zuo-ye">笔记/作业</h1>
+<h2 id="ying-yong-jie-duan">应用阶段</h2>
+<p>在CPU上执行，主要操作：</p>
+<ol>
+<li>做数据准备操作，加载mesh、贴图等</li>
+<li>粗粒度剔除，减少不必要计算</li>
+<li>渲染设置（使用哪个纹理、设置使用的顶点着色器、设置使用的片元着色器等...）</li>
+<li>调用图形API进行<code>Draw Call</code>将任务提交到渲染队列中，GPU将会从队列里取出任务进行后续操作</li>
+</ol>
+<h2 id="ji-he-jie-duan">几何阶段</h2>
+<p>在GPU上执行。进行顶点坐标转换，将物体坐标转换到屏幕坐标</p>
+<ol>
+<li>执行顶点着色器，将物体坐标转换到齐次裁剪坐标下</li>
+<li>进行曲面细分着色器、几何着色器操作（如果有的话）</li>
+<li>在裁剪空间下裁切，去除不需要的顶点,同时在边缘新增必要的顶点？（不可操作，GPU自己执行）</li>
+<li>转换顶点坐标到屏幕空间下（同样GPU自动完成）</li>
+</ol>
+<h2 id="guang-zha-hua-jie-duan">光栅化阶段</h2>
+<ol>
+<li>设置三角形，根据顶点信息生成每个三角形的边（GPU自动完成）</li>
+<li>三角形遍历，遍历每个三角形所覆盖的片元（GPU自动完成）</li>
+<li>Early-Z（如果有的话）。提前计算深度，剔除不必要的片元，减少片元着色器的计算量。如果有需要手动clip掉片元的情况下不适用。</li>
+<li>执行片元着色器（可以不需要）</li>
+<li>各种测试。模板测试、深度测试等...。</li>
+<li>混合。半透明物体颜色和后面物体颜色混合</li>
+</ol>
+<h2 id="hou-chu-li">后处理</h2>
+<p>对最后的输出帧缓冲进行处理。因为包含额外深度等信息，所以能做的事比常规CV操作多。</p>
+<ul>
+<li>描边</li>
+<li>FXAA、TXAA等后处理进行的抗锯齿</li>
+<li>bloom</li>
+<li>景深</li>
+</ul>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

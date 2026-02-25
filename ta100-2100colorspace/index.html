@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 2.1 色彩空间介绍</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/">TA百人计划 图形 2.1 色彩空间介绍</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-11
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/#se-cai-fa-she-qi">色彩发射器</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/#jie-shou-zhe">接收者</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/#se-cai-kong-jian-de-li-shi">色彩空间的历史</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/#se-cai-kong-jian-de-ding-yi">色彩空间的定义</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/#chang-yong-se-cai-mo-xing-se-cai-kong-jian">常用色彩模型、色彩空间</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/#se-cai-kong-jian-zhuan-huan">色彩空间转换</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/#se-cai-kong-jian-de-ding-yi-1">色彩空间的定义</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/#ren-yan-ke-jian-guang-fan-wei">人眼可见光范围</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>地址：<a href="https://www.bilibili.com/video/BV1Qb4y1S7CC">【技术美术百人计划】图形 2.1 色彩空间介绍</a></p>
+<span id="continue-reading"></span><h1 id="bi-ji">笔记</h1>
+<h2 id="se-cai-fa-she-qi">色彩发射器</h2>
+<h3 id="se-cai-ren-zhi">色彩认知</h3>
+<p>光从光源发射，通过直射、折射、反射等路径进入人眼。人眼接收到光线产生化学反应对颜色产生认知感知。</p>
+<h3 id="guang-yuan">光源</h3>
+<p>产生光的物体</p>
+<h3 id="bo-chang">波长</h3>
+<p>光具有波粒二象性，波长是光波动性的表现。理论上光的波长无限多种，但人能够看见的波长局限在一个范围内。</p>
+<h3 id="neng-liang-fen-bu">能量分布</h3>
+<p>光具有能量。能量的单位焦耳（J）。一种颜色波长可以看成多个不同颜色的波长叠加而成。</p>
+<h3 id="fen-guang-guang-du-ji">分光光度计</h3>
+<p>用于描述光的具体能量强度。输入混合波长光，可以拆分成组成混合光的各个单一波长光，并且可以测量单一波长光的能量。</p>
+<h3 id="guang-de-chuan-bo">光的传播</h3>
+<ol>
+<li>直射光：光直射进入眼睛</li>
+<li>反射光：光经过物体表面反射进入眼睛</li>
+<li>折射光：光穿过物体进入眼睛</li>
+<li>光线追踪：光线弹来弹去，我们根据权重确定光线最后进入眼睛的颜色（应该描述为来自不同光源的光经过不同路径到达人眼后进行叠加产生的光更为准确）</li>
+</ol>
+<p>光打到物体上时，一部分波长的光会被物体吸收，最后导致反射出去的光那部分波长的能量会降低。</p>
+<h2 id="jie-shou-zhe">接收者</h2>
+<p>人眼</p>
+<h3 id="xiang-dui-liang-du-gan-zhi">相对亮度感知</h3>
+<p>昏暗环境下和明亮环境下对亮度感知不一样。新增同样强度的光源，昏暗环境下感知的亮度比明亮环境下感知的亮度更亮。</p>
+<h3 id="ren-yan-hdr">人眼HDR</h3>
+<p>具有自动调节曝光的能力（自动调节瞳孔大小）。能够看清亮部和暗部的细节。</p>
+<h3 id="ren-yan-gan-guang-xi-bao-fen-bu">人眼感光细胞分布</h3>
+<ul>
+<li>杆状细胞：感知亮度,对亮度特别敏感。所以YUV对亮度通道分配了更高的精度？</li>
+<li>锥状细胞：感知颜色</li>
+</ul>
+<h3 id="zhui-zhuang-xi-bao">锥状细胞</h3>
+<ul>
+<li>L细胞：感知红色波长</li>
+<li>M细胞：感知绿色波长</li>
+<li>S细胞：感知蓝色波长</li>
+</ul>
+<p>大概就是为什么描述颜色使用RGB模型的原因</p>
+<h3 id="ren-yan-de-ben-zhi">人眼的本质</h3>
+<p>光源接收者。接收光信号转换为神经电信号传输给大脑</p>
+<h3 id="ren-yan-jie-shou-guang-yuan-de-wei-ji-fen-gong-shi">人眼接收光源的微积分公式</h3>
+<p>$C=\int_{min}^{max}S(\lambda)\cdot I(\lambda)\cdot R(\lambda)d\lambda$<br />
+C：输出的电信号<br />
+S：L、M、S细胞感知分布<br />
+I：光谱强度分布<br />
+R：反射物体吸收强度分布</p>
+<h2 id="se-cai-kong-jian-de-li-shi">色彩空间的历史</h2>
+<h3 id="19shi-ji-se-cai-de-cai-xiang">19世纪 色彩的猜想</h3>
+<ol>
+<li>人有100+种感受颜色的细胞</li>
+<li>人有三种分别感受R、G、B的感色细胞</li>
+<li>人有三种分别感受黑白、红绿、黄蓝的感色细胞</li>
+</ol>
+<p>2、3两种成为现在的<code>色彩模型</code></p>
+<h3 id="1905-munsell-se-cai-xi-tong">1905 Munsell 色彩系统</h3>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2100colorspace/munsell.png" alt="munsell" /><br />
+美国艺术家 Albert Henry Munsell 提出。1930年被优化改良。<br />
+基于主观认知的HSL（色相、饱和度、亮度）模型，通过色卡描述颜色</p>
+<h3 id="1931-rgbse-cai-gui-fan-xi-tong">1931 RGB色彩规范系统</h3>
+<p>CIE建立的基于物理的量化色彩系统。<br />
+测量方法：给定一块白板，左边一半用RGB3基色照射，右边用待测光照射，不断调整RGB比例达到人眼观察白板两边颜色一致。
+<img src="https://www.chinuno.com/blogv4/ta100-2100colorspace/ciergb.png" alt="RGB" /><br />
+测量出来的结果在435.8~546.1nm波长段的r值为负数。通过$r'=\frac{r}{r+g+b},g'=\frac{g}{r+g+b},b'=\frac{b}{r+g+b}$归一到[-1,1]范围，并且r+g+b=1，只需要两个量就能确定特定颜色。<br />
+<img src="https://www.chinuno.com/blogv4/ta100-2100colorspace/rgb.png" alt="RGB" />
+以r为x轴，g为y轴绘制图表。</p>
+<h3 id="1931-xyzyan-se-gui-fan-xi-tong">1931 XYZ颜色规范系统</h3>
+<p>为了简化计算对CIERGB进行修改。<br />
+转换矩阵:$\left[\begin{matrix}X\newline Y\newline Z\newline\end{matrix}\right]
+= \left[\begin{matrix}
+2.7689&amp;1.7517&amp;1.1302\newline
+1.0&amp;4.5907&amp;0.0601\newline
+0.0&amp;0.0565&amp;5.5943\newline
+\end{matrix}\right]
+\left[\begin{matrix}r\newline g\newline b\newline\end{matrix}\right]
+$</p>
+<h4 id="yxyse-cai-kong-jian">Yxy色彩空间</h4>
+<p>为了计算方便。又对X,Y,Z结果进行归一化操作<br />
+$\begin{cases}x=\frac{X}{X+Y+Z}\newline
+y=\frac{Y}{X+Y+Z}\newline
+z=\frac{Z}{X+Y+Z}=1-x-y\newline
+\end{cases}$<br />
+以Y表示亮度，xy表示色度构成Yxy色彩空间</p>
+<h2 id="se-cai-kong-jian-de-ding-yi">色彩空间的定义</h2>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2100colorspace/colorspace.png" alt="色彩空间" /></p>
+<h3 id="se-yu">色域</h3>
+<p>三基色坐标，构成一个三角形</p>
+<h3 id="gamma">Gamma</h3>
+<p>如何对三角形切分.<br />
+以白点为中心，向外采样。Gamma为1的时候均匀切分（线性空间）。sRGB空间下Gamma值约为2.2。线性空间下计算方便，2.2情况下符合人对亮度的感观变化。</p>
+<h3 id="bai-dian">白点</h3>
+<p>色域三角形中心(最亮最白的地方)</p>
+<h2 id="chang-yong-se-cai-mo-xing-se-cai-kong-jian">常用色彩模型、色彩空间</h2>
+<ul>
+<li>色彩模型：使用一定规则描述颜色的方法。<br />
+例如RGB、CMYK、LAB</li>
+<li>色彩空间：至少满足色域、白点、Gamma三个指标<br />
+例如<code>CIE XYZ</code>、<code>Adobe RGB</code>、<code>sRGB</code>、sRGB、<code>Japan Color 2001 Uncoated</code>、<code>US web Coated</code></li>
+</ul>
+<h2 id="se-cai-kong-jian-zhuan-huan">色彩空间转换</h2>
+<h3 id="rgbzhuan-hsv">RGB转HSV</h3>
+<p>V = max(R,G,B)<br />
+$S = \begin{cases}\frac{V-min(R,G,B)}{V}&amp; (V不为0)\newline 0&amp; (V为0) \end{cases}$</p>
+<p>$H=\begin{cases}60\frac{G-B}{V-min(R,G,B)}&amp;(V为G)\newline
+120+60\frac{B-R}{V-min(R,G,B)}&amp;(V为R)\newline
+240+60\frac{R-G}{V-min(R,G,B)}&amp;(V为B)\newline
+\end{cases}$<br />
+如果H小于0，H=H+360</p>
+<h3 id="hsvzhuan-rgb">HSV转RGB</h3>
+<p>令：<br />
+$H_{i}\equiv\lceil\frac{H}{60}\rceil$（分为6份）<br />
+$f=\frac{H}{60}-H_{i}$（取小数部分）<br />
+$p=V\times(1-S)$<br />
+$q=V\times(1-f\times S)$<br />
+$t=V\times(1-(1-f)\times S)$<br />
+则：<br />
+$(R,G,B)=\begin{cases}
+(V,t,p)&amp;(h_{i}为0) \newline
+(q,V,p)&amp;(h_{i}为1) \newline
+(p,V,t)&amp;(h_{i}为2) \newline
+(p,q,V)&amp;(h_{i}为3) \newline
+(t,p,V)&amp;(h_{i}为4) \newline
+(V,p,q)&amp;(h_{i}为5)
+\end{cases}$</p>
+<h1 id="zuo-ye">作业</h1>
+<h2 id="se-cai-kong-jian-de-ding-yi-1">色彩空间的定义</h2>
+<p>至少满足色域、白点、Gamma三个指标</p>
+<h2 id="ren-yan-ke-jian-guang-fan-wei">人眼可见光范围</h2>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2100colorspace/range.png" alt="波长" /><br />
+一般人的眼睛可以感知的电磁波的波长在400～760nm之间，但还有一些人能够感知到波长大约在380～780nm之间的电磁波。人眼对555nm波长的光(绿色)最敏感。</p>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

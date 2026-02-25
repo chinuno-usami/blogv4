@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>媒体服务器选型研究</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/media-server/">媒体服务器选型研究</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2022-10-03
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/mei-ti-fu-wu-qi/">#媒体服务器</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/rtmptui-liu/">#RTMP推流</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/media-server/#nginx-rtmp-module">nginx-rtmp-module</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#ji-ben-gong-neng">基本功能</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#jian-dan-bu-shu">简单部署</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#wen-dang">文档</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#jian-quan-kong-zhi">鉴权控制</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#hou-tai">后台</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#fen-bu-shi-bu-shu-gao-ke-yong">分布式部署、高可用</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/media-server/#srs">SRS</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#ji-ben-gong-neng-1">基本功能</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#bu-shu">部署</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#wen-dang-1">文档</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#jian-quan">鉴权</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#hou-tai-1">后台</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#fen-bu-shi-gao-ke-yong">分布式、高可用</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/media-server/#qi-ta">其他</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/media-server/#zong-jie">总结</a>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>研究一下媒体服务器选型</p>
+<span id="continue-reading"></span><h1 id="nginx-rtmp-module">nginx-rtmp-module</h1>
+<p>项目地址：https://github.com/arut/nginx-rtmp-module</p>
+<h2 id="ji-ben-gong-neng">基本功能</h2>
+<ol>
+<li>RTMP/HLS/MPEG-DASH实时串流</li>
+<li>点播</li>
+<li>推、拉模式流转发</li>
+<li>录制视频流成文件</li>
+<li>实时转码</li>
+<li>回调支持</li>
+</ol>
+<h2 id="jian-dan-bu-shu">简单部署</h2>
+<p>作为nginx的扩展模块，可以自己编译，可以包管理安装<code>libnginx-mod-rtmp</code>使用
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-video-streaming-server-using-nginx-rtmp-on-ubuntu-20-04
+提供简单的Dockerfile，可以docker部署：
+https://github.com/arut/nginx-rtmp-module/wiki/Building-a-docker-image-with-nginx--rtmp-module</p>
+<h2 id="wen-dang">文档</h2>
+<p>英文文档，基本为配置说明，其他部分不够完善
+https://github.com/arut/nginx-rtmp-module/wiki/Directives</p>
+<h2 id="jian-quan-kong-zhi">鉴权控制</h2>
+<p>配置支持事件回调，在触发推流、拉流等事件的时候可以执行自定义http回调，可以在回调中进行鉴权控制，只允许匹配的客户端推流、拉流
+https://github.com/arut/nginx-rtmp-module/wiki/Directives#notify
+通过http状态码进行控制</p>
+<table><thead><tr><th>状态码</th><th>行为</th></tr></thead><tbody>
+<tr><td>200</td><td>正常状态，继续执行</td></tr>
+<tr><td>300</td><td>重定向到新地址</td></tr>
+<tr><td>其他</td><td>断开连接</td></tr>
+</tbody></table>
+<p>支持通知类型：</p>
+<ul>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#on_connect">on_connect</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#on_play">on_play</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#on_publish">on_publish</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#on_done">on_done</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#on_play_done">on_play_done</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#on_publish_done">on_publish_done</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#on_record_done">on_record_done</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#on_update">on_update</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#notify_update_timeout">notify_update_timeout</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#notify_update_strict">notify_update_strict</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#notify_relay_redirect">notify_relay_redirect</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives#notify_method">notify_method</a>
+简单重定向示例：</li>
+</ul>
+<pre data-lang="nginx" style="background-color:#2b303b;color:#c0c5ce;" class="language-nginx "><code class="language-nginx" data-lang="nginx"><span>http {
+</span><span>    ...
+</span><span>    location /local_redirect {
+</span><span>        rewrite ^.*$ newname? permanent;
+</span><span>    }
+</span><span>    location /remote_redirect {
+</span><span>        # no domain name here, only ip
+</span><span>        rewrite ^.*$ rtmp://192.168.1.123/someapp/somename? permanent;
+</span><span>    }
+</span><span>    ...
+</span><span>}
+</span><span>
+</span><span>rtmp {
+</span><span>    ...
+</span><span>    application myapp1 {
+</span><span>        live on;
+</span><span>        # stream will be redirected to &#39;newname&#39;
+</span><span>        on_play http://localhost:8080/local_redirect;
+</span><span>    }
+</span><span>    application myapp2 {
+</span><span>        live on;
+</span><span>        # stream will be pulled from remote location
+</span><span>        # requires nginx &gt;= 1.3.10
+</span><span>        on_play http://localhost:8080/remote_redirect;
+</span><span>    }
+</span><span>    ...
+</span><span>}
+</span></code></pre>
+<p>配置中设置on_play动作的回调url，当有人拉流时会发送POST到on_play后面指定的url，内容为：</p>
+<ul>
+<li>call=play</li>
+<li>addr - 客户端 ip</li>
+<li>clientid - nginx 的 client id</li>
+<li>app - app名</li>
+<li>flashVer - 客户端flash版本</li>
+<li>swfUrl - 客户端swf地址</li>
+<li>tcUrl - tcUrl</li>
+<li>pageUrl - 客户端页面url</li>
+<li>name - 当前流的名字</li>
+</ul>
+<p>如果推流地址中附带其他参数，那么也会一起带上。例如
+<code>rtmp://localhost/app/movie?token=1145141919810</code>
+那么回调请求会增加token字段，可以用这个字段来做鉴权</p>
+<h2 id="hou-tai">后台</h2>
+<p>提供超简单的统计页面在<code>/stat</code>
+https://github.com/arut/nginx-rtmp-module/wiki/Getting-number-of-subscribers</p>
+<h2 id="fen-bu-shi-bu-shu-gao-ke-yong">分布式部署、高可用</h2>
+<p>可以配合keepalived实现高可用，nginx本身也能实现负载均衡的功能。可以以docker+k8s进行部署</p>
+<h1 id="srs">SRS</h1>
+<p>项目地址：https://github.com/ossrs/srs</p>
+<h2 id="ji-ben-gong-neng-1">基本功能</h2>
+<ol>
+<li>rtmp、hls、http-flv分发</li>
+<li>DVR录像，将流录制成视频</li>
+<li>采集。将视频转为直播流、摄像头等设备转为直播流、rtsp转为直播流等。ffmpeg能拉取就能采集</li>
+<li>视频流转推</li>
+<li>支持视频截图（nginx通过on_publish回调也能做到）</li>
+<li>支持srt、dash</li>
+</ol>
+<h2 id="bu-shu">部署</h2>
+<p>官方推荐docker方式部署。可以k8s部署
+https://ossrs.net/lts/zh-cn/docs/v4/doc/getting-started-k8s
+提供了个视频可以通过github action直接部署到集群中
+https://www.bilibili.com/video/BV1g44y1j7Vz/</p>
+<h2 id="wen-dang-1">文档</h2>
+<p>https://ossrs.net/lts/zh-cn/docs/v4/doc/introduction
+文档齐全、中文、甚至还有视频</p>
+<h2 id="jian-quan">鉴权</h2>
+<p>https://ossrs.net/lts/zh-cn/docs/v4/doc/drm#token-authentication
+同nginx一样，通过http回调进行鉴权控制
+https://ossrs.net/lts/zh-cn/docs/v4/doc/http-callback
+支持类型：</p>
+<ol>
+<li>on_publish</li>
+<li>on_unpublish</li>
+<li>on_play</li>
+<li>on_stop</li>
+<li>on_dvr</li>
+</ol>
+<p>相关文档：https://ossrs.net/lts/zh-cn/docs/v4/doc/drm</p>
+<h2 id="hou-tai-1">后台</h2>
+<p>支持http api获取流、客户端状态等信息
+https://ossrs.net/lts/zh-cn/docs/v4/doc/http-api#streams
+web控制台
+https://ossrs.net/srs-console/trunk/research/console/ng_index.html#/connect</p>
+<h2 id="fen-bu-shi-gao-ke-yong">分布式、高可用</h2>
+<p>SRS本身支持分布式部署。可以配置源站集群、边缘集群方式。这样推流不管推到哪个源站、拉流不管去哪个服务器拉都能正常播放。
+https://ossrs.net/lts/zh-cn/docs/v4/doc/sample-origin-cluster
+https://ossrs.net/lts/zh-cn/docs/v4/doc/edge</p>
+<h3 id="k8sji-qun">k8s集群</h3>
+<p>https://ossrs.net/lts/zh-cn/docs/v4/doc/k8s</p>
+<h2 id="qi-ta">其他</h2>
+<p>低延迟配置：https://ossrs.net/lts/zh-cn/docs/v4/doc/low-latency</p>
+<h1 id="zong-jie">总结</h1>
+<p>Nginx和SRS两者实现的基本功能都差不多。相比之下SRS文档较为完善，功能多一些，且原生支持多种集群方案。可以优先选择使用SRS方案。</p>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

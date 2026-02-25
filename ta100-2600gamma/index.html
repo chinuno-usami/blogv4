@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 2.6 伽马校正</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-2600gamma/">TA百人计划 图形 2.6 伽马校正</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-18
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2600gamma/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2600gamma/#gammaxiao-zheng">Gamma校正</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2600gamma/#wei-bo-ding-lu">韦伯定律</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2600gamma/#xian-xing-gong-zuo-liu">线性工作流</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2600gamma/#unityzhong-yan-se-kong-jian">Unity中颜色空间</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2600gamma/#zi-yuan-dao-chu">资源导出</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2600gamma/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2600gamma/#dong-shou-chang-shi-jin-xing-gammaxiao-zheng-de-ji-chong-fang-fa">动手尝试进行Gamma校正的几种方法</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>地址：<a href="https://www.bilibili.com/video/BV1cU4y1b7UF">【技术美术百人计划】图形 2.6 伽马校正</a></p>
+<span id="continue-reading"></span><h1 id="bi-ji">笔记</h1>
+<h2 id="gammaxiao-zheng">Gamma校正</h2>
+<h3 id="yan-se-kong-jian">颜色空间</h3>
+<p><a href="https://www.chinuno.com/blogv4/ta100-2100colorspace/">TA百人计划 图形 2.1 色彩空间介绍</a><br />
+颜色空间定义了Gamma取值。sRGB使用2.2</p>
+<h3 id="chuan-di-han-shu">传递函数</h3>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2600gamma/oetf.png" alt="OETF" /><br />
+OETF：光转电传递函数，负责把场景线性光转到非线性视频信号值。<br />
+<img src="https://www.chinuno.com/blogv4/ta100-2600gamma/eotf.png" alt="EOTF" /><br />
+EOTF：电转光传递函数，负责把非线性视频信号值转换成显示光亮度。</p>
+<h3 id="gammaxiao-zheng-1">Gamma校正</h3>
+<p>$V_{out} = V_{in}^{gamma}$<br />
+对线性颜色和非线性颜色的编解码转换。<br />
+<img src="https://www.chinuno.com/blogv4/ta100-2600gamma/encode.png" alt="Gamma校正" /><br />
+<img src="https://www.chinuno.com/blogv4/ta100-2600gamma/encode2.png" alt="Gamma" /></p>
+<h3 id="wei-shen-me-xu-yao-gammaxiao-zheng">为什么需要Gamma校正</h3>
+<p>为了更好利用存储空间。数据以8位存储，人眼对暗部更敏感。提高暗部数据的精度减少亮部数据的精度，获得存储空间和观感上的平衡。</p>
+<h2 id="wei-bo-ding-lu">韦伯定律</h2>
+<p>人眼对明暗感受非线性，对暗部更敏感。符合传递函数Gamma为2.2时的线条变化</p>
+<h2 id="xian-xing-gong-zuo-liu">线性工作流</h2>
+<p>所有工作都在线性空间下进行，计算得到正确的结果输出给显示器时再转换为非线性空间。<br />
+不在线性空间下处理会导致亮度叠加，颜色混合时结果计算错误。</p>
+<h2 id="unityzhong-yan-se-kong-jian">Unity中颜色空间</h2>
+<p>通过点击菜单Edit-&gt;Project Settings-&gt;Player页签-&gt;Other Settings下的Rendering部分进行修改，参数Color Space可以选择Gamma或Linear</p>
+<ul>
+<li>Gamma Space:Unity不做任何处理</li>
+<li>Linear Space:引擎的渲染流程在线性空间计算，理想情况下项目使用线性空间的贴图颜色，不需要勾选sRGB，如果勾选了sRGB的贴图，会通过硬件特性采样时进行线性转换。</li>
+</ul>
+<p>使用硬件特性完成sRGB贴图的线性采样和shader计算结果的gamma校正，比起在shader里对贴图采样和计算结果的校正要快</p>
+<h2 id="zi-yuan-dao-chu">资源导出</h2>
+<ol>
+<li>Substance Painter:当Substance的贴图导出时，线性的颜色值经过伽马变换，颜色被提亮了，所以需要在Unity中勾选sRGB选项，让它在采样时能还原回线性值。</li>
+<li>PhotoShop:如果使用线性空间，一般来说Photoshop可以什么都不改，导出的贴图只要勾上sRGB就可以了。如果调整PhotoShop的伽玛值为1，导出的贴图在Unity中也不需要勾选sRGB了。</li>
+</ol>
+<h1 id="zuo-ye">作业</h1>
+<h2 id="dong-shou-chang-shi-jin-xing-gammaxiao-zheng-de-ji-chong-fang-fa">动手尝试进行Gamma校正的几种方法</h2>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2600gamma/l2.png" alt="l2" />
+<img src="https://www.chinuno.com/blogv4/ta100-2600gamma/g2.png" alt="g2" />
+第一张图为线性空间下的效果，第二张为Gamma空间下的效果。使用unity项目属性修改的渲染色彩空间。<br />
+使用shader手动校正到线性空间处理，然后再转为非线性空间结果输出：</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// GammaToLinearSpace和LinearToGammaSpace在UnityCG.cginc里面
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">UnityCG.cginc</span><span>&quot;
+</span><span>
+</span><span>fixed4 texColor = </span><span style="color:#bf616a;">tex2D</span><span>(_MainTex, i.</span><span style="color:#bf616a;">uv</span><span>);
+</span><span>fixed3 texColorLinear = </span><span style="color:#bf616a;">GammaToLinearSpace</span><span>(texColor.</span><span style="color:#bf616a;">rgb</span><span>);
+</span><span>...
+</span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">fixed4</span><span>(</span><span style="color:#bf616a;">LinearToGammaSpace</span><span>(color), </span><span style="color:#d08770;">1.0</span><span>);
+</span><span>
+</span></code></pre>
+<p>不过怎么调整都达不到项目属性修改色彩空间出来的效果</p>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

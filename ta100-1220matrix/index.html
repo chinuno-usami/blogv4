@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 1.2.2 矩阵运算</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-1220matrix/">TA百人计划 图形 1.2.2 矩阵运算</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-09
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/xian-xing-dai-shu/">#线性代数</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#xian-xing">线性</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#jie-fang-cheng-zu">解方程组</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#ju-zhen-ding-yi">矩阵定义</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#te-shu-ju-zhen">特殊矩阵</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#ju-zhen-jia-jian">矩阵加&#x2F;减</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#ju-zhen-shu-cheng-chu">矩阵数乘&#x2F;除</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#ju-zhen-xiang-cheng">矩阵相乘</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#zhuan-zhi">转置</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#ni-ju-zhen">逆矩阵</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#ji-chong-ji-ben-bian-huan-ju-zhen">几种基本变换矩阵</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#ju-zhen-yun-suan-de-ji-he-yi-yi">矩阵运算的几何意义</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1220matrix/#ju-zhen-ji-suan-gong-shi">矩阵计算公式</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>线代的内容还是推荐3b1b的视频。是我看过关于线性代数最直观易懂的视频了<br />
+<a href="https://www.bilibili.com/video/BV1ys411472E">【官方双语/合集】线性代数的本质 - 系列合集</a></p>
+<span id="continue-reading"></span>
+<p>地址：<a href="https://www.bilibili.com/video/BV1mi4y1T77i">【技术美术百人计划】图形 1.2.2 矩阵运算</a></p>
+<h1 id="bi-ji">笔记</h1>
+<h2 id="xian-xing">线性</h2>
+<ul>
+<li>线性方程：一次方程，具有线性关系的方程，具有可加性、比例性</li>
+<li>线性空间：直线变换后依然直线，保持等比。坐标原点不变</li>
+<li>非线性空间：空间扭曲，不是等距。坐标原点带偏移</li>
+</ul>
+<h2 id="jie-fang-cheng-zu">解方程组</h2>
+<p>矩阵用来解线性方程组
+对于：
+$\begin{cases}
+2x+3y=1 \newline
+x+y=2 \newline
+\end{cases}$ 这么一个方程组。可以构造如下矩阵<br />
+$\left[\begin{matrix}
+2&amp;3\newline
+1&amp;1\newline
+\end{matrix}\right]
+\left[\begin{matrix}
+x\newline
+y\newline
+\end{matrix}\right]
+=\left[\begin{matrix}
+1\newline
+2\newline
+\end{matrix}\right]
+$<br />
+转化为求$
+\left[\begin{matrix}
+x\newline
+y\newline
+\end{matrix}\right]$向量的计算<br />
+写为增广矩阵形式
+$
+\left[\begin{matrix}
+2&amp;3&amp;1\newline
+1&amp;1&amp;2\newline
+\end{matrix}\right]$<br />
+每行间进行线性计算得到
+$
+\left[\begin{matrix}
+1&amp;0&amp;5\newline
+0&amp;1&amp;-3\newline
+\end{matrix}\right]$<br />
+最后得到
+$\begin{cases}
+x+0y=5\newline
+0x+y=-3\end{cases}$ 即 $\begin{cases}x=5\newline y=-3\end{cases}$<br />
+实际上是将方程组转化为空间下的向量，解方程组就是将空间转换为标准坐标系下，拆解成每个独立的分量，最后得到的就是方程组的解</p>
+<h2 id="ju-zhen-ding-yi">矩阵定义</h2>
+<p>m行n列元素的排列，形成$m \times n$的矩阵</p>
+<h2 id="te-shu-ju-zhen">特殊矩阵</h2>
+<ul>
+<li>方阵：行列数量相等的矩阵</li>
+<li>单位阵：左上到右下对角线元素为1，其他元素为0的矩阵（方阵）</li>
+<li>零矩阵：所有元素都是0的矩阵</li>
+</ul>
+<h2 id="ju-zhen-jia-jian">矩阵加/减</h2>
+<p>同行矩阵间的操作（两个矩阵的行跟列个数都一样）。<br />
+计算方式为，两个矩阵对应位置元素相加/减，满足交换律、结合律</p>
+<h2 id="ju-zhen-shu-cheng-chu">矩阵数乘/除</h2>
+<p>矩阵的每个元素乘/除上系数k</p>
+<h2 id="ju-zhen-xiang-cheng">矩阵相乘</h2>
+<p>需要满足左边矩阵的列数等于右边矩阵的行数<br />
+计算方式：结果C为$
+\begin{align}
+C=(c_{ij}):
+c_{ij}=a_{i*} \cdot b_{*j} &amp;&amp; (i=1...,m;j=1...,n)
+\end{align}
+$<br />
+A的每个行向量和B的每个列向量做点积<br />
+运算规则：从右往左计算。满足结合律但不满足交换律。满足分配律</p>
+<h2 id="zhuan-zhi">转置</h2>
+<p>将矩阵行列元素交换。每个元素$a_{i,j}$变换为$a_{j,i}$<br />
+.直观表现为矩阵元素沿着45°对角线翻转位置<br />
+特性：<br />
+$(AB)^T=B^TA^T$<br />
+$(A+B)^T=A^T+B^T$<br />
+$(A^T)^T=A$</p>
+<h2 id="ni-ju-zhen">逆矩阵</h2>
+<p>$A \times A^{-1} = 1$<br />
+矩阵乘上他的逆矩阵得到单位阵<br />
+乘上一个矩阵的逆相当于进行逆向变换
+特性：<br />
+$(A^{-1})^{-1}=A$<br />
+$kA可逆,k\neq 0，(kA)^{-1}=\frac{1}{k} A^{-1}$<br />
+$(AB)^{-1}=B^{-1}A^{-1}$<br />
+$(A^T)^{-1}=(A^{-1})^T$</p>
+<h2 id="ji-chong-ji-ben-bian-huan-ju-zhen">几种基本变换矩阵</h2>
+<ol>
+<li>纵向拉伸：$\left[\begin{matrix}1&amp;0\newline 0&amp;c\end{matrix}\right]$</li>
+<li>缩放：$\left[\begin{matrix}x&amp;0\newline 0&amp;y\end{matrix}\right]$</li>
+<li>斜切：$\left[\begin{matrix}1&amp;k\newline 0&amp;1\end{matrix}\right]$</li>
+<li>旋转：$\left[\begin{matrix}cos\theta &amp; -sin\theta \newline sin\theta &amp;cos\theta \end{matrix}\right]$</li>
+<li>镜像：$\left[\begin{matrix}0&amp;1\newline 1&amp;0\end{matrix}\right]$</li>
+<li>位移：$\left[\begin{matrix}1&amp;0&amp;x\newline 0&amp;1&amp;y \newline 0&amp;0&amp;1\end{matrix}\right]$</li>
+</ol>
+<h1 id="zuo-ye">作业</h1>
+<h2 id="ju-zhen-yun-suan-de-ji-he-yi-yi">矩阵运算的几何意义</h2>
+<p>矩阵运算就是坐标变换。复杂的变换矩阵可以通过简单的变换矩阵相结合产生。</p>
+<h2 id="ju-zhen-ji-suan-gong-shi">矩阵计算公式</h2>
+<ol>
+<li>数乘
+$kA_{i,j}=\left[\begin{matrix}
+k\cdot a_{11}&amp;k\cdot a_{12}&amp;\cdots&amp;k\cdot a_{1j}\newline
+k\cdot a_{21}&amp;k\cdot a_{22}&amp;\cdots&amp;k\cdot a_{2j}\newline
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots\newline
+k\cdot a_{i1}&amp;k\cdot a_{i2}&amp;\cdots&amp;k\cdot a_{ij}\newline
+\end{matrix}\right]$</li>
+<li>相加
+$A_{i,j}+B_{i,j}=\left[\begin{matrix}
+a_{11}+b_{11}&amp;a_{12}+b_{12}&amp;\cdots&amp;a_{1j}+b_{1j}\newline
+a_{21}+b_{21}&amp;a_{22}+b_{22}&amp;\cdots&amp;a_{2j}+b_{2j}\newline
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots\newline
+a_{i1}+b_{i1}&amp;a_{i2}+b_{i2}&amp;\cdots&amp;a_{ij}+b_{ij}\newline
+\end{matrix}\right]$</li>
+<li>相乘
+$A_{m,n}\times B_{n,p}=\left[\begin{matrix}
+a_{11}\times b_{11}+a_{12}\times b_{21}+\cdots +a_{1n}\times b_{n1} &amp; \cdots &amp; a_{11}\times b_{n1}+a_{12}\times b_{n2}+\cdots +a_{1n}\times b_{np}\newline
+\vdots &amp; \ddots &amp; \vdots \newline
+a_{m1}\times b_{11}+a_{12}\times b_{21}+\cdots +a_{mn}\times b_{n1} &amp; \cdots &amp; a_{m1}\times b_{n1}+a_{12}\times b_{n2}+\cdots +a_{mn}\times b_{np}\newline
+\end{matrix}\right]$</li>
+</ol>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

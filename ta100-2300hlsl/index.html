@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 2.3 常用函数介绍</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/">TA百人计划 图形 2.3 常用函数介绍</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-13
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/hlsl/">#hlsl</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#ji-ben-shu-xue-yun-suan">基本数学运算</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#mi-zhi-shu-dui-shu-han-shu">幂、指数、对数函数</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#san-jiao-han-shu-shuang-qu-han-shu">三角函数、双曲函数</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#shu-ju-fan-wei">数据范围</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#lei-xing-pan-duan">类型判断</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#xiang-liang-yu-ju-zhen">向量与矩阵</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#guang-xian-yun-suan">光线运算</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#wen-li-cha-zhao">纹理查找</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#jue-de-zui-chang-yong-de-5ge-han-shu">觉得最常用的5个函数</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2300hlsl/#ddx-ddyshi-ji-shi-yong-ce-shi">ddx、ddy实际使用测试</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>地址：<a href="https://www.bilibili.com/video/BV1q64y1m7Ev">【技术美术百人计划】图形 2.3 常用函数介绍</a></p>
+<span id="continue-reading"></span><h1 id="bi-ji">笔记</h1>
+<p>HLSL内部函数文档:<a href="https://docs.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-intrinsic-functions">英文文档</a>，不要看中文，机翻还把函数名给翻译了<br />
+函数可视化预览:<a href="https://graphtoy.com/">graphtoy</a></p>
+<h2 id="ji-ben-shu-xue-yun-suan">基本数学运算</h2>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 返回较大的值
+</span><span style="color:#bf616a;">max</span><span>(a,b);
+</span><span style="color:#65737e;">// 返回较小的值
+</span><span style="color:#bf616a;">min</span><span>(a,b);
+</span><span style="color:#65737e;">// 变量相乘，常用于矩阵运算
+</span><span style="color:#bf616a;">mul</span><span>(a,b);
+</span><span style="color:#65737e;">// 取绝对值
+</span><span style="color:#bf616a;">abs</span><span>(a);
+</span><span style="color:#65737e;">// 四舍五入取整
+</span><span style="color:#bf616a;">round</span><span>(x);
+</span><span style="color:#65737e;">// 求平方根
+</span><span style="color:#bf616a;">sqrt</span><span>(x);
+</span><span style="color:#65737e;">// 求平方根的倒数
+</span><span style="color:#65737e;">// 雷神之锤著名的魔法数字就是求这东西？
+</span><span style="color:#bf616a;">rsqrt</span><span>(x);
+</span><span style="color:#65737e;">// 将弧度转成角度
+</span><span style="color:#bf616a;">degrees</span><span>(x);
+</span><span style="color:#65737e;">// 将角度转成弧度
+</span><span style="color:#bf616a;">radians</span><span>(x);
+</span><span style="color:#65737e;">// 使用柏林噪声（Perlin-noise）生成随机值
+</span><span style="color:#bf616a;">noise</span><span>(x);
+</span></code></pre>
+<h2 id="mi-zhi-shu-dui-shu-han-shu">幂、指数、对数函数</h2>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 求x的y次幂
+</span><span style="color:#bf616a;">pow</span><span>(x,y);
+</span><span style="color:#65737e;">// e的x次幂
+</span><span style="color:#bf616a;">exp</span><span>(x);
+</span><span style="color:#65737e;">// 2的x次幂
+</span><span style="color:#bf616a;">exp2</span><span>(x);
+</span><span style="color:#65737e;">// x*exp2(y)
+</span><span style="color:#bf616a;">ldexp</span><span>(x,y);
+</span><span style="color:#65737e;">// e为底x的对数
+</span><span style="color:#bf616a;">log</span><span>(x);
+</span><span style="color:#65737e;">// 10为底x的对数
+</span><span style="color:#bf616a;">log10</span><span>(x);
+</span><span style="color:#65737e;">// 2为底x的对数
+</span><span style="color:#bf616a;">log2</span><span>(x);
+</span><span style="color:#65737e;">// 返回浮点数表示为x=ret*2^y形式(二进制的科学计数法)
+</span><span style="color:#65737e;">// 的尾数ret和指数y,y为输出变量
+</span><span style="color:#bf616a;">frexp</span><span>(x,y);
+</span></code></pre>
+<h2 id="san-jiao-han-shu-shuang-qu-han-shu">三角函数、双曲函数</h2>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 三角函数，x为弧度制的角度(返回值也是)
+</span><span style="color:#bf616a;">sin</span><span>(x);
+</span><span style="color:#bf616a;">cos</span><span>(x);
+</span><span style="color:#bf616a;">tan</span><span>(x);
+</span><span style="color:#65737e;">// 同时返回sin和cos值，s和c为输出函数
+</span><span style="color:#bf616a;">sincos</span><span>(x,</span><span style="color:#b48ead;">out</span><span> s,</span><span style="color:#b48ead;">out</span><span> c);
+</span><span style="color:#65737e;">// 反 正弦/余弦/...
+</span><span style="color:#bf616a;">asin</span><span>(x);
+</span><span style="color:#bf616a;">acos</span><span>(x);
+</span><span style="color:#bf616a;">atan</span><span>(x);
+</span><span style="color:#bf616a;">atan2</span><span>(y,x);
+</span><span style="color:#65737e;">// 双曲 正弦/余弦/...
+</span><span style="color:#bf616a;">sinh</span><span>(x);
+</span><span style="color:#bf616a;">cosh</span><span>(x);
+</span><span style="color:#bf616a;">tanh</span><span>(x);
+</span></code></pre>
+<h2 id="shu-ju-fan-wei">数据范围</h2>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 向上取整
+</span><span style="color:#bf616a;">ceil</span><span>(x);
+</span><span style="color:#65737e;">// 向下取整
+</span><span style="color:#bf616a;">floor</span><span>(x);
+</span><span style="color:#65737e;">// x&lt;=y?1:0
+</span><span style="color:#bf616a;">step</span><span>(x,y);
+</span><span style="color:#65737e;">// 钳制x到0-1范围
+</span><span style="color:#bf616a;">saturate</span><span>(x);
+</span><span style="color:#65737e;">// 截取限制在min-max范围内的值，小于min取min，大于max取max
+</span><span style="color:#bf616a;">clamp</span><span>(x,min,max);
+</span><span style="color:#65737e;">// x对y取余
+</span><span style="color:#bf616a;">fmod</span><span>(x,y);
+</span><span style="color:#65737e;">// 取小数部分
+</span><span style="color:#bf616a;">frac</span><span>(x);
+</span><span style="color:#65737e;">// 同时返回小数部分和整数部分
+</span><span style="color:#65737e;">// 返回值为小数部分，ip为整数部分
+</span><span style="color:#bf616a;">modf</span><span>(x, </span><span style="color:#b48ead;">out</span><span> ip);
+</span><span style="color:#65737e;">// 插值 返回x*(1-s)+y*s
+</span><span style="color:#bf616a;">lerp</span><span>(x,y,s);
+</span><span style="color:#65737e;">// 平滑Hermite插值
+</span><span style="color:#bf616a;">smoothstep</span><span>(min,max,x);
+</span></code></pre>
+<h2 id="lei-xing-pan-duan">类型判断</h2>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 是否所有值都非零
+</span><span style="color:#bf616a;">all</span><span>(x);
+</span><span style="color:#65737e;">// 输入值小于0丢弃当前像素
+</span><span style="color:#65737e;">// 会影响到early-z？
+</span><span style="color:#bf616a;">clip</span><span>(x);
+</span><span style="color:#65737e;">// x&lt;0返回-1，x==0返回0，x&gt;0返回1
+</span><span style="color:#bf616a;">sign</span><span>(x);
+</span><span style="color:#65737e;">// x是否INF(无穷)
+</span><span style="color:#bf616a;">isinf</span><span>(x);
+</span><span style="color:#65737e;">// !isinf(x)
+</span><span style="color:#bf616a;">isfinite</span><span>(x)
+</span><span style="color:#65737e;">// 是否NAN(非数字)
+</span><span style="color:#8fa1b3;">isnan</span><span>(</span><span style="color:#bf616a;">x</span><span>);
+</span></code></pre>
+<h2 id="xiang-liang-yu-ju-zhen">向量与矩阵</h2>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 向量长度
+</span><span style="color:#bf616a;">length</span><span>(v);
+</span><span style="color:#65737e;">// 归一化 x/length(x)
+</span><span style="color:#bf616a;">normallize</span><span>(v);
+</span><span style="color:#65737e;">// 两点(向量)间距离 各分量之差平方和开根号
+</span><span style="color:#bf616a;">distance</span><span>(a,b);
+</span><span style="color:#65737e;">// 向量点积 |a||b|cosΘ
+</span><span style="color:#bf616a;">dot</span><span>(a,b);
+</span><span style="color:#65737e;">// 向量×积 |a|*|b|*sinΘ
+</span><span style="color:#bf616a;">cross</span><span>(a,b);
+</span><span style="color:#65737e;">// 矩阵行列式计算
+</span><span style="color:#bf616a;">determinant</span><span>(m);
+</span><span style="color:#65737e;">// 矩阵转置
+</span><span style="color:#bf616a;">transpose</span><span>(m);
+</span><span>
+</span></code></pre>
+<h2 id="guang-xian-yun-suan">光线运算</h2>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 反射光 i为入射光向量，n为法线方向
+</span><span style="color:#bf616a;">reflect</span><span>(i,n);
+</span><span style="color:#65737e;">// 折射光。ri为折射率
+</span><span style="color:#bf616a;">refract</span><span>(i,n,ri);
+</span><span style="color:#65737e;">// 返回光照向量 (环境光,漫反射,高光,1)
+</span><span style="color:#65737e;">// 参数为(dot(法向量,光向量),dot(法向量,半角向量),高光指数)
+</span><span style="color:#bf616a;">lit</span><span>(n_dot_l, n_dot_h, m);
+</span><span style="color:#65737e;">// 获得表面朝向镜头一面的法向量。 n为法向量，i为观察方向
+</span><span style="color:#65737e;">// 算法-n sign(dot(i, ng)).
+</span></code></pre>
+<h2 id="wen-li-cha-zhao">纹理查找</h2>
+<p>GPU在片元着色器阶段在<strong>屏幕空间</strong>下对每一个像素对应的纹理中查找对应纹素来确定像素颜色。<br />
+ddy、ddy: 用于求取屏幕空间坐标上相邻像素间某属性的差值。ddx、ddy通常输入纹理坐标</p>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 一维查找 纹理采样器s在t位置的值
+</span><span style="color:#bf616a;">tex1D</span><span>(s,t);
+</span><span style="color:#65737e;">// 使用微分查询。以ddx，ddy幅度进行采样
+</span><span style="color:#bf616a;">tex1D</span><span>(s,t,ddx,ddy);
+</span><span style="color:#65737e;">// 根据LOD查询纹理。mipmap的LOD为t.w
+</span><span style="color:#bf616a;">tex1Dlod</span><span>(s,t);
+</span><span style="color:#65737e;">// mip等级偏执t.w后进行纹理采样
+</span><span style="color:#bf616a;">tex1Dbias</span><span>(s,t);
+</span><span style="color:#65737e;">// 根据梯度选择mip等级进行采样
+</span><span style="color:#bf616a;">tex1Dgrad</span><span>(s,t,ddx,ddy);
+</span><span style="color:#65737e;">// 使用投影，在查找纹理前坐标会除以t.w
+</span><span style="color:#bf616a;">tex1Dproj</span><span>(s,t);
+</span><span style="color:#65737e;">// 2D、3D纹理查找类似
+</span><span style="color:#65737e;">// tex2D、tex3D
+</span><span style="color:#65737e;">//
+</span><span style="color:#65737e;">// 立体纹理查找
+</span><span style="color:#65737e;">// CubeMap。常用于环境光照。  
+</span><span style="color:#65737e;">// 和上面列出的类似。texCUBE前缀
+</span></code></pre>
+<h1 id="zuo-ye">作业</h1>
+<h2 id="jue-de-zui-chang-yong-de-5ge-han-shu">觉得最常用的5个函数</h2>
+<ol>
+<li>normalize:向量归一化</li>
+<li>dot:向量点积，算光照常用</li>
+<li>lerp：各种插值</li>
+<li>tex2D：纹理采样</li>
+<li>mul：矩阵运算，坐标变换计算常用</li>
+</ol>
+<h2 id="ddx-ddyshi-ji-shi-yong-ce-shi">ddx、ddy实际使用测试</h2>
+<p>考虑既然ddx、ddy是像素间属性的差值，那么是否可以取深度的差值来获得一个描边效果。<br />
+<img src="https://www.chinuno.com/blogv4/ta100-2300hlsl/1.png" alt="描边" /><br />
+后处理中ddy、ddx取深度差值、超过阈值画上红色，效果就是这样<br />
+<img src="https://www.chinuno.com/blogv4/ta100-2300hlsl/2.png" alt="整体" /><br />
+加上原来的颜色，效果就是这样<br />
+效果看起来有明显的锯齿感不知道是不是深度值的精度较低导致的</p>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#b48ead;">#if defined</span><span>(POSTPROCESSING)
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> scene = </span><span style="color:#96b5b4;">texture2D</span><span>(u_scene, st).</span><span style="color:#bf616a;">rgb</span><span>;
+</span><span>    </span><span style="color:#b48ead;">float</span><span> depth = </span><span style="color:#96b5b4;">texture2D</span><span>(u_sceneDepth, st).</span><span style="color:#bf616a;">r</span><span>;
+</span><span>    depth = </span><span style="color:#bf616a;">linearizeDepth</span><span>(depth) * u_cameraFarClip;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">float</span><span> dx = </span><span style="color:#96b5b4;">abs</span><span>(</span><span style="color:#96b5b4;">dFdx</span><span>(depth));
+</span><span>    </span><span style="color:#b48ead;">float</span><span> dy = </span><span style="color:#96b5b4;">abs</span><span>(</span><span style="color:#96b5b4;">dFdy</span><span>(depth));
+</span><span>    </span><span style="color:#b48ead;">float</span><span> dz = </span><span style="color:#96b5b4;">step</span><span>(</span><span style="color:#d08770;">0.15</span><span>,(dx+dy)/</span><span style="color:#d08770;">2.0</span><span>);
+</span><span>    </span><span style="color:#b48ead;">if</span><span>(dz&gt;</span><span style="color:#d08770;">0.0</span><span>){
+</span><span>        color = </span><span style="color:#b48ead;">vec3</span><span>(</span><span style="color:#d08770;">1.0</span><span>,</span><span style="color:#d08770;">0.0</span><span>,</span><span style="color:#d08770;">0.0</span><span>);
+</span><span>    } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>        color = scene;
+</span><span>    }
+</span><span style="color:#b48ead;">#endif
+</span><span>
+</span></code></pre>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

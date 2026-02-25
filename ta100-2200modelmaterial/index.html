@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 2.2 模型与材质基础</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/">TA百人计划 图形 2.2 模型与材质基础</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-12
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#tu-xing-xuan-ran-guan-xian">图形渲染管线</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#mo-xing-de-shi-xian-yuan-li">模型的实现原理</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#uv">UV</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#mo-xing-uv">模型UV</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#mo-xing-bao-han-de-xin-xi">模型包含的信息</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#objge-shi-he-fbxge-shi">obj格式和fbx格式</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#cai-zhi">材质</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#man-fan-she">漫反射</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#guang-hua-jing-mian-fan-she">光滑镜面反射</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#zhe-she">折射</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#cu-cao-jing-mian-fan-she">粗糙镜面反射</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#cu-cao-jing-mian-zhe-she">粗糙镜面折射</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#duo-ceng-cai-zhi">多层材质</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#ci-biao-mian-san-she">次表面散射</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#gai-bian-cai-zhi-biao-mian">改变材质表面</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#mo-xing-shu-ju-zai-xuan-ran-zhong-de-zuo-yong">模型数据在渲染中的作用</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#ding-dian-fa-xian-yu-mian-fa-xian">顶点法线与面法线</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#ding-dian-se-huan-ke-yi-zuo-shen-me">顶点色还可以做什么</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/#mo-xing-guang-hua-zu-dui-fa-xian-you-shen-me-ying-xiang">模型光滑组对法线有什么影响</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>地址：<a href="https://www.bilibili.com/video/BV1kh411U7F7">【技术美术百人计划】图形 2.2 模型与材质基础</a></p>
+<span id="continue-reading"></span><h1 id="bi-ji">笔记</h1>
+<h2 id="tu-xing-xuan-ran-guan-xian">图形渲染管线</h2>
+<p><a href="https://www.chinuno.com/blogv4/ta100-1100rendering-pipeline/">TA百人计划 图形 1.1 渲染流水线</a><br />
+顶点数据-&gt;顶点着色器-&gt;图元装配-&gt;几何着色器-&gt;光栅化-&gt;片段着色器-&gt;测试、混合</p>
+<h2 id="mo-xing-de-shi-xian-yuan-li">模型的实现原理</h2>
+<p>多个顶点连成线-&gt;多条线组成面-&gt;多个面组成模型</p>
+<h2 id="uv">UV</h2>
+<p>将模型顶点映射到一个二维坐标中，在二维坐标系中顶点对应的位置就是顶点纹理的坐标。<br />
+片段着色器根据纹理坐标查找当前位置对应的纹理信息。</p>
+<h2 id="mo-xing-uv">模型UV</h2>
+<p>在建模软件中进行UV展开，UV放在横向U纵向V，范围(0-1)的二维坐标系中<br />
+在展开后的UV中绘制各种贴图</p>
+<h2 id="mo-xing-bao-han-de-xin-xi">模型包含的信息</h2>
+<ol>
+<li>顶点（顶点在模型空间下的x,y,z坐标）</li>
+<li>顶点法线</li>
+<li>顶点纹理坐标（水平方向U，垂直方向V，范围0-1）</li>
+<li>顶点色（单个顶点得RGBA通道信息）,Obj文件不包含顶点色</li>
+</ol>
+<p>一个顶点包含了法线，纹理坐标，顶点色等信息</p>
+<h2 id="objge-shi-he-fbxge-shi">obj格式和fbx格式</h2>
+<table><thead><tr><th>#</th><th>obj格式</th><th>fbx格式</th><th>备注</th></tr></thead><tbody>
+<tr><td>多个object</td><td>支持</td><td>支持</td><td>在文件中存放多个三维模型</td></tr>
+<tr><td>单object拥有多个材质</td><td>支持</td><td>支持</td><td></td></tr>
+<tr><td>Polygons面</td><td>支持</td><td>支持</td><td>易于被3ds max等软件编辑加工   注：导入到ue4时，必须为三角形面</td></tr>
+<tr><td>Normal</td><td>支持</td><td>支持</td><td></td></tr>
+<tr><td>Material</td><td>支持</td><td>支持</td><td></td></tr>
+<tr><td>光滑组（Smoothing Group）</td><td>支持</td><td>支持</td><td>光滑组中的点或面使用平均法线来计算光照，使得整个mesh区域看起来更平滑</td></tr>
+<tr><td>uv套数</td><td>1</td><td>多套</td><td></td></tr>
+<tr><td>顶点Color</td><td><strong>不支持</strong></td><td>支持</td><td>导入ue4时，Vertex Color Import Option设置为Replace</td></tr>
+<tr><td>ue4 lod</td><td>不支持</td><td>支持</td><td>导入ue4时，勾选Import Mesh LODs</td></tr>
+<tr><td>ue4 simple collision</td><td>支持</td><td>支持</td><td>任意凸体碰撞命名规则：UCX_[RenderMeshName]、UCX_[RenderMeshName]_00</td></tr>
+<tr><td>socket插槽</td><td>不支持</td><td>支持</td><td>命名规则：SOCKET_[RenderMeshName]、SOCKET_[RenderMeshName]_01</td></tr>
+<tr><td>skeleton骨骼</td><td>不支持</td><td>支持</td><td></td></tr>
+<tr><td>skeletal mesh网格</td><td>不支持</td><td>支持</td><td></td></tr>
+<tr><td>animation sequence</td><td>不支持</td><td>支持</td><td>fbx可在文件中存放多个动作序列</td></tr>
+</tbody></table>
+<h2 id="cai-zhi">材质</h2>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/material.png" alt="material" /><br />
+每种物体表面对光反射表现不同表现出不同的材质（光滑、粗糙等）</p>
+<h2 id="man-fan-she">漫反射</h2>
+<p>最容易模拟的模型（水泥、砖块、石头...）。<br />
+兰伯特简单粗暴地认为光线均匀反射出去。</p>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span>Diffuse = baseColor *LightColor * </span><span style="color:#96b5b4;">dot</span><span>(LightDir , Normal);
+</span></code></pre>
+<h2 id="guang-hua-jing-mian-fan-she">光滑镜面反射</h2>
+<p>将入射光线根据表面法线进行反射，只有反射方向有能量，其他方向能量为0</p>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span>Specular =  </span><span style="color:#96b5b4;">pow</span><span>(</span><span style="color:#bf616a;">saturate</span><span>(</span><span style="color:#96b5b4;">dot</span><span>(ReflDir,ViewDir)),</span><span style="color:#d08770;">32</span><span>) * LightColor; 
+</span></code></pre>
+<h2 id="zhe-she">折射</h2>
+<p>光从一种介质进入另一种介质，一部分反射一部分进入。反射、折射能量大小根据菲尼尔定律决定。</p>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span>R = </span><span style="color:#96b5b4;">refract</span><span>(View,Normal,ration);
+</span><span>ReflColor = </span><span style="color:#bf616a;">tex2D</span><span>(skybox,R);
+</span></code></pre>
+<h2 id="cu-cao-jing-mian-fan-she">粗糙镜面反射</h2>
+<p>法线偏移较小，反射集中在一个区域。磨砂质感。</p>
+<h2 id="cu-cao-jing-mian-zhe-she">粗糙镜面折射</h2>
+<p>毛玻璃效果
+游戏引擎常用其他物体渲染结果传入折射shader，采样修改透明度实现。</p>
+<h2 id="duo-ceng-cai-zhi">多层材质</h2>
+<p>透过上层材质看到下层材质</p>
+<h2 id="ci-biao-mian-san-she">次表面散射</h2>
+<p>光线在半透明物体内多次反射造成。玉石、皮肤...<br />
+SSS贴图实现</p>
+<h2 id="gai-bian-cai-zhi-biao-mian">改变材质表面</h2>
+<p>顶点携带的法线数量有限，使用法线贴图补充漫反射。<br />
+光照计算有法线参与，对法线进行调整能够影响光照计算结果。</p>
+<h2 id="mo-xing-shu-ju-zai-xuan-ran-zhong-de-zuo-yong">模型数据在渲染中的作用</h2>
+<h3 id="wen-li-dong-hua">纹理动画</h3>
+<ol>
+<li>利用法线贴图改变光反射、折射方向</li>
+<li>在片段着色器修改uv值，使得纹理采样偏移实现贴图运动效果</li>
+</ol>
+<h3 id="ding-dian-dong-hua">顶点动画</h3>
+<p>顶点着色器中修改顶点位置实现动画<br />
+需要顶点数量够多效果才好</p>
+<h3 id="ding-dian-se">顶点色</h3>
+<p>控制颜色范围（不同顶点间的颜色插值）</p>
+<h2 id="ding-dian-fa-xian-yu-mian-fa-xian">顶点法线与面法线</h2>
+<h3 id="ding-dian-fa-xian">顶点法线</h3>
+<p>每个位置的法线由不同顶点法线插值得到，比较平滑。</p>
+<h3 id="mian-fa-xian">面法线</h3>
+<p>一个面上每个位置的法线位置相同（面上每个顶点共用同一个法线，插值结果相同）</p>
+<h3 id="mo-xing-cun-chu-ge-shi-objge-shi">模型存储格式(obj格式)</h3>
+<p><img src="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/fnormal.png" alt="未使用平滑组" />
+未使用平滑组。每个面一个顶点法线信息，一个面3个顶点共用
+<img src="https://www.chinuno.com/blogv4/ta100-2200modelmaterial/vnormal.png" alt="使用平滑组" />
+使用平滑组。每个顶点都有一个法线信息，用<code>s 1</code>表示使用平滑组</p>
+<h3 id="kuo-zhan">扩展</h3>
+<p>NPR渲染把（模型背面）顶点往法线方向偏移，直接在片段着色器中给定颜色实现描边效果。<br />
+没做法线平滑时会出现描边断裂情况。</p>
+<h1 id="zuo-ye">作业</h1>
+<h2 id="ding-dian-se-huan-ke-yi-zuo-shen-me">顶点色还可以做什么</h2>
+<ol>
+<li>作为遮罩，对模型不同部分进行区别处理。</li>
+<li>着色。顶点数量少的时候效果差</li>
+</ol>
+<h2 id="mo-xing-guang-hua-zu-dui-fa-xian-you-shen-me-ying-xiang">模型光滑组对法线有什么影响</h2>
+<p>平面上每一个位置的法线将会是平面上每个顶点法线信息插值得来，相邻平面的法线方向连续平滑。</p>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 1.4 PC手机图形API介绍</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-1400api/">TA百人计划 图形 1.4 PC手机图形API介绍</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-10
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1400api/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1400api/#gai-nian">概念</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1400api/#san-chong-tu-xing-api">三种图形API</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1400api/#opengl-es">OpenGL ES</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1400api/#glslbian-xie">GLSL编写</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1400api/#opengl-es-3-0xin-gong-neng">OpenGL ES 3.0新功能</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1400api/#xiao-long-adrenozhi-chi-de-opengl-esban-ben">骁龙Adreno支持的OpenGL ES版本</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1400api/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1400api/#zhi-chi-opengl-es-3-2de-xiao-long-gpuxing-hao">支持OpenGL ES 3.2的骁龙GPU型号</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1400api/#zen-me-kan-vulkan">怎么看vulkan</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>比较轻松不带脑子的一节</p>
+<span id="continue-reading"></span>
+<p>地址：<a href="https://www.bilibili.com/video/BV1q5411w7E8">【技术美术百人计划】图形 1.4 PC手机图形API介绍</a></p>
+<h1 id="bi-ji">笔记</h1>
+<h2 id="gai-nian">概念</h2>
+<ul>
+<li>应用端：调用图形API的程序。写个hello world里面调了个api就属于应用端。</li>
+<li>图元：要渲染的几何物体。</li>
+<li>纹理：就是图片。</li>
+<li>纹素：纹理的基本单元，还不是像素。</li>
+<li>顶点数组：包含图元各个顶点坐标的数组。</li>
+<li>顶点缓冲区：显存中存放顶点数组的一块缓冲区。</li>
+<li>顶点着色器：进行顶点变换操作的着色器。</li>
+<li>片元着色器：进行片元操作的着色器。</li>
+</ul>
+<h2 id="san-chong-tu-xing-api">三种图形API</h2>
+<ol>
+<li>OpenGL：Khronos制定。Windows、Linux、MacOS上支持。</li>
+<li>DIrectX：微软制定。Windows、Xbox上使用。</li>
+<li>OpenGL ES：iOS、Android上使用。网页上WebGL也用的OpenGL ES规范。</li>
+</ol>
+<h2 id="opengl-es">OpenGL ES</h2>
+<p>为移动端制定的图形API标准。版本:OpenGL ES 1.x、OpenGL ES 2.0、OpenGL ES 3.0<br />
+OpenGL ES 1.x只支持固定功能渲染管线。OpenGL2.0开始使用可编程渲染管线<br />
+OpenGL ES 3.0兼容OpenGL ES 2.0<br />
+OpenGL ES 3.0支持阴影贴图、体渲染、基于GPU的粒子动画、几何形状实例化、纹理压缩、伽马矫正。<br />
+OpenGL ES 3.0移除Alpha测试（需要做片段着色器中做）、逻辑操作（没人用）。</p>
+<h2 id="glslbian-xie">GLSL编写</h2>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 必须指定使用的版本。这里指定为OpenGL ES 3.0
+</span><span style="color:#65737e;">// OpenGL ES 2.0声明为 #version 100 es。因为
+</span><span style="color:#65737e;">// OpenGL ES 2.0才开始支持可编程渲染管线
+</span><span style="color:#b48ead;">#version</span><span> 300 es
+</span><span style="color:#65737e;">// 声明输入输出参数
+</span><span style="color:#65737e;">// 3.0中输出参数用in 输出参数用out
+</span><span style="color:#65737e;">// 不再使用varying和attribute
+</span><span style="color:#65737e;">// 不再使用gl_FragColor和gl_FragData
+</span><span style="color:#65737e;">// 需要自己声明out输出
+</span><span style="color:#b48ead;">layout</span><span>(location = </span><span style="color:#d08770;">0</span><span>) </span><span style="color:#b48ead;">in vec4</span><span> vPosition;
+</span><span style="color:#65737e;">// 3.0中可以直接使用layout对指定位置赋值
+</span><span style="color:#65737e;">// 应用端代码中GLES30.glUniform1f(1, 1f);
+</span><span style="color:#65737e;">// 2.0中 GLES20.glUniform1f(GLES20.glGetAttribLocation(program, &quot;a&quot;), 1f);
+</span><span style="color:#b48ead;">layout</span><span>(location = </span><span style="color:#d08770;">1</span><span>) </span><span style="color:#b48ead;">uniform float</span><span> a;
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">main</span><span>(){
+</span><span>    </span><span style="color:#bf616a;">gl_Position </span><span>= vPosition;
+</span><span>}
+</span><span>
+</span></code></pre>
+<h2 id="opengl-es-3-0xin-gong-neng">OpenGL ES 3.0新功能</h2>
+<p>ppt不讲人话。相信也没人看。</p>
+<h3 id="wen-li">纹理</h3>
+<ol>
+<li>sRGB纹理和帧缓冲区：方便着色器在线性空间下操作。</li>
+<li>2D纹理数组：方便帧动画实现。</li>
+<li>3D纹理</li>
+<li>深度纹理和阴影比较</li>
+<li>无缝立方图</li>
+<li>ETC2/EAC纹理压缩</li>
+<li>各种乱七八糟的纹理支持</li>
+<li>流化mipmap</li>
+<li>纹理调配</li>
+<li>不可变纹理。优化性能。</li>
+<li>纹理大小限制提高。</li>
+</ol>
+<h3 id="zhao-se-qi">着色器</h3>
+<ol>
+<li>加载链接过的二进制程序</li>
+<li>强制在线编译着色器</li>
+<li>方阵之外的矩阵类型</li>
+<li>完善整数支持</li>
+<li>质心采样</li>
+<li>允许显式声明插值类型</li>
+<li>统一变量块，加载更快，方便多着色器间共享。</li>
+<li>layout属性。写起来更方便。</li>
+<li>可访问实例ID、顶点ID。</li>
+<li>可控制片段深度值。</li>
+<li>更多内建函数</li>
+<li>放宽一些着色器限制</li>
+</ol>
+<h3 id="ji-he-xing-zhuang">几何形状</h3>
+<ol>
+<li>在帧缓冲区获取顶点着色器输出</li>
+<li>应用程序中查询一个像素是否通过深度测试</li>
+<li>有效地渲染相同的几何体</li>
+<li>图元重启</li>
+<li>支持更多的顶点格式</li>
+</ol>
+<h3 id="huan-chong-qu-dui-xiang">缓冲区对象</h3>
+<ol>
+<li>统一变量块。多个变量一起打包。减少变量绑定代价。</li>
+<li>顶点数组对象</li>
+<li>分离采样器对象和纹理对象</li>
+<li>fence。等待GPU操作进行同步。</li>
+<li>提供异步传输机制</li>
+<li>子缓冲区映射。CPU操作不需要获取整个缓冲区</li>
+<li>缓冲区对象间数据拷贝不需要CPU参与</li>
+</ol>
+<h3 id="zheng-huan-chong-qu">帧缓冲区</h3>
+<ol>
+<li>MTR</li>
+<li>多重采样渲染缓冲区</li>
+<li>缓冲区失效提示</li>
+<li>新的混合方式</li>
+</ol>
+<h2 id="xiao-long-adrenozhi-chi-de-opengl-esban-ben">骁龙Adreno支持的OpenGL ES版本</h2>
+<p>https://zh.wikipedia.org/wiki/Adreno<br />
+https://zh.wikipedia.org/wiki/%E9%AB%98%E9%80%9A%E9%A9%8D%E9%BE%8D%E5%85%83%E4%BB%B6%E5%88%97%E8%A1%A8#Snapdragon_888
+Adreno320开始支持完整的OpenGL ES 3.0</p>
+<h1 id="zuo-ye">作业</h1>
+<h2 id="zhi-chi-opengl-es-3-2de-xiao-long-gpuxing-hao">支持OpenGL ES 3.2的骁龙GPU型号</h2>
+<ul>
+<li>Adreno 420</li>
+<li>Adreno 430</li>
+<li>Adreno 5xx</li>
+<li>Adreno 6xx</li>
+</ul>
+<h2 id="zen-me-kan-vulkan">怎么看vulkan</h2>
+<p>大概接下来了会跟OpenGL、DirectX一直并存下去吧。至少替代掉其中一个不太可能。<br />
+很多人不知道除了OpenGL、DirectX外还有一个Glide。这个Glide是Voodoo显卡的公司3dfx搞出来的。早些时候3dfx的显卡是吊打nvidia的，基本上买显卡都只买3dfx的Voodoo系列。<br />
+也就是因为当时的垄断地位，大家都乐意用Glide来开发游戏。但是后面3dfx不思进取把自己给搞没了，Glide也不支持新的显卡特性，自然而然的被OpenGL、DirectX替代掉。<br />
+现在这种局面OpenGL不太可能放弃维护，DirectX因为新特性跟进特别快，性能高，一直都是PC平台的主力图形库，也不太可能被替代。<br />
+从vulkan主打的特性看，一个是跨平台，一个是更高效的GPU操作API。从目前同时支持OpenGL和vulkan的游戏来看，vulkan下的性能确实要比OpenGL高上不少，但是使用难度也要高很多。<br />
+原先的工作流程，辅助工具都是围绕OpenGL和DX来做的，这些基础组件没有适配vulkan的话，这一部分用户可能还是继续使用OpenGL或者DirectX。<br />
+而新进干员可能因为目前的图形学教程都是按照OpenGL来的，也继续用着OpenGL（有国内CentOS环境的感觉）。<br />
+最终会用vulkan的群体大概就是大厂需要压榨GPU性能，才会特别去使用vulkan进行开发了吧。<br />
+哦。还有一部分，就是单纯喜欢vulkan的人，自己搞着玩。有点像Rust，公司不喜欢用，但是开发者都很喜欢，自己做的小东西都偷着用。比如说这个<a href="https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan">Real-ESRGAN-ncnn-vulkan</a></p>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

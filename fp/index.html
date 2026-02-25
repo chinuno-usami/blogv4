@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>函数式编程——从入门到放弃思考</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/fp/">函数式编程——从入门到放弃思考</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2023-07-20
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/han-shu-shi-bian-cheng/">#函数式编程</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/lambdayan-suan/">#lambda演算</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/c/">#c++</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/python/">#python</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/monad/">#monad</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/fp/#li-lun-ji-chu">理论基础</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/fp/#l-yan-suan">λ 演算</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/fp/#s-k-i-zu-he-zi">S、K、I 组合子</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/fp/#jia-ru-lei-xing-jian-dan-lei-xing-hua-lambda-yan-suan">加入类型(简单类型化 lambda 演算)</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/fp/#yong-zai-shi-ji-bian-cheng-shang-de-te-xing">用在实际编程上的特性</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/fp/#duo-xing-qiu-zhi">惰性求值</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/fp/#chun-han-shu">纯函数</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/fp/#tong-wang-hei-mo-fa-shi-jie-de-men-feng">通往黑魔法世界的门缝</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/fp/#can-kao-zi-liao">参考资料</a>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>公司内部分享的内容。更多的是当参考资料用</p>
+<span id="continue-reading"></span><h1 id="li-lun-ji-chu">理论基础</h1>
+<p>这里不做过多深入，只介绍了要理解函数式编程需要的一些基本概念。</p>
+<h2 id="l-yan-suan">λ 演算</h2>
+<p>包含</p>
+<ol>
+<li>建构 lambda 项</li>
+<li>对 lambda 项执行<a href="https://zh.wikipedia.org/wiki/%E6%AD%B8%E7%B4%84" title="归约">归约</a>的操作</li>
+</ol>
+<h3 id="jian-gou-lambda-xiang-de-gui-ze">建构 lambda 项的规则</h3>
+<ol>
+<li><code>x</code> 变量</li>
+<li><code>(λx.M)</code> lambda 表达式,M 是一个 lambda 项,其中的 x 绑定为变量<code>x</code></li>
+<li><code>(M N)</code> N 作为参数应用 M（M、N 是 lambda 项）</li>
+</ol>
+<h3 id="gui-yue">归约</h3>
+<h4 id="a-bian-huan">α-变换</h4>
+<p><code>(λx.M[x]) → (λy.M[y])</code><br />
+替换变量不影响函数表示,上面是同一函数</p>
+<h4 id="b-gui-yue">β-归约</h4>
+<p><code>((λx.M) E) → (M[x:=E])</code><br />
+参数可代替绑定变量(约束：x 在 E 中为自由变量)</p>
+<h4 id="e-bian-huan">η-变换</h4>
+<p>有以上 2 条 lambda 演算就完备了，eta 变换是为了方便额外引入的。表示外延等价。<br />
+两个函数，即使内部算法不一样，只要输入一样输出一样，那么外延等价，可以当成同一个函数。<br />
+例如：<code>x:(x+2)*2</code>和<code>x:2x+4</code>虽然不是同个函数，但是外延等价，可以当成同一个东西</p>
+<h3 id="qiu-qi-shu">丘奇数</h3>
+<p>表达式阶数<br />
+0: <code>lambda s z.z</code><br />
+1: <code>lambda s z.s z</code><br />
+2: <code>lambda s z.s (s z)</code><br />
+简单理解：<br />
+0：<code>lambda s z.z</code> =&gt; <code>z</code> 就表示零<br />
+1: <code>lambda s z.s z</code> =&gt; <code>lambda s.(lambda z.s z)</code> =&gt;<code>s z</code> 表示后继（++操作符）,<code>0++</code><br />
+2: <code>lambda s z. s (s z)</code> =&gt; <code>s (s z)</code> 表示++2 次 <code>(0++)++</code></p>
+<h4 id="jia-fa-yun-suan">加法运算</h4>
+<p><code>let add = lambda s z x y.x s (y s z)</code><br />
+有 4 个参数，x y 分别为要相加的两个数，s z 推导数字用（还记得丘奇数怎么表示数的吗）<br />
+柯里化一下<br />
+<code>let add = lambda x y.(lambda s z.(x s (y s z)))</code><br />
+可以看出加法就是数字丘奇数形式去算 y 个 0 的后继再算 x 个后继得到。</p>
+<h3 id="bu-er-yun-suan">布尔运算</h3>
+<p>类似于 <code>if condition then a else b</code> 的形式<br />
+true: <code>lambda x y.x</code><br />
+false: <code>lambda x y.y</code><br />
+借用一般 FP 语言的绑定关键字<code>let</code>来表示条件判断：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>let if_then_else = lambda condition when_true when_false.conditon when_true when_false
+</span></code></pre>
+<p>其他布尔运算<br />
+与：<code>let and = lambda x y.x y false</code><br />
+或：<code>let or = lambda x y.x true y</code><br />
+非：<code>let not = lambda x.x false true</code></p>
+<h3 id="yuan-zu">元组</h3>
+<p>元组的基本组成：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>pair   = λ a. λ b. λ f. f a b
+</span><span>first  = λ p. p (λ x. λ y. x)
+</span><span>second = λ p. p (λ x. λ y. y)
+</span></code></pre>
+<p>我们想要得到一个列表 [1, 2, 3, ...]<br />
+就可以这样表示</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>pair 1 (pair 2 (pair 3 ...))
+</span></code></pre>
+<h3 id="y-combinator-y-zu-he-zi">Y Combinator(Y 组合子)</h3>
+<p>让 lambda 表达式支持递归<br />
+<code>let Y = lambda y.(lambda x.y (x x)) (lambda x.y (x x))</code><br />
+起到的效果是<code>(Y Y) = Y (Y Y)</code>，它作用是返回自己应用自己的结果<br />
+推广为<code>(Y F) = F (Y F)</code><br />
+例如，阶乘函数<br />
+定义<br />
+<code>let metafact = lambda fact.(lambda n.is_zero n 1 (mult n(fact (pred n))))</code><br />
+接收一个高阶函数 fact，结果为 fact 的应用。<code>(metafact fact) n = fact n</code>。fact 函数就是 metafact 的一个定点.把 metafact 应用回去可以得到<br />
+<code>fact n = (metafact metafact) n</code>即我们需要的阶乘函数</p>
+<h3 id="chang-shi-zai-shi-ji-bian-cheng-yu-yan-zhong-tui-dao-chu-lambda-xing-shi-de-jie-cheng">尝试在实际编程语言中推导出 lambda 形式的阶乘</h3>
+<p>这里以 python 为例，c++当然也可以，就是写起来太繁琐，无效干扰符号较多。<br />
+第一步，尝试写个正常的递归阶乘看看</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">fact</span><span>(</span><span style="color:#bf616a;">n</span><span>):
+</span><span>    </span><span style="color:#b48ead;">if </span><span>n &lt; </span><span style="color:#d08770;">2 </span><span>: </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">1
+</span><span>    </span><span style="color:#b48ead;">else</span><span>: </span><span style="color:#b48ead;">return </span><span>n * </span><span style="color:#bf616a;">fact</span><span>(n-</span><span style="color:#d08770;">1</span><span>)
+</span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#bf616a;">fact</span><span>(</span><span style="color:#d08770;">5</span><span>))
+</span></code></pre>
+<p>第二步，因为 lambda 无法调用自己，添加一个参数，将自己传入调用。顺便也写成 Python 的 lambda 表达式形式</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>fact = </span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">itself</span><span>, </span><span style="color:#bf616a;">n</span><span>: </span><span style="color:#d08770;">1 </span><span style="color:#b48ead;">if </span><span>n &lt; </span><span style="color:#d08770;">2 </span><span style="color:#b48ead;">else </span><span>n * </span><span style="color:#bf616a;">itself</span><span>(itself, n-</span><span style="color:#d08770;">1</span><span>)
+</span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#bf616a;">fact</span><span>(fact,</span><span style="color:#d08770;">5</span><span>))
+</span></code></pre>
+<p>第三步，lambda 算子只接收一个参数，第二步的例子里接收了两个参数，这里就要做柯里化处理掉。</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>fact = </span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">itself </span><span>: </span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#d08770;">1 </span><span style="color:#b48ead;">if </span><span>n &lt; </span><span style="color:#d08770;">2 </span><span style="color:#b48ead;">else </span><span>n * </span><span style="color:#bf616a;">itself</span><span>(itself)(n-</span><span style="color:#d08770;">1</span><span>)
+</span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#bf616a;">fact</span><span>(fact)(</span><span style="color:#d08770;">5</span><span>))
+</span></code></pre>
+<p>第四步，整理一下，将阶乘相关的业务逻辑放到内层(这里的 lambda n)，尝试提取出递归通用形式</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>fact = </span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">h </span><span>: </span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">n </span><span>: (</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">q </span><span>: </span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#d08770;">1 </span><span style="color:#b48ead;">if </span><span>n &lt; </span><span style="color:#d08770;">2 </span><span style="color:#b48ead;">else </span><span>n * </span><span style="color:#bf616a;">q</span><span>(n-</span><span style="color:#d08770;">1</span><span>))(</span><span style="color:#bf616a;">h</span><span>(h))(n)
+</span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#bf616a;">fact</span><span>(fact)(</span><span style="color:#d08770;">5</span><span>))
+</span></code></pre>
+<p>最后可以提取出 Y 组合子，利用 Y 组合子得到 fact 函数<br />
+第四步的<code>lambda n</code>就是之前说的<code>metafact</code>,提取出来，外层就是 Y 组合子。最后代码还是<br />
+Y(metafact)的形式</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>Y = </span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">f</span><span>:(</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">h</span><span>:</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">n</span><span>: </span><span style="color:#bf616a;">f</span><span>(</span><span style="color:#bf616a;">h</span><span>(h))(n))(</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">i</span><span>: </span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">p</span><span>:</span><span style="color:#bf616a;">f</span><span>(</span><span style="color:#bf616a;">i</span><span>(i))(p))
+</span><span>fact = </span><span style="color:#bf616a;">Y</span><span>(</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">f</span><span>:</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">n</span><span>: </span><span style="color:#d08770;">1 </span><span style="color:#b48ead;">if </span><span>n &lt; </span><span style="color:#d08770;">2 </span><span style="color:#b48ead;">else </span><span>n * </span><span style="color:#bf616a;">f</span><span>(n-</span><span style="color:#d08770;">1</span><span>))
+</span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#bf616a;">fact</span><span>(</span><span style="color:#d08770;">5</span><span>))
+</span></code></pre>
+<p>有了统一形式后，要将阶乘换成其他算法就很简单了。例如改成从 0 到 n 的累加函数，那么只需要替换掉 Y 组合子应用的内容即可</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>Y = </span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">f</span><span>:(</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">h</span><span>:</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">n</span><span>: </span><span style="color:#bf616a;">f</span><span>(</span><span style="color:#bf616a;">h</span><span>(h))(n))(</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">i</span><span>: </span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">p</span><span>:</span><span style="color:#bf616a;">f</span><span>(</span><span style="color:#bf616a;">i</span><span>(i))(p))
+</span><span>acc = </span><span style="color:#bf616a;">Y</span><span>(</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">f</span><span>:</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">n</span><span>: </span><span style="color:#d08770;">0 </span><span style="color:#b48ead;">if </span><span>n == </span><span style="color:#d08770;">0 </span><span style="color:#b48ead;">else </span><span>n + </span><span style="color:#bf616a;">f</span><span>(n-</span><span style="color:#d08770;">1</span><span>))
+</span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#bf616a;">acc</span><span>(</span><span style="color:#d08770;">100</span><span>))
+</span></code></pre>
+<h2 id="s-k-i-zu-he-zi">S、K、I 组合子</h2>
+<p>S: <code>S = lambda x y z.(x z (y z))</code> 即函数的应用<br />
+K: <code>K = lambda x.(lambda y.x)</code> 生成的是个常函数，应用到任何参数上只会返回 K 的第一个参数<br />
+I: <code>I = lambda x.x</code>恒等组合子，返回自身<br />
+实际上仅用 S 和 K 就能组合出所有的组合子（前面提过的外延等价，但表达式不一定一样）。<br />
+如<code>I</code>就可以用<code>S K K x</code>获得;<br />
+<code>Y</code>可以用<code>S S K (S (K (S S (S (S S K)))) K)</code>表示<br />
+定义如下转换函数<code>C</code>可以将任意 lambda 表达式转换为 SKI 组合子表达式：</p>
+<ol>
+<li><code>C{x} = x</code></li>
+<li><code>C{E1 E2} = C{E1} C{E2}</code></li>
+<li><code>C{lambda x. E} = K C{E}</code></li>
+<li><code>C{lambda x.x} = I</code></li>
+<li><code>C{lambda x.E1 E2} = (S C{lambda x.E1} C{lambda x.E2})</code></li>
+<li><code>C{lambda x.(lambda y.E)} = C{lambda x. C{lambda y.E}}</code>
+因此 SKI 组合子表达式也是图灵完备的计算系统.实际上也已经有以 SKI 系统为基础的编程语言了：<br />
+http://www.madore.org/~david/programs/unlambda/<br />
+和<br />
+https://tromp.github.io/cl/lazy-k.html<br />
+有兴趣的话可以点进去感受一下纯粹的 SKI 符号怎么组成可用的程序的（又一个 brainfuck 的感觉,当然 bf 是模拟图灵机，根基和这两个不一样）</li>
+</ol>
+<h2 id="jia-ru-lei-xing-jian-dan-lei-xing-hua-lambda-yan-suan">加入类型(简单类型化 lambda 演算)</h2>
+<p>类型化 lambda 演算新增 <code>基类型</code> 的概念,<code>基类型</code>通常用小写希腊字母表示，因为不好打这里用大写英文字母代替<br />
+N -&gt; 自然数<br />
+B -&gt; 布尔值<br />
+S -&gt; 字符串<br />
+我们使用箭头<code>-&gt;</code>表示<code>函数类型构造器</code>，如果一个函数接收一个类型 N，返回一个类型 N 的结果，那么可以用<code>N -&gt; N</code>来表示。<br />
+需要注意的是，函数类型符号是右结合的，即
+<code>A -&gt; B -&gt; C</code>等价于<code>A -&gt; (B -&gt; C)</code><br />
+我们用<code>:</code>来表示 lambda 项对应的类型（很多编程语言的变量类型指定语法就是用的<code>:</code>大概就是从这里借鉴来的）。<br />
+例如最简单的<code>lambda x:N.x</code>这里就表示<code>x</code>的类型为自然数 N lambda 表达式自己也有类型，<code>(lambda x.x):N-&gt;N</code>它的类型就是<code>N-&gt;N</code>多参数的情况呢？<br />
+<code>lambda x:N, y:B.if y then x _ x else x</code>类型是<code>N-&gt;B-&gt;N</code>,我们柯里化一下：<code>lambda x:N.(lambda y:B.if y then x _ x else x)</code>,括号中部分是<code>B-&gt;N</code>,外面是<code>N-&gt;(括号中部分的类型)</code>。<br />
+替换一下就是<code>N-&gt;(B-&gt;N)</code>,因为是右结合所以等价于<code>N-&gt;B-&gt;N</code></p>
+<h3 id="dai-shu-shu-ju-lei-xing-adt">代数数据类型(ADT)</h3>
+<h4 id="ji-lei-xing">积类型</h4>
+<p>同时包含多个值的类型。
+例：</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">struct </span><span>Framebuffer {
+</span><span>	GLuint texture;
+</span><span>	GLuint fbo;
+</span><span>	Size size;
+</span><span>};
+</span></code></pre>
+<p><code>Framebuffer</code>类型是<code>GLuint</code>、<code>GLuint</code>和<code>Size</code>的积,表示为<code>GLuint * GLuint * Size</code></p>
+<h4 id="he-lei-xing">和类型</h4>
+<p>表示类型是什么。和继承的概念类似。</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">struct </span><span>Data {};
+</span><span style="color:#b48ead;">struct </span><span>File : </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">Data </span><span>{
+</span><span>	string fileName;
+</span><span>	size_t dataLength;
+</span><span>};
+</span><span style="color:#b48ead;">struct </span><span>MemoryData : </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">Data </span><span>{
+</span><span>	vector&lt;uint8_t&gt; data;
+</span><span>	size_t dataLength;
+</span><span>};
+</span><span style="color:#65737e;">// 或者用std::variant也可以表示
+</span><span style="color:#b48ead;">using </span><span>Data = std::variant&lt;File, MemoryData&gt;;
+</span><span style="color:#65737e;">// 用 std::holds_alternative&lt;File/MeomoryData&gt;
+</span><span style="color:#65737e;">// 来判断具体是什么类型
+</span></code></pre>
+<p><code>Data</code>可能是文件数据<code>File</code>也可能是内存数据<code>MemoryData</code>，<code>Data</code>类型是<code>File</code>和<code>MemoryData</code>的和。即<code>string * size_t + vector&lt;uint8_t&gt; * size_t</code></p>
+<h4 id="dai-shu-shu-ju-lei-xing">代数数据类型</h4>
+<p>就是<code>和类型</code>和<code>积类型</code>构造出来的数据类型。代数指的就是<code>和</code>、<code>积</code>操作。<br />
+例如布尔类型</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">struct </span><span>Boolean {};
+</span><span style="color:#b48ead;">struct </span><span>True : </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">Boolean </span><span>{};
+</span><span style="color:#b48ead;">struct </span><span>False : </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">Boolean </span><span>{};
+</span><span style="color:#65737e;">// 或者variant版本
+</span><span style="color:#b48ead;">using </span><span>Boolean = std::variant&lt;True, False&gt;;
+</span></code></pre>
+<p>再比如表示自然数</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">struct </span><span>N {};
+</span><span style="color:#b48ead;">struct </span><span>Z : </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">N </span><span>{}; </span><span style="color:#65737e;">// 零
+</span><span style="color:#b48ead;">struct </span><span>S : </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">N </span><span>{ </span><span style="color:#65737e;">// 后继其他自然数
+</span><span>	</span><span style="color:#8fa1b3;">S</span><span>(Nat* </span><span style="color:#bf616a;">v</span><span>): </span><span style="color:#bf616a;">value </span><span>(v){} </span><span style="color:#65737e;">//构造函数
+</span><span>	Nat* value; </span><span style="color:#65737e;">// 值
+</span><span>};
+</span></code></pre>
+<p>和丘奇数类似的构造（其实是基于自然数皮亚诺构造，自然数 n 由比他小 1 的数+1 得到）<br />
+比如要表示 3，那么就是 <code>auto three = new S(new S(new S(new Z())))</code>,零++3 次得到。<br />
+如何构造一个链表？看过 SICP 的话应该马上能反应过来了，利用 cons 对构造出来。</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span style="color:#b48ead;">struct </span><span>List {};
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span style="color:#b48ead;">struct </span><span>Nil : </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">List</span><span>&lt;T&gt; {};
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span style="color:#b48ead;">struct </span><span>Cons : </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">List</span><span>&lt;T&gt; {
+</span><span>    </span><span style="color:#8fa1b3;">Cons</span><span>(T </span><span style="color:#bf616a;">v</span><span>, List&lt;T&gt;* </span><span style="color:#bf616a;">n</span><span>) : </span><span style="color:#bf616a;">value</span><span>(v), </span><span style="color:#bf616a;">next</span><span>(n) {}
+</span><span>    T value;
+</span><span>    List&lt;T&gt;* next;
+</span><span>};
+</span></code></pre>
+<p>表示[1,2,3]那么就构造
+<code>List&lt;int&gt;* list = new Cons&lt;int&gt;(1, new Cons&lt;int&gt;(2, new Cons&lt;int&gt;(3, new Nil&lt;int&gt;())))</code></p>
+<h4 id="adt-shi-ji-ying-yong">ADT 实际应用</h4>
+<p>很适合用来构造序列化用的数据结构</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">JsonValue </span><span style="color:#eff1f5;">{}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">JsonBool </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">JsonValue </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">bool</span><span style="color:#eff1f5;"> value;
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">JsonInt </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">JsonValue </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;"> value;
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">JsonString </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">JsonValue </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    std::string value;
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">JsonArray </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">JsonValue </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    std::list&lt;JsonValue&gt; value;
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">JsonMap </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">JsonValue </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    std::map&lt;std::string, JsonValue</span><span>*</span><span style="color:#eff1f5;">&gt; value;
+</span><span style="color:#eff1f5;">}</span><span>;
+</span></code></pre>
+<h3 id="yu-dai-shu-shu-ju-jie-gou">余代数数据结构</h3>
+<p>因为 ADT 是归纳构造出来的，无法用来表示无限大的树（链表也是一种特殊的树）或者循环图（循环链表也是一种特例）。<br />
+比如构造一个包含无限个 1 的 list</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span>List* list = </span><span style="color:#b48ead;">new </span><span style="color:#bf616a;">Cons</span><span>(</span><span style="color:#d08770;">1</span><span>, list);
+</span></code></pre>
+<p>这个编译不过，构造 list 用到了他自己。<br />
+这个时候就要用到余代数数据结构,他是自顶向下和 ADT 相反的构造思路。实际使用中需要以惰性求值的方式来构造，因为不这么做一开始就会无限计算循环下去。<br />
+那么无限链表怎么实现？</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">InfIntList </span><span style="color:#eff1f5;">{
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;"> head;
+</span><span style="color:#eff1f5;">    std::function&lt;InfIntList()&gt; next;
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">InfIntList</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">_head</span><span style="color:#eff1f5;">, std::function&lt;InfIntList()&gt; </span><span style="color:#bf616a;">_next</span><span style="color:#eff1f5;">) :
+</span><span style="color:#eff1f5;">        </span><span style="color:#bf616a;">head</span><span style="color:#eff1f5;">(_head),
+</span><span style="color:#eff1f5;">        </span><span style="color:#bf616a;">next</span><span style="color:#eff1f5;">(_next) {}
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Codata </span><span style="color:#eff1f5;">{
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">static</span><span style="color:#eff1f5;"> InfIntList </span><span style="color:#8fa1b3;">infAlt</span><span style="color:#eff1f5;">() {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">InfIntList</span><span style="color:#eff1f5;">(</span><span style="color:#d08770;">1</span><span style="color:#eff1f5;">, [] () {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">InfIntList</span><span style="color:#eff1f5;">(</span><span style="color:#d08770;">2</span><span style="color:#eff1f5;">, infAlt);
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    std::cout &lt;&lt; Codata::</span><span style="color:#bf616a;">infAlt</span><span>().</span><span style="color:#bf616a;">head </span><span>&lt;&lt; std::endl;
+</span><span>    std::cout &lt;&lt; Codata::</span><span style="color:#bf616a;">infAlt</span><span>().</span><span style="color:#bf616a;">next</span><span>().</span><span style="color:#bf616a;">head </span><span>&lt;&lt; std::endl;
+</span><span>    std::cout &lt;&lt; Codata::</span><span style="color:#bf616a;">infAlt</span><span>().</span><span style="color:#bf616a;">next</span><span>().</span><span style="color:#bf616a;">next</span><span>().</span><span style="color:#bf616a;">head </span><span>&lt;&lt; std::endl;
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<p>这个例子作用是生成一个无限 1、2 循环的链表，这里的 next 起惰性计算的作用。<br />
+很容易发现，这样的用法在很多编程语言里面都有类似的东西，比如 python 的生成器..<br />
+这样对这种无限长度的数据结构做变换也不是不能办到了（map、fold 等操作)</p>
+<h3 id="dan-wei-ban-qun">单位半群</h3>
+<p>题外话：对群论感兴趣的话可以看看 https://www.zhihu.com/column/c_1317614473734565888 专栏中群论入门部分，相对来说通俗易懂</p>
+<h4 id="ban-qun">半群</h4>
+<p>半群是一种代数结构，在集合  <code>A</code>  上包含一个将两个  <code>A</code>  的元素映射到  <code>A</code>  上的运算即  <code>&lt;&gt; : (A, A) -&gt; A​</code> ，同时该运算满足<strong>结合律</strong>即  <code>(a &lt;&gt; b) &lt;&gt; c == a &lt;&gt; (b &lt;&gt; c)</code> ，那么代数结构  <code>{&lt;&gt;, A}</code>  就是一个半群。</p>
+<p>比如在自然数集上的加法或者乘法可以构成一个半群，再比如字符串集上字符串的连接构成一个半群。</p>
+<h4 id="dan-wei-ban-qun-monoid">单位半群(monoid)</h4>
+<p>单位半群是一种带单位元的半群，对于集合  <code>A</code>  上的半群  <code>{&lt;&gt;, A}</code> ， <code>A</code>  中的元素  <code>a</code>  使  <code>A</code>  中的所有元素  <code>x</code>  满足  <code>x &lt;&gt; a</code>  和  <code>a &lt;&gt; x</code>  都等于  <code>x</code>，则  <code>a</code>  就是  <code>{&lt;&gt;, A}</code>  上的单位元。</p>
+<p>举个例子， <code>{+, 自然数集}</code>  的单位元就是 0 ， <code>{*, 自然数集}</code>  的单位元就是 1 ， <code>{+, 字符串集}</code>  的单位元就是空串  <code>""</code> 。
+用代码表示像这样：</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Monoid </span><span style="color:#eff1f5;">{
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">Monoid</span><span style="color:#eff1f5;">() {};
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">virtual</span><span style="color:#eff1f5;"> T </span><span style="color:#8fa1b3;">empty</span><span style="color:#eff1f5;">() </span><span>= </span><span style="color:#d08770;">0</span><span style="color:#eff1f5;">; </span><span style="color:#65737e;">// 单位元
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">virtual</span><span style="color:#eff1f5;"> T </span><span style="color:#8fa1b3;">append</span><span style="color:#eff1f5;">(T </span><span style="color:#bf616a;">a</span><span style="color:#eff1f5;">, T </span><span style="color:#bf616a;">b</span><span style="color:#eff1f5;">) </span><span>= </span><span style="color:#d08770;">0</span><span style="color:#eff1f5;">; </span><span style="color:#65737e;">// 操作（+/*之类的)
+</span><span style="color:#eff1f5;">    T </span><span style="color:#8fa1b3;">appends</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">const</span><span style="color:#eff1f5;"> std::vector&lt;T&gt; </span><span>&amp;</span><span style="color:#bf616a;">x</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#eff1f5;">std::</span><span style="color:#bf616a;">reduce</span><span style="color:#eff1f5;">(
+</span><span style="color:#eff1f5;">            x.</span><span style="color:#bf616a;">begin</span><span style="color:#eff1f5;">(), x.</span><span style="color:#bf616a;">end</span><span style="color:#eff1f5;">(), </span><span style="color:#bf616a;">empty</span><span style="color:#eff1f5;">(),
+</span><span style="color:#eff1f5;">            std::</span><span style="color:#bf616a;">bind</span><span style="color:#eff1f5;">(</span><span>&amp;</span><span style="color:#eff1f5;">Monoid&lt;T&gt;::append, </span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">, std::placeholders::_1,
+</span><span style="color:#eff1f5;">            std::placeholders::_2));
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">}</span><span>;
+</span></code></pre>
+<p>我们的 CMTIKContainerFilter 其实也可以当成是个幺半群。<br />
+id 是 nullptr, op 是 setFilter , 结果还是一个 CMTIKContainerFilter 的幺半群。<br />
+示例：<br />
+我们想要查找滤镜链中符合条件的第一个 Filter,可以这样实现</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#65737e;">// 简化的CMTIKFilter类型
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">CMTIKFilter </span><span style="color:#eff1f5;">{
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">CMTIKFilter</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">id</span><span style="color:#eff1f5;">): </span><span style="color:#bf616a;">mId</span><span style="color:#eff1f5;">(id){}
+</span><span style="color:#eff1f5;">    CMTIKFilter</span><span>* </span><span style="color:#8fa1b3;">getFilter</span><span style="color:#eff1f5;">() { </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">mFilter</span><span style="color:#eff1f5;">; }
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">getId</span><span style="color:#eff1f5;">() { </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">mId</span><span style="color:#eff1f5;">; }
+</span><span style="color:#b48ead;">private</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    CMTIKFilter</span><span>*</span><span style="color:#eff1f5;"> mFilter </span><span>= </span><span style="color:#d08770;">nullptr</span><span style="color:#eff1f5;">;
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;"> mId </span><span>= </span><span style="color:#d08770;">0</span><span style="color:#eff1f5;">;
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Query </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">Monoid</span><span style="color:#eff1f5;">&lt;CMTIKFilter</span><span>*</span><span style="color:#eff1f5;">&gt; {
+</span><span style="color:#b48ead;">public </span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">Query</span><span style="color:#eff1f5;">(std::function&lt;</span><span style="color:#b48ead;">bool</span><span style="color:#eff1f5;">(CMTIKFilter</span><span>*</span><span style="color:#eff1f5;">)&gt; </span><span style="color:#bf616a;">cond</span><span style="color:#eff1f5;">):</span><span style="color:#bf616a;">mCond</span><span style="color:#eff1f5;">(cond) {}
+</span><span style="color:#eff1f5;">    CMTIKFilter</span><span>* </span><span style="color:#8fa1b3;">empty</span><span style="color:#eff1f5;">() {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">nullptr</span><span style="color:#eff1f5;">;
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    CMTIKFilter</span><span>* </span><span style="color:#8fa1b3;">append</span><span style="color:#eff1f5;">(CMTIKFilter</span><span>* </span><span style="color:#bf616a;">a</span><span style="color:#eff1f5;">, CMTIKFilter</span><span>* </span><span style="color:#bf616a;">b</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">if </span><span style="color:#eff1f5;">(a </span><span>&amp;&amp; </span><span style="color:#bf616a;">mCond</span><span style="color:#eff1f5;">(a)) { </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> a; }
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">else if </span><span style="color:#eff1f5;">(b </span><span>&amp;&amp; </span><span style="color:#bf616a;">mCond</span><span style="color:#eff1f5;">(b)) { </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> b; }
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">else </span><span style="color:#eff1f5;">{ </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> a; }
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#b48ead;">private</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    std::function&lt;</span><span style="color:#b48ead;">bool</span><span style="color:#eff1f5;">(CMTIKFilter</span><span>*</span><span style="color:#eff1f5;">)&gt; </span><span style="color:#bf616a;">mCond</span><span style="color:#eff1f5;">;
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    </span><span style="color:#65737e;">// 构造一个滤镜链
+</span><span>    std::vector&lt;CMTIKFilter*&gt; filters;
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> i = </span><span style="color:#d08770;">1</span><span>; i &lt; </span><span style="color:#d08770;">10</span><span>; ++i) {
+</span><span>        filters.</span><span style="color:#bf616a;">push_back</span><span>(</span><span style="color:#b48ead;">new </span><span style="color:#bf616a;">CMTIKFilter</span><span>(i));
+</span><span>    }
+</span><span>    CMTIKFilter* firstMatchMod3 = </span><span style="color:#bf616a;">Query</span><span>([](CMTIKFilter* f) { </span><span style="color:#b48ead;">return</span><span> f-&gt;</span><span style="color:#bf616a;">getId</span><span>() % </span><span style="color:#d08770;">3 </span><span>== </span><span style="color:#d08770;">0</span><span>; }).</span><span style="color:#bf616a;">appends</span><span>(filters);
+</span><span>    CMTIKFilter* firstMatchEq11 = </span><span style="color:#bf616a;">Query</span><span>([](CMTIKFilter* f) { </span><span style="color:#b48ead;">return</span><span> f-&gt;</span><span style="color:#bf616a;">getId</span><span>() == </span><span style="color:#d08770;">11</span><span>; }).</span><span style="color:#bf616a;">appends</span><span>(filters);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(!firstMatchMod3) {
+</span><span>        cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">no filter matchs (id % 3 == 0)</span><span>&quot; &lt;&lt;endl;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">else </span><span>{
+</span><span>        cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">filter id:</span><span>&quot; &lt;&lt; firstMatchMod3-&gt;</span><span style="color:#bf616a;">getId</span><span>() &lt;&lt; &quot;</span><span style="color:#a3be8c;"> matchs (id % 3 == 0)</span><span>&quot; &lt;&lt; endl;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(!firstMatchEq11) {
+</span><span>        cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">no filter matchs (id == 11)</span><span>&quot; &lt;&lt;endl;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">else </span><span>{
+</span><span>        cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">filter id:</span><span>&quot; &lt;&lt; firstMatchEq11-&gt;</span><span style="color:#bf616a;">getId</span><span>() &lt;&lt; &quot;</span><span style="color:#a3be8c;"> matchs (1d == 11)</span><span>&quot; &lt;&lt; endl;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<p>输出：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>filter id:3 matchs (id % 3 == 0)
+</span><span>no filter matchs (id == 11)
+</span></code></pre>
+<h3 id="gao-jie-lei-xing-higher-kinded-type-hkt">高阶类型（Higher Kinded Type,HKT)</h3>
+<p>简单理解，将一个类型映射到另一个类型的类型。还记得前面的<code>函数类型构造器</code>吗<br />
+例如<code>std::vector</code>,将<code>T</code>映射到<code>std::vector&lt;T&gt;</code>类型，表示为 <code>(T -&gt; std::vector&lt;T&gt;)</code><br />
+对于<code>std::map</code>来说有两个泛型参数<code>std::map&lt;T,U&gt;</code>那么就是把这两个参数组合映射到新的特化 map 类型。</p>
+<h3 id="dan-zi-monad">单子（Monad）</h3>
+<p>可以看成是一种容器，<code>Monad&lt;T&gt;</code>封装一个 T 类型在里面。包含两种操作</p>
+<ol>
+<li>pure 输入 T 类型数据，将他封装到 Monad 中并返回 ，<code>T -&gt; Monad&lt;T&gt;</code></li>
+<li>flatMap 输入另一个<code>Monad&lt;T&gt;</code>和一个操作函数<code>F</code>，将输入经过 F 处理后串起来。<br />
+Monad 原先是范畴论的一个概念，后面被引入到计算机领域中，在 Haskell 里被发扬光大。</li>
+</ol>
+<h4 id="list-monad">List Monad</h4>
+<p><code>std::vector</code>就可以看成是一种<code>list monad</code>,</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">class</span><span> T&gt;
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">printV</span><span>(std::vector&lt;T&gt; </span><span style="color:#bf616a;">v</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">auto</span><span> i : v) {
+</span><span>        cout &lt;&lt; i &lt;&lt;&quot; &quot;;
+</span><span>    }
+</span><span>    cout &lt;&lt; endl;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">class</span><span> T&gt;
+</span><span>std::vector&lt;T&gt; </span><span style="color:#8fa1b3;">pure</span><span>(T </span><span style="color:#bf616a;">v</span><span>) {
+</span><span>	</span><span style="color:#b48ead;">return </span><span>{v};
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">class</span><span> T&gt;
+</span><span>std::vector&lt;T&gt; </span><span style="color:#8fa1b3;">flatMap</span><span>(std::vector&lt;T&gt; </span><span style="color:#bf616a;">v</span><span>, std::function&lt;std::vector&lt;T&gt;(T)&gt; </span><span style="color:#bf616a;">f</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">return </span><span>std::</span><span style="color:#bf616a;">accumulate</span><span>(v.</span><span style="color:#bf616a;">begin</span><span>(), v.</span><span style="color:#bf616a;">end</span><span>(), std::</span><span style="color:#bf616a;">vector</span><span>&lt;T&gt;(), [f](std::vector&lt;T&gt; ret, T i) {
+</span><span>        </span><span style="color:#b48ead;">auto</span><span> maped = </span><span style="color:#bf616a;">f</span><span>(i);
+</span><span>        ret.</span><span style="color:#bf616a;">insert</span><span>(ret.</span><span style="color:#bf616a;">end</span><span>(), maped.</span><span style="color:#bf616a;">begin</span><span>(), maped.</span><span style="color:#bf616a;">end</span><span>());
+</span><span>        </span><span style="color:#b48ead;">return</span><span> ret;
+</span><span>    });
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    std::vector&lt;</span><span style="color:#b48ead;">int</span><span>&gt; </span><span style="color:#bf616a;">v </span><span>{ </span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>,</span><span style="color:#d08770;">5</span><span>};
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> flatMapV = </span><span style="color:#bf616a;">flatMap</span><span>&lt;</span><span style="color:#b48ead;">int</span><span>&gt;(v, [](</span><span style="color:#b48ead;">int</span><span> i) {
+</span><span>        </span><span style="color:#b48ead;">return </span><span>std::</span><span style="color:#bf616a;">vector</span><span>&lt;</span><span style="color:#b48ead;">int</span><span>&gt;{ -i, i};
+</span><span>    });
+</span><span>
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">origin v:</span><span>&quot;; </span><span style="color:#bf616a;">printV</span><span>(v);
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">flatMap v:</span><span>&quot;; </span><span style="color:#bf616a;">printV</span><span>(flatMapV);
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> pure3 = </span><span style="color:#bf616a;">pure</span><span>(</span><span style="color:#d08770;">3</span><span>);
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> flatMap3 = </span><span style="color:#bf616a;">flatMap</span><span>&lt;</span><span style="color:#b48ead;">int</span><span>&gt;(pure3, [](</span><span style="color:#b48ead;">int</span><span> i) {
+</span><span>        </span><span style="color:#b48ead;">return </span><span>std::</span><span style="color:#bf616a;">vector</span><span>&lt;</span><span style="color:#b48ead;">int</span><span>&gt;{ -i, i};
+</span><span>    });
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">origin pure3:</span><span>&quot;; </span><span style="color:#bf616a;">printV</span><span>(pure3);
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">flatMap flatMap3:</span><span>&quot;; </span><span style="color:#bf616a;">printV</span><span>(flatMap3);
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<p>这里 flatMap 传入的操作把每个元素展开为正负 2 个数。结果就是把这些展开结果串起来。<br />
+输出：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>origin v:1 2 3 4 5
+</span><span>flatMap v:-1 1 -2 2 -3 3 -4 4 -5 5
+</span><span>origin pure3:3
+</span><span>flatMap flatMap3:-3 3
+</span></code></pre>
+<h4 id="maybe-monad">Maybe Monad</h4>
+<p><code>std::optional</code>就可以看成一种<code>Maybe Monad</code>，它封装了个值，可能存在也可能不存在。<br />
+既然 monad 可以透过容器直接对内部数据进行操作，那么我们就可以使所有的函数都返回<code>std::optional</code>对象，操作失败没有值，成功就有值，这样很容易处理失败的情况。<br />
+只需要通过 monad 的 flatMap 操作就可以透明地直接操作原始对象了。<br />
+如下例：我们可以通过 then 将所有操作串起来，不需要单独处理无效输入的情况</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">class</span><span> T&gt;
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Maybe </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">std::optional</span><span style="color:#eff1f5;">&lt;T&gt; {
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">Maybe</span><span style="color:#eff1f5;">(T </span><span style="color:#bf616a;">v</span><span style="color:#eff1f5;">) : </span><span style="color:#bf616a;">std</span><span style="color:#eff1f5;">::optional&lt;T&gt;(v) {}
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">Maybe</span><span style="color:#eff1f5;">(std::nullopt_t </span><span style="color:#bf616a;">n</span><span style="color:#eff1f5;">) : </span><span style="color:#bf616a;">std</span><span style="color:#eff1f5;">::optional&lt;T&gt;(n) {}
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">static</span><span style="color:#eff1f5;"> Maybe&lt;T&gt; </span><span style="color:#8fa1b3;">pure</span><span style="color:#eff1f5;">(T </span><span style="color:#bf616a;">v</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">Maybe</span><span style="color:#eff1f5;">(v);
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">    Maybe&lt;T&gt; </span><span style="color:#8fa1b3;">flatMap</span><span style="color:#eff1f5;">(Maybe&lt;T&gt; </span><span style="color:#bf616a;">v</span><span style="color:#eff1f5;">, std::function&lt;Maybe&lt;T&gt;(T)&gt; </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">if </span><span style="color:#eff1f5;">(v) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">(v.</span><span style="color:#bf616a;">value</span><span style="color:#eff1f5;">());
+</span><span style="color:#eff1f5;">        }
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> std::nullopt;
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">    Maybe&lt;T&gt; </span><span style="color:#8fa1b3;">then</span><span style="color:#eff1f5;">(std::function&lt;Maybe&lt;T&gt;(T)&gt; </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        ops.</span><span style="color:#bf616a;">emplace_back</span><span style="color:#eff1f5;">(f);
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span>*</span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">;
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">    Maybe&lt;T&gt; </span><span style="color:#8fa1b3;">eval</span><span style="color:#eff1f5;">() {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#eff1f5;">std::</span><span style="color:#bf616a;">accumulate</span><span style="color:#eff1f5;">(ops.</span><span style="color:#bf616a;">begin</span><span style="color:#eff1f5;">(), ops.</span><span style="color:#bf616a;">end</span><span style="color:#eff1f5;">(), </span><span>*</span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">, [</span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">](Maybe&lt;T&gt; v, std::function&lt;Maybe&lt;T&gt;(T)&gt; f) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">flatMap</span><span style="color:#eff1f5;">(v, f);
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#b48ead;">private</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    std::vector&lt;std::function&lt;Maybe&lt;T&gt;(T)&gt;&gt; ops;
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">class</span><span> T&gt;
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">printM</span><span>(Maybe&lt;T&gt; </span><span style="color:#bf616a;">v</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(v) {
+</span><span>        cout &lt;&lt; *v &lt;&lt; endl;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">else </span><span>{
+</span><span>        cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">nullopt</span><span>&quot; &lt;&lt; endl;
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> add1 = [](</span><span style="color:#b48ead;">int</span><span> i) {
+</span><span>        cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">add1</span><span>&quot; &lt;&lt;endl;
+</span><span>        </span><span style="color:#b48ead;">return</span><span> Maybe&lt;</span><span style="color:#b48ead;">int</span><span>&gt;::</span><span style="color:#bf616a;">pure</span><span>(i+</span><span style="color:#d08770;">1</span><span>);
+</span><span>    };
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> nag = [](</span><span style="color:#b48ead;">int</span><span> i) {
+</span><span>        cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">nag</span><span>&quot;&lt;&lt;endl;
+</span><span>        </span><span style="color:#b48ead;">return</span><span> Maybe&lt;</span><span style="color:#b48ead;">int</span><span>&gt;::</span><span style="color:#bf616a;">pure</span><span>(-i);
+</span><span>    };
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> doFail = [](</span><span style="color:#b48ead;">int</span><span> i) {
+</span><span>        cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">doFail</span><span>&quot; &lt;&lt;endl;
+</span><span>        </span><span style="color:#b48ead;">return</span><span> std::nullopt;
+</span><span>    };
+</span><span>    Maybe&lt;</span><span style="color:#b48ead;">int</span><span>&gt; result = </span><span style="color:#bf616a;">Maybe</span><span>&lt;</span><span style="color:#b48ead;">int</span><span>&gt;(</span><span style="color:#d08770;">3</span><span>)
+</span><span>        .</span><span style="color:#bf616a;">then</span><span>(add1)
+</span><span>        .</span><span style="color:#bf616a;">then</span><span>(add1)
+</span><span>        .</span><span style="color:#bf616a;">then</span><span>(nag)
+</span><span>        .</span><span style="color:#bf616a;">eval</span><span>();
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">result:</span><span>&quot;;
+</span><span>    </span><span style="color:#bf616a;">printM</span><span>(result);
+</span><span>    Maybe&lt;</span><span style="color:#b48ead;">int</span><span>&gt; failResult = </span><span style="color:#bf616a;">Maybe</span><span>&lt;</span><span style="color:#b48ead;">int</span><span>&gt;(</span><span style="color:#d08770;">3</span><span>)
+</span><span>        .</span><span style="color:#bf616a;">then</span><span>(add1)
+</span><span>        .</span><span style="color:#bf616a;">then</span><span>(doFail)
+</span><span>        .</span><span style="color:#bf616a;">then</span><span>(nag)
+</span><span>        .</span><span style="color:#bf616a;">eval</span><span>();
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">fail result:</span><span>&quot;;
+</span><span>    </span><span style="color:#bf616a;">printM</span><span>(failResult);
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span><span>
+</span></code></pre>
+<p>输出：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>add1
+</span><span>add1
+</span><span>nag
+</span><span>result:-5
+</span><span>add1
+</span><span>doFail
+</span><span>fail result:nullopt
+</span></code></pre>
+<h3 id="zhuang-tai-dan-zi">状态单子</h3>
+<p>类似于状态机，输入一个状态返回一个状态，通过状态的转移来进行计算。可以不使用变量而计算出结果。<br />
+参考：https://wiki.haskell.org/State_Monad<br />
+我们实现一下上面 wiki 里的例 1，输入字符串，得到游戏分数</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#65737e;">// &lt;值，状态&gt;
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">class</span><span> T, </span><span style="color:#b48ead;">class</span><span> S&gt;
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">State </span><span style="color:#eff1f5;">{
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">using </span><span style="color:#eff1f5;">StateData </span><span>=</span><span style="color:#eff1f5;"> std::pair&lt;T, S&gt;;
+</span><span style="color:#eff1f5;">    std::function&lt;StateData(S)&gt; runState;
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">State</span><span style="color:#eff1f5;">(){}
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">State</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">decltype</span><span style="color:#eff1f5;">(runState) </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">):</span><span style="color:#bf616a;">runState</span><span style="color:#eff1f5;">(f) {};
+</span><span style="color:#eff1f5;">    </span><span style="color:#65737e;">// 单子基本操作
+</span><span style="color:#eff1f5;">    State </span><span style="color:#8fa1b3;">pure</span><span style="color:#eff1f5;">(T </span><span style="color:#bf616a;">value</span><span style="color:#eff1f5;">) </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">State</span><span style="color:#eff1f5;">([value](S s) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">StateData</span><span style="color:#eff1f5;">{value, s};
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">    State </span><span style="color:#8fa1b3;">flatMap</span><span style="color:#eff1f5;">(State </span><span style="color:#bf616a;">ma</span><span style="color:#eff1f5;">, std::function&lt;State(T)&gt; </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">) </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">State</span><span style="color:#eff1f5;">([ma, f](S s) {
+</span><span style="color:#eff1f5;">            StateData ns </span><span>=</span><span style="color:#eff1f5;"> ma.</span><span style="color:#bf616a;">runState</span><span style="color:#eff1f5;">(s);
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">(ns.</span><span style="color:#bf616a;">first</span><span style="color:#eff1f5;">).</span><span style="color:#bf616a;">runState</span><span style="color:#eff1f5;">(ns.</span><span style="color:#bf616a;">second</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">    </span><span style="color:#65737e;">// 状态单子相关，具体作用看haskell文档
+</span><span style="color:#eff1f5;">    State </span><span style="color:#8fa1b3;">get</span><span style="color:#eff1f5;">() {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">State</span><span style="color:#eff1f5;">([](S s) -&gt; </span><span style="color:#bf616a;">StateData </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return </span><span style="color:#eff1f5;">{s, s};
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">    State </span><span style="color:#8fa1b3;">put</span><span style="color:#eff1f5;">(S </span><span style="color:#bf616a;">s</span><span style="color:#eff1f5;">) </span><span style="color:#b48ead;">const </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">State</span><span style="color:#eff1f5;">([s](S v) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">StateData</span><span style="color:#eff1f5;">(v, s);
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">    State </span><span style="color:#8fa1b3;">modify</span><span style="color:#eff1f5;">(std::function&lt;S(S)&gt; </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">State</span><span style="color:#eff1f5;">([f](S s) -&gt; </span><span style="color:#bf616a;">StateData </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return </span><span style="color:#eff1f5;">{s, </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">(s)};
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#65737e;">// 尝试实现haskell状态单子wiki的示例
+</span><span style="color:#65737e;">// 输入字符串包含a,b,c 3种状态，a分数+1，b分数-1，c切换游戏开关
+</span><span style="color:#b48ead;">using </span><span>GameState = std::pair&lt;</span><span style="color:#b48ead;">bool</span><span>, </span><span style="color:#b48ead;">int</span><span>&gt;; </span><span style="color:#65737e;">// 定义状态，&lt;游戏开关，分数&gt;
+</span><span>State&lt;GameState, GameState&gt; </span><span style="color:#8fa1b3;">playGame</span><span>(std::string </span><span style="color:#bf616a;">input</span><span>) {
+</span><span>    State&lt;GameState, GameState&gt; s;
+</span><span>    </span><span style="color:#65737e;">// 输入处理完了，返回分数
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(input.</span><span style="color:#bf616a;">empty</span><span>()) {
+</span><span>        </span><span style="color:#b48ead;">return</span><span> s.</span><span style="color:#bf616a;">flatMap</span><span>(s.</span><span style="color:#bf616a;">get</span><span>(), [s](GameState x) -&gt;</span><span style="color:#bf616a;">State</span><span>&lt;GameState, GameState&gt; {
+</span><span>            </span><span style="color:#b48ead;">return</span><span> s.</span><span style="color:#bf616a;">pure</span><span>({x.</span><span style="color:#bf616a;">first</span><span>, x.</span><span style="color:#bf616a;">second</span><span>});
+</span><span>        });
+</span><span>    }
+</span><span>    </span><span style="color:#65737e;">// 还有输入，递归处理
+</span><span>    </span><span style="color:#b48ead;">char</span><span> head = input[</span><span style="color:#d08770;">0</span><span>];
+</span><span>    std::string tail = input.</span><span style="color:#bf616a;">substr</span><span>(</span><span style="color:#d08770;">1</span><span>);
+</span><span>    </span><span style="color:#b48ead;">return</span><span> s.</span><span style="color:#bf616a;">flatMap</span><span>(s.</span><span style="color:#bf616a;">get</span><span>(), [head, tail, s](GameState gs) -&gt; </span><span style="color:#bf616a;">State</span><span>&lt;GameState, GameState&gt; {
+</span><span>            </span><span style="color:#b48ead;">auto</span><span> toNext = [tail](GameState) {
+</span><span>                </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">playGame</span><span>(tail);
+</span><span>            };
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(head == &#39;</span><span style="color:#a3be8c;">a</span><span>&#39; &amp;&amp; gs.</span><span style="color:#bf616a;">first</span><span>) {
+</span><span>                </span><span style="color:#b48ead;">return</span><span> s.</span><span style="color:#bf616a;">flatMap</span><span>(s.</span><span style="color:#bf616a;">put</span><span>({gs.</span><span style="color:#bf616a;">first</span><span>, gs.</span><span style="color:#bf616a;">second </span><span>+</span><span style="color:#d08770;">1</span><span>}), toNext);
+</span><span>            }
+</span><span>            </span><span style="color:#b48ead;">else if </span><span>(head == &#39;</span><span style="color:#a3be8c;">b</span><span>&#39; &amp;&amp; gs.</span><span style="color:#bf616a;">first</span><span>) {
+</span><span>                </span><span style="color:#b48ead;">return</span><span> s.</span><span style="color:#bf616a;">flatMap</span><span>(s.</span><span style="color:#bf616a;">put</span><span>({gs.</span><span style="color:#bf616a;">first</span><span>, gs.</span><span style="color:#bf616a;">second </span><span>-</span><span style="color:#d08770;">1</span><span>}), toNext);
+</span><span>            }
+</span><span>            </span><span style="color:#b48ead;">else if </span><span>(head == &#39;</span><span style="color:#a3be8c;">c</span><span>&#39;) {
+</span><span>                </span><span style="color:#b48ead;">return</span><span> s.</span><span style="color:#bf616a;">flatMap</span><span>(s.</span><span style="color:#bf616a;">put</span><span>({!gs.</span><span style="color:#bf616a;">first</span><span>, gs.</span><span style="color:#bf616a;">second</span><span>}), toNext);
+</span><span>            }
+</span><span>            </span><span style="color:#b48ead;">else </span><span>{
+</span><span>                </span><span style="color:#b48ead;">return</span><span> s.</span><span style="color:#bf616a;">flatMap</span><span>(s.</span><span style="color:#bf616a;">put</span><span>({gs.</span><span style="color:#bf616a;">first</span><span>, gs.</span><span style="color:#bf616a;">second</span><span>}), toNext);
+</span><span>            }
+</span><span>        });
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    </span><span style="color:#65737e;">// 初始状态，初始游戏关、分数0
+</span><span>    GameState initGameState = {</span><span style="color:#d08770;">false</span><span>, </span><span style="color:#d08770;">0</span><span>};
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">ab result:</span><span>&quot; &lt;&lt; </span><span style="color:#bf616a;">playGame</span><span>(&quot;</span><span style="color:#a3be8c;">ab</span><span>&quot;).</span><span style="color:#bf616a;">runState</span><span>(initGameState).</span><span style="color:#bf616a;">first</span><span>.</span><span style="color:#bf616a;">second </span><span>&lt;&lt;endl;
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">ca result:</span><span>&quot; &lt;&lt; </span><span style="color:#bf616a;">playGame</span><span>(&quot;</span><span style="color:#a3be8c;">ca</span><span>&quot;).</span><span style="color:#bf616a;">runState</span><span>(initGameState).</span><span style="color:#bf616a;">first</span><span>.</span><span style="color:#bf616a;">second </span><span>&lt;&lt;endl;
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">cabca result:</span><span>&quot; &lt;&lt; </span><span style="color:#bf616a;">playGame</span><span>(&quot;</span><span style="color:#a3be8c;">cabca</span><span>&quot;).</span><span style="color:#bf616a;">runState</span><span>(initGameState).</span><span style="color:#bf616a;">first</span><span>.</span><span style="color:#bf616a;">second </span><span>&lt;&lt;endl;
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<p>输出：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>ab result:0
+</span><span>ca result:1
+</span><span>cabca result:0
+</span></code></pre>
+<p>可以看到整个程序没有用到任何<code>变量</code>，全靠 playGame 的状态转移得到最后结果。<br />
+这样不会用到全局关联的状态，调试起来也很简单。<br />
+进一步 🤔，这跟我们的 xx 滤镜是不是很像，都是输入一堆步骤，一步一步应用下去得到最终结果，那么我们的 xx 滤镜是否也能用这种方式实现。</p>
+<h3 id="cps-xu-ti-chuan-di-feng-ge">CPS(续体传递风格)</h3>
+<p>简单说明就是，函数可以拆成每一个步骤单独一个函数，入参是前一步的结果，输出结果给下一步的形式。这就是异步回调的思想。实际上 C++20 的协程就是这么一个设计思路。<br />
+如下例，func、func2、func3 是外延等价的</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">func</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">i </span><span>) {
+</span><span>    </span><span style="color:#b48ead;">int</span><span> ret = i;
+</span><span>    i += </span><span style="color:#d08770;">1</span><span>;
+</span><span>    i = -i;
+</span><span>    i *= </span><span style="color:#d08770;">2</span><span>;
+</span><span>    </span><span style="color:#b48ead;">return</span><span> i;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">func2</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">i</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> add1 = [](</span><span style="color:#b48ead;">int</span><span> i) { </span><span style="color:#b48ead;">return</span><span> i+</span><span style="color:#d08770;">1</span><span>; };
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> nag = [](</span><span style="color:#b48ead;">int</span><span> i) { </span><span style="color:#b48ead;">return </span><span>-i; };
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> muti2 = [](</span><span style="color:#b48ead;">int</span><span> i) { </span><span style="color:#b48ead;">return</span><span> i*</span><span style="color:#d08770;">2</span><span>; };
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">muti2</span><span>(</span><span style="color:#bf616a;">nag</span><span>(</span><span style="color:#bf616a;">add1</span><span>(i)));
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">func3</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">i</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> muti2 = [](</span><span style="color:#b48ead;">int</span><span> i) { </span><span style="color:#b48ead;">return</span><span> i*</span><span style="color:#d08770;">2</span><span>; };
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> nag = [muti2](</span><span style="color:#b48ead;">int</span><span> i) { </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">muti2</span><span>(-i); };
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> add1 = [nag](</span><span style="color:#b48ead;">int</span><span> i) { </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">nag</span><span>(i+</span><span style="color:#d08770;">1</span><span>); };
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">add1</span><span>(i);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">func(3):</span><span>&quot; &lt;&lt; </span><span style="color:#bf616a;">func</span><span>(</span><span style="color:#d08770;">3</span><span>) &lt;&lt;endl;
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">func2(3):</span><span>&quot; &lt;&lt; </span><span style="color:#bf616a;">func2</span><span>(</span><span style="color:#d08770;">3</span><span>) &lt;&lt;endl;
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">func3(3):</span><span>&quot; &lt;&lt; </span><span style="color:#bf616a;">func3</span><span>(</span><span style="color:#d08770;">3</span><span>) &lt;&lt;endl;
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<p>输出：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>func(3):-8
+</span><span>func2(3):-8
+</span><span>func3(3):-8
+</span></code></pre>
+<p>我们可以按照这种风格实现一个 try-catch-final 流程</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">TryCatch </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    std::function&lt;</span><span style="color:#b48ead;">void</span><span style="color:#eff1f5;">(std::exception</span><span>&amp;</span><span style="color:#eff1f5;"> e)&gt; </span><span style="color:#bf616a;">mOnCatch</span><span style="color:#eff1f5;">;
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">cTry</span><span style="color:#eff1f5;">(std::function&lt;</span><span style="color:#b48ead;">void</span><span style="color:#eff1f5;">(std::function&lt;</span><span style="color:#b48ead;">void</span><span style="color:#eff1f5;">()&gt;)&gt; </span><span style="color:#bf616a;">body</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">            std::function&lt;</span><span style="color:#b48ead;">void</span><span style="color:#eff1f5;">(std::exception</span><span>&amp;</span><span style="color:#eff1f5;">, std::function&lt;</span><span style="color:#b48ead;">void</span><span style="color:#eff1f5;">()&gt;)&gt; </span><span style="color:#bf616a;">onCatch</span><span style="color:#eff1f5;">,
+</span><span style="color:#eff1f5;">            std::function&lt;</span><span style="color:#b48ead;">void</span><span style="color:#eff1f5;">()&gt; onNext
+</span><span style="color:#eff1f5;">            ) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#bf616a;">mOnCatch </span><span>= </span><span style="color:#eff1f5;">std::</span><span style="color:#bf616a;">bind</span><span style="color:#eff1f5;">(onCatch, std::placeholders::_1, onNext);
+</span><span style="color:#eff1f5;">        </span><span style="color:#bf616a;">body</span><span style="color:#eff1f5;">(onNext);
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">cThrow</span><span style="color:#eff1f5;">(std::exception</span><span>&amp; </span><span style="color:#bf616a;">e</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#bf616a;">mOnCatch</span><span style="color:#eff1f5;">(e);
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">func</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">i</span><span>) {
+</span><span>    TryCatch t;
+</span><span>    t.</span><span style="color:#bf616a;">cTry</span><span>(
+</span><span>            </span><span style="color:#65737e;">// try
+</span><span>            [i,&amp;t](std::function&lt;</span><span style="color:#b48ead;">void</span><span>()&gt; next) {
+</span><span>                cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">try</span><span>&quot; &lt;&lt;endl;
+</span><span>                </span><span style="color:#b48ead;">if </span><span>(i == </span><span style="color:#d08770;">0</span><span>) {
+</span><span>                    </span><span style="color:#b48ead;">auto</span><span> e = std::</span><span style="color:#bf616a;">range_error</span><span>(&quot;</span><span style="color:#a3be8c;">counld not be 0</span><span>&quot;);
+</span><span>                    t.</span><span style="color:#bf616a;">cThrow</span><span>(e);
+</span><span>                } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>                    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">i=</span><span>&quot;&lt;&lt; i&lt;&lt;endl;
+</span><span>                    </span><span style="color:#bf616a;">next</span><span>();
+</span><span>                }
+</span><span>            },
+</span><span>            </span><span style="color:#65737e;">// catch
+</span><span>            [](std::exception&amp;e, std::function&lt;</span><span style="color:#b48ead;">void</span><span>()&gt; next ) {
+</span><span>                cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">catch:</span><span>&quot; &lt;&lt; e.</span><span style="color:#bf616a;">what</span><span>() &lt;&lt; endl;
+</span><span>                </span><span style="color:#bf616a;">next</span><span>();
+</span><span>            },
+</span><span>            </span><span style="color:#65737e;">// final
+</span><span>            []() {
+</span><span>                cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">final</span><span>&quot; &lt;&lt; endl;
+</span><span>            }
+</span><span>        );
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    </span><span style="color:#bf616a;">func</span><span>(</span><span style="color:#d08770;">0</span><span>);
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">---</span><span style="color:#96b5b4;">\n</span><span>&quot;;
+</span><span>    </span><span style="color:#bf616a;">func</span><span>(</span><span style="color:#d08770;">100</span><span>);
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<p>输出：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>try
+</span><span>catch:counld not be 0
+</span><span>final
+</span><span>---
+</span><span>try
+</span><span>i=100
+</span><span>final
+</span></code></pre>
+<h1 id="yong-zai-shi-ji-bian-cheng-shang-de-te-xing">用在实际编程上的特性</h1>
+<h2 id="duo-xing-qiu-zhi">惰性求值</h2>
+<p>顾名思义，仅在需要的时候才执行计算。例如。<br />
+一个 list [1,2,3,4,5]先做 x2 操作-&gt;[2,4,6,8,10]然后再取前 2 个 take 2-&gt;[2,4]<br />
+非惰性求值情况，需要 list[1,2,3,4,5]里面所有元素都做 x2 操作，然后再取前 2 个，而惰性求值情况下可以在 take2 时分别触发 1 的 x2 和 2 的 x2 只计算这两个元素。<br />
+这样甚至可以构造出无限序列来做后续操作，有点 python 中生成器的感觉。<br />
+在 rust 中的容器操作(or java8 的 stream)其实也有惰性计算的影子。例如我们对一个序列进行 map/reduce 等操作后，实际上获取到的是一个惰性求值表达式，想要转成<code>Vec</code>等容器则需要调用  例如<code>collect&lt;Vec&gt;</code>这样的方法去触发计算真正生成出包含所有结果的 Vec 对象。</p>
+<h2 id="chun-han-shu">纯函数</h2>
+<p>lambda 表达式本身不存在变量概念，所有函数都是纯函数，即确定输入那么对应输出就是唯一确定的，不被环境所影响，并且也不带副作用，不会影响到环境中的其他元素。<br />
+这样的特性带来的好处有：</p>
+<ol>
+<li>所有输入输出都是固定的，那么单元测试就很好做，不需要考虑到各种各样环境组合的影响。</li>
+<li>在并发编程情况下无敌。因为并发编程下最大的问题是由于数据共享带来的数据竞争问题。都使用纯函数的情况下就不存在数据竞争问题，可以充分的利用处理器多核特性并发处理计算。<br />
+又有。例如 c++的 stl 里<code>std::reduce</code>等算法，提供了参数可以使用并行版本的算法，因为是对序列应用一个 lambda 函数，每个元素之间的运算没有依赖关系，也可以很好的利用这个特性做并行计算优化。</li>
+</ol>
+<h3 id="gao-jie-han-shu-shi-xian-huan-cun">高阶函数实现缓存</h3>
+<p>耗时的计算可以使用缓存来减少重复计算量。<br />
+如下例，实现了个斐波那契数列计算函数和缓存函数。<br />
+顺便还写了个计算时间的封装，最后调用的这个函数在基本斐波那契数列计算的基础上，叠加了缓存和计算耗时的能力。</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span>uint64_t </span><span style="color:#8fa1b3;">fib</span><span>(uint64_t </span><span style="color:#bf616a;">i</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(i == </span><span style="color:#d08770;">0</span><span>) { </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>; }
+</span><span>    </span><span style="color:#b48ead;">else if </span><span>(i == </span><span style="color:#d08770;">1</span><span>) { </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">1</span><span>; }
+</span><span>    </span><span style="color:#b48ead;">else </span><span>{
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">fib</span><span>(i-</span><span style="color:#d08770;">1</span><span>) + </span><span style="color:#bf616a;">fib</span><span>(i-</span><span style="color:#d08770;">2</span><span>);
+</span><span>    }
+</span><span>}
+</span><span style="color:#b48ead;">auto </span><span style="color:#8fa1b3;">cache</span><span>(std::function&lt;uint64_t(uint64_t)&gt; </span><span style="color:#bf616a;">cal</span><span>, std::map&lt;uint64_t, u_int64_t&gt; </span><span style="color:#bf616a;">cacheMap</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> cachedCal = [&amp;cacheMap, cal](int64_t i) {
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#b48ead;">auto</span><span> it = cacheMap.</span><span style="color:#bf616a;">find</span><span>(i); it != cacheMap.</span><span style="color:#bf616a;">end</span><span>()) {
+</span><span>            cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">cached </span><span>&quot;&lt;&lt; i &lt;&lt;&quot;</span><span style="color:#a3be8c;">-&gt;</span><span>&quot;&lt;&lt;it-&gt;</span><span style="color:#bf616a;">second</span><span>&lt;&lt;endl;
+</span><span>            </span><span style="color:#b48ead;">return</span><span> it-&gt;</span><span style="color:#bf616a;">second</span><span>;
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">else </span><span>{
+</span><span>            uint64_t ret = </span><span style="color:#bf616a;">cal</span><span>(i);
+</span><span>            cacheMap[i] = ret;
+</span><span>            cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">push cache </span><span>&quot;&lt;&lt; i &lt;&lt;&quot;</span><span style="color:#a3be8c;">-&gt;</span><span>&quot;&lt;&lt;ret&lt;&lt;endl;
+</span><span>            </span><span style="color:#b48ead;">return</span><span> ret;
+</span><span>        }
+</span><span>    };
+</span><span>    </span><span style="color:#b48ead;">return</span><span> cachedCal;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">template</span><span>&lt;</span><span style="color:#b48ead;">class</span><span> F&gt;
+</span><span style="color:#b48ead;">auto </span><span style="color:#8fa1b3;">timeIt</span><span>(F </span><span style="color:#bf616a;">fn</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> ret = [fn](uint64_t i) {
+</span><span>        </span><span style="color:#b48ead;">auto</span><span> start = std::chrono::steady_clock::</span><span style="color:#bf616a;">now</span><span>();
+</span><span>        </span><span style="color:#b48ead;">auto</span><span> ret = </span><span style="color:#bf616a;">fn</span><span>(i);
+</span><span>        </span><span style="color:#b48ead;">auto</span><span> end = std::chrono::steady_clock::</span><span style="color:#bf616a;">now</span><span>();
+</span><span>        </span><span style="color:#b48ead;">auto</span><span> dur = std::chrono::</span><span style="color:#bf616a;">duration_cast</span><span>&lt;std::chrono::milliseconds&gt;(end - start).</span><span style="color:#bf616a;">count</span><span>();
+</span><span>        cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">fn(</span><span>&quot; &lt;&lt; i&lt;&lt; &quot;</span><span style="color:#a3be8c;">) cost </span><span>&quot; &lt;&lt; dur &lt;&lt; &quot;</span><span style="color:#a3be8c;">ms</span><span>&quot; &lt;&lt;endl;
+</span><span>        </span><span style="color:#b48ead;">return</span><span> ret;
+</span><span>    };
+</span><span>    </span><span style="color:#b48ead;">return</span><span> ret;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    std::map&lt;uint64_t, uint64_t&gt; cacheMap;
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> cachedFib = </span><span style="color:#bf616a;">timeIt</span><span>(</span><span style="color:#bf616a;">cache</span><span>(fib, cacheMap));
+</span><span>    cout &lt;&lt; </span><span style="color:#bf616a;">cachedFib</span><span>(</span><span style="color:#d08770;">35</span><span>) &lt;&lt; endl;
+</span><span>    cout &lt;&lt; </span><span style="color:#bf616a;">cachedFib</span><span>(</span><span style="color:#d08770;">35</span><span>) &lt;&lt; endl;
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<p>输出如下：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>push cache 35-&gt;9227465
+</span><span>fn(35) cost 95ms
+</span><span>9227465
+</span><span>cached 35-&gt;9227465
+</span><span>fn(35) cost 0ms
+</span><span>9227465
+</span></code></pre>
+<p>可以看到第二次计算基本不耗时了。<br />
+再例如：<br />
+业务中常见的失败重试。定义一个 retry，接受要重试的操作和重试次数、重试间隔。<br />
+使用时组合起来得到一个自动带有重试功能的原功能函数。</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">char</span><span>* </span><span style="color:#8fa1b3;">doSomething</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">static int</span><span> i = </span><span style="color:#d08770;">0</span><span>;
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(i == </span><span style="color:#d08770;">3</span><span>) {
+</span><span>        </span><span style="color:#b48ead;">return </span><span>&quot;</span><span style="color:#a3be8c;">success</span><span>&quot;;
+</span><span>    }
+</span><span>    i++;
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">nullptr</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">template</span><span>&lt;</span><span style="color:#b48ead;">class</span><span> F&gt;
+</span><span style="color:#b48ead;">auto </span><span style="color:#8fa1b3;">retry</span><span>(F </span><span style="color:#bf616a;">f</span><span>, size_t </span><span style="color:#bf616a;">count</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">waitTime</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">return </span><span>[count, waitTime, f] {
+</span><span>        </span><span style="color:#b48ead;">char</span><span>* ret = </span><span style="color:#d08770;">nullptr</span><span>;
+</span><span>        size_t cnt = count;
+</span><span>        </span><span style="color:#b48ead;">while</span><span>(cnt &gt; </span><span style="color:#d08770;">0</span><span>) {
+</span><span>            ret = </span><span style="color:#bf616a;">f</span><span>();
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(!ret) {
+</span><span>                cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">failed. wait for </span><span>&quot;&lt;&lt; waitTime&lt;&lt;&quot;</span><span style="color:#a3be8c;">ms to retry</span><span>&quot; &lt;&lt; endl;
+</span><span>                std::this_thread::</span><span style="color:#bf616a;">sleep_for</span><span>(std::chrono::</span><span style="color:#bf616a;">milliseconds</span><span>(waitTime));
+</span><span>                cnt--;
+</span><span>            } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>                </span><span style="color:#b48ead;">return</span><span> ret;
+</span><span>            }
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">return</span><span> ret;
+</span><span>    };
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> getResult = </span><span style="color:#bf616a;">retry</span><span>(doSomething, </span><span style="color:#d08770;">5</span><span>, </span><span style="color:#d08770;">100</span><span>);
+</span><span>    cout &lt;&lt; </span><span style="color:#bf616a;">getResult</span><span>() &lt;&lt; endl;
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<p>输出：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>failed. wait for 100ms to retry
+</span><span>failed. wait for 100ms to retry
+</span><span>failed. wait for 100ms to retry
+</span><span>success
+</span></code></pre>
+<p>通过这种方式实现了非侵入式的功能扩充。每个函数只需要实现自己该做的事就好，需要定制就交给其他函数去做，最后再组合在一起。</p>
+<h3 id="monad">Monad</h3>
+<p>抹平类型、延迟计算<br />
+<code>CMTIKContainerFilter</code>就可以看成是一个 Monad，将贴纸、视频、序列帧等封装在里面，在拼图中统一只对 container 进行处理即可，不需要关注实际上他的具体类型不需要特殊处理。<br />
+并且只有在调用 container 的<code>doFilterEffect</code>时才会调用内部实际 filter 的<code>doFilterEffect</code>进行计算。<br />
+monad 还可以将非纯函数转为纯函数进行组合计算，只有在最后惰性计算触发时才真正会导致实际的副作用产生。<br />
+例：</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">addRandom</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">i</span><span>) {
+</span><span>    std::random_device dev;
+</span><span>    std::mt19937 </span><span style="color:#bf616a;">rng</span><span>(</span><span style="color:#bf616a;">dev</span><span>());
+</span><span>    std::uniform_int_distribution&lt;std::mt19937::result_type&gt; </span><span style="color:#bf616a;">dist100</span><span>(</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">100</span><span>);
+</span><span>    </span><span style="color:#b48ead;">return</span><span> i + </span><span style="color:#bf616a;">dist100</span><span>(rng);
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">addThree</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">i</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">return</span><span> i + </span><span style="color:#d08770;">3</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Monad </span><span style="color:#eff1f5;">: </span><span style="color:#b48ead;">public </span><span style="color:#a3be8c;">std::vector</span><span style="color:#eff1f5;">&lt;std::function&lt;</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;">)&gt;&gt; {
+</span><span style="color:#b48ead;">public</span><span style="color:#eff1f5;">:
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">Monad</span><span style="color:#eff1f5;">(std::function&lt;</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;">)&gt; </span><span style="color:#bf616a;">v</span><span style="color:#eff1f5;">) { </span><span style="color:#bf616a;">emplace_back</span><span style="color:#eff1f5;">(v); }
+</span><span style="color:#eff1f5;">    </span><span style="color:#8fa1b3;">Monad</span><span style="color:#eff1f5;">() {  }
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">static</span><span style="color:#eff1f5;"> Monad </span><span style="color:#8fa1b3;">pure</span><span style="color:#eff1f5;">(std::function&lt;</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;">)&gt; </span><span style="color:#bf616a;">v</span><span style="color:#eff1f5;">) { </span><span style="color:#b48ead;">return </span><span style="color:#eff1f5;">{v}; }
+</span><span style="color:#eff1f5;">    Monad </span><span style="color:#8fa1b3;">then</span><span style="color:#eff1f5;">(Monad </span><span style="color:#bf616a;">v</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> ret </span><span>= *</span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">;
+</span><span style="color:#eff1f5;">        ret.</span><span style="color:#bf616a;">insert</span><span style="color:#eff1f5;">(std::</span><span style="color:#bf616a;">end</span><span style="color:#eff1f5;">(ret), v.</span><span style="color:#bf616a;">begin</span><span style="color:#eff1f5;">(), v.</span><span style="color:#bf616a;">end</span><span style="color:#eff1f5;">());
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> ret;
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">static</span><span style="color:#eff1f5;"> Monad </span><span style="color:#8fa1b3;">flatMap</span><span style="color:#eff1f5;">(Monad </span><span style="color:#bf616a;">v</span><span style="color:#eff1f5;">, std::function&lt;Monad(std::function&lt;</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;">)&gt;)&gt; </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">if </span><span style="color:#eff1f5;">(v.</span><span style="color:#bf616a;">empty</span><span style="color:#eff1f5;">()) {
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> v;
+</span><span style="color:#eff1f5;">        }
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">else </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> head </span><span>=</span><span style="color:#eff1f5;"> v.</span><span style="color:#bf616a;">front</span><span style="color:#eff1f5;">();
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> maped </span><span>= </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">(head);
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> tail </span><span>= </span><span style="color:#bf616a;">Monad</span><span style="color:#eff1f5;">();
+</span><span style="color:#eff1f5;">            tail.</span><span style="color:#bf616a;">insert</span><span style="color:#eff1f5;">(tail.</span><span style="color:#bf616a;">end</span><span style="color:#eff1f5;">(), v.</span><span style="color:#bf616a;">begin</span><span style="color:#eff1f5;">()</span><span>+</span><span style="color:#d08770;">1</span><span style="color:#eff1f5;">, v.</span><span style="color:#bf616a;">end</span><span style="color:#eff1f5;">());
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">auto</span><span style="color:#eff1f5;"> restMaped </span><span>= </span><span style="color:#bf616a;">flatMap</span><span style="color:#eff1f5;">(tail, f);
+</span><span style="color:#eff1f5;">            maped.</span><span style="color:#bf616a;">insert</span><span style="color:#eff1f5;">(maped.</span><span style="color:#bf616a;">end</span><span style="color:#eff1f5;">(), restMaped.</span><span style="color:#bf616a;">begin</span><span style="color:#eff1f5;">(), restMaped.</span><span style="color:#bf616a;">end</span><span style="color:#eff1f5;">());
+</span><span style="color:#eff1f5;">            </span><span style="color:#b48ead;">return</span><span style="color:#eff1f5;"> maped;
+</span><span style="color:#eff1f5;">        }
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">                  
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">eval</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">i</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">return </span><span style="color:#eff1f5;">std::</span><span style="color:#bf616a;">accumulate</span><span style="color:#eff1f5;">(std::</span><span style="color:#bf616a;">begin</span><span style="color:#eff1f5;">(</span><span>*</span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">), std::</span><span style="color:#bf616a;">end</span><span style="color:#eff1f5;">(</span><span>*</span><span style="color:#bf616a;">this</span><span style="color:#eff1f5;">), i, [](</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;"> a, std::function&lt;</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;">)&gt; f){
+</span><span style="color:#eff1f5;">             </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">f</span><span style="color:#eff1f5;">(a);
+</span><span style="color:#eff1f5;">        });
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> addTripleThree = </span><span style="color:#bf616a;">Monad</span><span>(addThree).</span><span style="color:#bf616a;">then</span><span>(</span><span style="color:#bf616a;">Monad</span><span>(addThree)).</span><span style="color:#bf616a;">then</span><span>(</span><span style="color:#bf616a;">Monad</span><span>(addThree));
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> addTripleThreeAddRandom = addTripleThree.</span><span style="color:#bf616a;">then</span><span>(</span><span style="color:#bf616a;">Monad</span><span>(addRandom)); </span><span style="color:#65737e;">// 这里tripleThreeAddRandom是确定的，类型是个函数,then过程是纯的
+</span><span>    </span><span style="color:#65737e;">// 利用flatMap可以实现AOP，这里注入一个打印每一步结果的操作
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> printStep = Monad::</span><span style="color:#bf616a;">flatMap</span><span>(addTripleThreeAddRandom, [](std::function&lt;</span><span style="color:#b48ead;">int</span><span>(</span><span style="color:#b48ead;">int</span><span>)&gt; f) {
+</span><span>        </span><span style="color:#b48ead;">return </span><span>Monad::</span><span style="color:#bf616a;">pure</span><span>([f](</span><span style="color:#b48ead;">int</span><span> i){
+</span><span>            </span><span style="color:#b48ead;">int</span><span> ret = </span><span style="color:#bf616a;">f</span><span>(i);
+</span><span>            cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">step result:</span><span>&quot; &lt;&lt; ret &lt;&lt; endl;
+</span><span>            </span><span style="color:#b48ead;">return</span><span> ret;
+</span><span>        });
+</span><span>    });
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">addTripleThree:</span><span>&quot;&lt;&lt; addTripleThree.</span><span style="color:#bf616a;">eval</span><span>(</span><span style="color:#d08770;">100</span><span>) &lt;&lt; endl;
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">tripleThreeAddRandom:</span><span>&quot; &lt;&lt; addTripleThreeAddRandom.</span><span style="color:#bf616a;">eval</span><span>(</span><span style="color:#d08770;">100</span><span>) &lt;&lt; endl; </span><span style="color:#65737e;">// 这里调用eval的时候才真正执行副作用
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">addTripleThree:</span><span>&quot;&lt;&lt; addTripleThree.</span><span style="color:#bf616a;">eval</span><span>(</span><span style="color:#d08770;">100</span><span>) &lt;&lt; endl;
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">tripleThreeAddRandom:</span><span>&quot; &lt;&lt; addTripleThreeAddRandom.</span><span style="color:#bf616a;">eval</span><span>(</span><span style="color:#d08770;">100</span><span>) &lt;&lt; endl;
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">printStep:</span><span>&quot;&lt;&lt; printStep.</span><span style="color:#bf616a;">eval</span><span>(</span><span style="color:#d08770;">100</span><span>) &lt;&lt; endl;
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<p>输出</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>addTripleThree:109
+</span><span>tripleThreeAddRandom:190
+</span><span>addTripleThree:109
+</span><span>tripleThreeAddRandom:145
+</span><span>printStep:step result:103
+</span><span>step result:106
+</span><span>step result:109
+</span><span>step result:202
+</span><span>202
+</span></code></pre>
+<p>这里把非纯函数 addRandom 封装到 Monad 中，处理过程始终是纯的，没有随机情况没有副作用。只有最后.eval()的时候才真正执行非纯部分。<br />
+monad 还有很多其他类型：Maybe 单子、List 单子、IO 单子、Writer 单子</p>
+<h3 id="han-shu-xiang-ying-shi-bian-cheng">函数响应式编程</h3>
+<p>相关资料：https://reactivex.io/<br />
+提供了个类似于 linq 的观察者模式框架。各个语言实现：RxCpp,RxJava,RxSwift<br />
+核心是关注数据流，以函数式编程的思想将多个纯函数组合起来,以提高代码可读性可维护性的方式处理业务逻辑。<br />
+c++20 的 ranges 提供了类似的接口，但缺少任务调度部分，如果有需要可能需要基于 c++20 的协程框架自行实现。</p>
+<h3 id="qi-ta">其他</h3>
+<p>当然实际应用的时候也不需要严格按照 lambda 演算的规则去应用。这样往往会有效率问题。<br />
+例如我们进行数值计算就没必要用丘奇数计算，使用丘奇数计算的话数值有多大就要计算几次，效率很低。我们大可以利用外延等价特性使用普通计算函数替代。</p>
+<h2 id="tong-wang-hei-mo-fa-shi-jie-de-men-feng">通往黑魔法世界的门缝</h2>
+<p>C++有个很强大的部分，模板。<br />
+我们思考，模板是图灵完备的，并且模板做计算的元函数都是纯函数。那么有没有可能在 c++的模板上实现一套 monad 呢？<br />
+要在模板上实现计算，就要把一切都以类型的形式表示。函数就要实现为一个高阶类型，模板参数就是函数调用的入参。</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#65737e;">// 实现流程控制
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">bool</span><span> Cond, </span><span style="color:#b48ead;">typename</span><span> Then, </span><span style="color:#b48ead;">typename</span><span> Else&gt;
+</span><span style="color:#b48ead;">struct </span><span>IfThenElse;
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> Then, </span><span style="color:#b48ead;">typename</span><span> Else&gt;
+</span><span style="color:#b48ead;">struct </span><span>IfThenElse&lt;</span><span style="color:#d08770;">true</span><span>, Then, Else&gt; {
+</span><span>    </span><span style="color:#b48ead;">using </span><span>value = Then;
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> Then, </span><span style="color:#b48ead;">typename</span><span> Else&gt;
+</span><span style="color:#b48ead;">struct </span><span>IfThenElse&lt;</span><span style="color:#d08770;">false</span><span>, Then, Else&gt; {
+</span><span>    </span><span style="color:#b48ead;">using </span><span>value = Else;
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// monad,以tag表示具体类型
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> Tag&gt;
+</span><span style="color:#b48ead;">struct </span><span>Monad;
+</span><span>
+</span><span style="color:#65737e;">// 错误类型
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span style="color:#b48ead;">struct </span><span>MError;
+</span><span>
+</span><span style="color:#65737e;">// 实现默认的Monad操作，默认有个Fail实现
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">class</span><span> Tag&gt;
+</span><span style="color:#b48ead;">struct </span><span>MDefault{
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>Fail {
+</span><span>        </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span>        </span><span style="color:#b48ead;">using  </span><span>value = </span><span style="color:#b48ead;">typename</span><span> MError&lt;T&gt;::failed;
+</span><span>    };
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// 以ADT方式实现一个列表
+</span><span style="color:#b48ead;">struct </span><span>Nil;
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> H, </span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span style="color:#b48ead;">struct </span><span>Cons {
+</span><span>    </span><span style="color:#b48ead;">using </span><span>car = H;
+</span><span>    </span><span style="color:#b48ead;">using </span><span>cdr = T;
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> A&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>Append {
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = Cons&lt;H, </span><span style="color:#b48ead;">typename</span><span> T::template Append&lt;A&gt;::value&gt;;
+</span><span>    };
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>Append&lt;Nil&gt; {
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = Cons&lt;H, T&gt;;
+</span><span>    };
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> L&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>AppendList {
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = Cons&lt;H, </span><span style="color:#b48ead;">typename</span><span> T::template AppendList&lt;L&gt;::value&gt;;
+</span><span>    };
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>AppendList&lt;Nil&gt; {
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = Cons&lt;H, T&gt;;
+</span><span>    };
+</span><span>};
+</span><span style="color:#65737e;">// 空列表情况
+</span><span style="color:#b48ead;">template </span><span>&lt;&gt;
+</span><span style="color:#b48ead;">struct </span><span>Cons&lt;Nil, Nil&gt; {
+</span><span>    </span><span style="color:#b48ead;">using </span><span>car = Nil;
+</span><span>    </span><span style="color:#b48ead;">using </span><span>cdr = Nil;
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> A&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>Append {
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = Cons&lt;A, Nil&gt;;
+</span><span>    };
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> L&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>AppendList {
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = L;
+</span><span>    };
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> H&gt;
+</span><span style="color:#b48ead;">struct </span><span>Cons&lt;H, Nil&gt; {
+</span><span>    </span><span style="color:#b48ead;">using </span><span>car = H;
+</span><span>    </span><span style="color:#b48ead;">using </span><span>cdr = Nil;
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> A&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>Append {
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = Cons&lt;H, Cons&lt;A, Nil&gt;&gt;;
+</span><span>    };
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> L&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>AppendList {
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = Cons&lt;H, L&gt;;
+</span><span>    };
+</span><span>};
+</span><span style="color:#65737e;">// 表示整数类型
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">int</span><span> N&gt;
+</span><span style="color:#b48ead;">struct </span><span>Int {
+</span><span>    </span><span style="color:#b48ead;">enum </span><span>{
+</span><span>        value = N,
+</span><span>    };
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// 实现一个list monad
+</span><span style="color:#b48ead;">struct </span><span>ListTag;
+</span><span style="color:#b48ead;">template </span><span>&lt;&gt;
+</span><span style="color:#b48ead;">struct </span><span>Monad&lt;ListTag&gt; : </span><span style="color:#a3be8c;">MDefault</span><span>&lt;ListTag&gt; {
+</span><span>    </span><span style="color:#65737e;">// a -&gt; m a
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>Pure {
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = Cons&lt;T, Nil&gt;;
+</span><span>    };
+</span><span>    </span><span style="color:#65737e;">// m a -&gt; (a -&gt; m b) -&gt; m b
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T, </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span>&gt; </span><span style="color:#b48ead;">class</span><span> F&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>FlatMap {
+</span><span>        </span><span style="color:#65737e;">// 如果T有值
+</span><span>        </span><span style="color:#65737e;">// 返回 F(head).appendList(Flatmap(tail, F))
+</span><span>        </span><span style="color:#65737e;">// 否则直接返回T，终止递归
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = </span><span style="color:#b48ead;">typename</span><span> F&lt;</span><span style="color:#b48ead;">typename</span><span> T::car&gt;::value::
+</span><span>                          </span><span style="color:#b48ead;">template </span><span>AppendList&lt;
+</span><span>                              </span><span style="color:#b48ead;">typename</span><span> FlatMap&lt;
+</span><span>                                  </span><span style="color:#b48ead;">typename</span><span> T::cdr, F
+</span><span>                              &gt;::value
+</span><span>                          &gt;::value;
+</span><span>        </span><span style="color:#65737e;">// 使用IfThenElse需要把car和cdr改成lazy，嵌套层数太深不好理解先按正常模板方式处理
+</span><span>        </span><span style="color:#65737e;">//using value = typename IfThenElse&lt;std::is_same&lt;T, Nil&gt;::value,
+</span><span>        </span><span style="color:#65737e;">//        // 结束情况，返回F(T)
+</span><span>        </span><span style="color:#65737e;">//        typename F&lt;typename T::car&gt;::value,
+</span><span>        </span><span style="color:#65737e;">//        // 有值情况，递归
+</span><span>        </span><span style="color:#65737e;">//        typename F&lt;typename T::car&gt;::value::template AppendList&lt;typename FlatMap&lt;typename T::cdr, F&gt;::value&gt;::value
+</span><span>        </span><span style="color:#65737e;">//        &gt;::value;
+</span><span>    };
+</span><span>    </span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span>&gt; </span><span style="color:#b48ead;">class</span><span> F&gt;
+</span><span>    </span><span style="color:#b48ead;">struct </span><span>FlatMap&lt;Nil, F&gt; {
+</span><span>        </span><span style="color:#b48ead;">using </span><span>value = Nil;
+</span><span>    };
+</span><span>};
+</span><span>
+</span><span style="color:#65737e;">// 辅助输出函数
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">printList</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">using </span><span>carType = </span><span style="color:#b48ead;">typename</span><span> T::car;
+</span><span>    cout &lt;&lt; carType::value &lt;&lt; &quot;</span><span style="color:#a3be8c;">, </span><span>&quot;;
+</span><span>    </span><span style="color:#b48ead;">if constexpr </span><span>(!std::is_same_v&lt;</span><span style="color:#b48ead;">typename</span><span> T::cdr, Nil&gt;) {
+</span><span>        </span><span style="color:#bf616a;">printList</span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T::cdr&gt;();
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// 和前面的list monad例子一样，每个元素展开为 [ -i, i ]
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span style="color:#b48ead;">struct </span><span>Func {
+</span><span>    </span><span style="color:#b48ead;">using </span><span>value = </span><span style="color:#b48ead;">typename</span><span> IfThenElse&lt;std::is_same&lt;T, Nil&gt;::value, Nil, Cons&lt;Int&lt;-T::value&gt;, Cons&lt;T, Nil&gt;&gt;&gt;::value;
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    </span><span style="color:#65737e;">// 构造初始列表 [1, 2, 3, 4, 5]
+</span><span>    </span><span style="color:#b48ead;">using </span><span>initList = Cons&lt;Int&lt;</span><span style="color:#d08770;">1</span><span>&gt;, Cons&lt;Int&lt;</span><span style="color:#d08770;">2</span><span>&gt;, Cons&lt;Int&lt;</span><span style="color:#d08770;">3</span><span>&gt;, Cons&lt;Int&lt;</span><span style="color:#d08770;">4</span><span>&gt;, Cons&lt;Int&lt;</span><span style="color:#d08770;">5</span><span>&gt;, Nil&gt;&gt;&gt;&gt;&gt;;
+</span><span>    </span><span style="color:#65737e;">// 测试构造的列表是否正常
+</span><span>    </span><span style="color:#b48ead;">using </span><span>testList = Cons&lt;Int&lt;</span><span style="color:#d08770;">6</span><span>&gt;, Cons&lt;Int&lt;</span><span style="color:#d08770;">7</span><span>&gt;, Cons&lt;Int&lt;</span><span style="color:#d08770;">8</span><span>&gt;, Cons&lt;Int&lt;</span><span style="color:#d08770;">9</span><span>&gt;, Cons&lt;Int&lt;</span><span style="color:#d08770;">10</span><span>&gt;, Nil&gt;&gt;&gt;&gt;&gt;;
+</span><span>    </span><span style="color:#b48ead;">using </span><span>testAppend = initList::Append&lt;Int&lt;</span><span style="color:#d08770;">6</span><span>&gt;&gt;::value::Append&lt;Int&lt;</span><span style="color:#d08770;">7</span><span>&gt;&gt;::value::Append&lt;Int&lt;</span><span style="color:#d08770;">8</span><span>&gt;&gt;::value;
+</span><span>    </span><span style="color:#b48ead;">using </span><span>testAppendList = initList::AppendList&lt;testList&gt;::value;
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">testAppend:</span><span>&quot;;
+</span><span>    </span><span style="color:#bf616a;">printList</span><span>&lt;testAppend&gt;();
+</span><span>    cout &lt;&lt; endl;
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">testAppendList:</span><span>&quot;;
+</span><span>    </span><span style="color:#bf616a;">printList</span><span>&lt;testAppendList&gt;();
+</span><span>    cout &lt;&lt; endl;
+</span><span>    </span><span style="color:#65737e;">// 同之前list monad的测试
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">initList:</span><span>&quot;;
+</span><span>    </span><span style="color:#bf616a;">printList</span><span>&lt;initList&gt;();
+</span><span>    cout &lt;&lt; endl;
+</span><span>    </span><span style="color:#65737e;">// 应用FlatMap
+</span><span>    </span><span style="color:#b48ead;">using </span><span>finalList = Monad&lt;ListTag&gt;::FlatMap&lt;initList,  Func&gt;::value;
+</span><span>    cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">finalList:</span><span>&quot;;
+</span><span>    </span><span style="color:#bf616a;">printList</span><span>&lt;finalList&gt;();
+</span><span>    cout &lt;&lt; endl;
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span></code></pre>
+<p>输出：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>testAppend:1, 2, 3, 4, 5, 6, 7, 8,
+</span><span>testAppendList:1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+</span><span>initList:1, 2, 3, 4, 5,
+</span><span>finalList:-1, 1, -2, 2, -3, 3, -4, 4, -5, 5,
+</span></code></pre>
+<p>和之前 list monad 的输出结果一样。证明了使用 c++模板也能基于 monad 实现各种各样的功能。<br />
+C++的黑魔法：模板元编程 这么神奇，那么哪里可以学到呢？
+<strong>前面的区域以后再来探索吧</strong></p>
+<h1 id="can-kao-zi-liao">参考资料</h1>
+<p>https://cgnail.github.io/academic/lambda-1/<br />
+https://zh.wikipedia.org/zh-sg/%CE%9B%E6%BC%94%E7%AE%97<br />
+https://magic.huohuo.moe/<br />
+想要更详细的纯数学概念和更多数学证明可以看专栏：
+https://zhuanlan.zhihu.com/lambda-calculus<br />
+https://www.sciencedirect.com/science/article/pii/S0167642313000051</p>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

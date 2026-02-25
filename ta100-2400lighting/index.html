@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 2.4 传统经验光照模型详解</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-2400lighting/">TA百人计划 图形 2.4 传统经验光照模型详解</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-15
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#guang-zhao-mo-xing">光照模型</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#wei-shen-me-xu-yao-guang-zhao-mo-xing">为什么需要光照模型</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#ju-bu-guang-zhao-mo-xing">局部光照模型</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#man-fan-she">漫反射</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#jing-mian-fan-she">镜面反射</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#huan-jing-guang">环境光</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#zi-fa-guang">自发光</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#jing-dian-guang-zhao-mo-xing">经典光照模型</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#shuo-chu-neng-liang-shou-heng-li-nian-zai-ji-chu-guang-zhao-mo-xing-zhong-de-zuo-yong">说出能量守恒理念在基础光照模型中的作用</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-2400lighting/#ji-yu-neng-liang-shou-heng-de-li-nian-zi-ji-xie-yi-tao-bao-han-huan-jing-guang-zhao-de-wan-zheng-guang-zhao-mo-xing">基于能量守恒的理念，自己写一套包含环境光照的完整光照模型</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>地址：<a href="https://www.bilibili.com/video/BV1B54y1j7zE">【技术美术百人计划】图形 2.4 传统经验光照模型详解</a></p>
+<span id="continue-reading"></span><h1 id="bi-ji">笔记</h1>
+<h2 id="guang-zhao-mo-xing">光照模型</h2>
+<p>光线与空间中物体表面交互的模型。分为2类：</p>
+<ul>
+<li>基于物理的光照模型：使用物理的度量、统计方法，效果真实，计算复杂，实现困难。</li>
+<li>经验模型：通过实践总结出简化方法，简化光照计算并能达到不错的效果。</li>
+</ul>
+<h2 id="wei-shen-me-xu-yao-guang-zhao-mo-xing">为什么需要光照模型</h2>
+<p>现实世界光照复杂，无法完全模拟。使用简化的光照模型对现实光照进行近似，处理起来更容易并且效果符合需求。</p>
+<h2 id="ju-bu-guang-zhao-mo-xing">局部光照模型</h2>
+<p>只考虑自然光源的直接光影响，光源发出经过物体表面反射直接到达镜头的光。
+全局光照模型： 光源发出的光经过在物体表面多次反射最后到达镜头的光。</p>
+<h2 id="man-fan-she">漫反射</h2>
+<p>光照射到物体表面，被均匀分散到各个方向的现象叫做漫反射。<br />
+漫反射过程中光线被吸收、散射，<strong>因此改变颜色和方向</strong>。<br />
+漫反射满足<code>lambert定律</code>，反射光强和法线与光源方向夹角的余弦值成正比。
+漫反射效果与观察者位置无关，与光源位置有关。<br />
+lambert余弦定律: $color=C_{light} * albedo * dot(normal,L);$<br />
+其中$C_{light}$为入射光颜色，albedo为漫反射材质</p>
+<h2 id="jing-mian-fan-she">镜面反射</h2>
+<p>光线没有被吸收，直接反射出来。<strong>光强不变方向改变。</strong><br />
+观察视线在反射光线附近时能观察到。<br />
+镜面反射的反射率根据<code>菲涅尔效应</code>决定。<br />
+通常使用反射贴图描述物体表面的反射率，使用粗糙度描述高光范围的大小。<br />
+计算公式：$C_{specular}=C_{light} * m_{specular} * dot(v,r)^{m_{gloss}}$<br />
+$r = 1-2 * dot(n,l) * n$<br />
+$m_{gloss}$为材质光泽度<br />
+$m_{specular}$为材质反射率<br />
+r为反射光线，v为视线向量</p>
+<h2 id="huan-jing-guang">环境光</h2>
+<p>局部光照模型中不考虑间接光照影响，引入环境光来处理间接光照。
+计算方式：$C_{ambient}=albedo * ambient_{light}$<br />
+模型假定场景光经过多次反射、散射，均匀地照在物体上。</p>
+<h2 id="zi-fa-guang">自发光</h2>
+<p>物体自身发射的光。常用发光贴图描述。</p>
+<h2 id="jing-dian-guang-zhao-mo-xing">经典光照模型</h2>
+<ol>
+<li>Lambert模型。用来实现漫反射。<br />
+lambert余弦定律: $color=C_{light} * albedo * dot(normal,L);$<br />
+其中$C_{light}$为入射光颜色，albedo为漫反射材质</li>
+<li>Phong模型。光照=环境光+漫反射+高光。<br />
+$C_{final}=A_{light} * m_{diffuse} + C_{light} * (m_{diffuse} * dot(l,n) + m_{specular} * dot(v,r)^{gloss})$<br />
+$A_{light}$:环境光量<br />
+$C_{light}$:入射光量<br />
+$m_{diffuse}$:漫反射率<br />
+$m_{specular}$:镜反射率<br />
+l:入射光向量<br />
+n:物体表面法向量<br />
+r:反射向量<br />
+gloss：光泽度</li>
+<li>Blinn-Phong模型。高光部分使用半角向量h计算。<br />
+$C_{final}=A_{light} * m_{diffuse} + C_{light} * (m_{diffuse} * dot(l,n) + m_{specular} * dot(h,n)^{gloss})$<br />
+相比Phong模型，计算更为简洁，视线与光照在法线同一侧时不会丢失高光形成断层。</li>
+<li>Flat模型。lowpoly风格化效果。每个三角形只有一个法线方向，以相同的光强度显示多边形上所有的点。</li>
+</ol>
+<h1 id="zuo-ye">作业</h1>
+<p>这作业是要自己写出一个PBR模型？<br />
+能量守恒：出射光线的能量永远不能超过入射光线的能量（发光面除外）</p>
+<h2 id="shuo-chu-neng-liang-shou-heng-li-nian-zai-ji-chu-guang-zhao-mo-xing-zhong-de-zuo-yong">说出能量守恒理念在基础光照模型中的作用</h2>
+<p>基础光照模型没有考虑能量守恒。要说作用那可能就是，传统光照模型依赖于人工经验手动调整，那么调整时人就会根据经验调出一个符合能量守恒的效果出来。<br />
+基于考虑能量守恒的微平面模型，使用BRDF（满足能量守恒的，使用入射光方向、观察方向计算的blinn-phong也算BRDF，但不满足能量守恒）计算材质上每束光的反射、折射贡献。因为满足能量守恒，所以获得的光照效果更真实。</p>
+<h2 id="ji-yu-neng-liang-shou-heng-de-li-nian-zi-ji-xie-yi-tao-bao-han-huan-jing-guang-zhao-de-wan-zheng-guang-zhao-mo-xing">基于能量守恒的理念，自己写一套包含环境光照的完整光照模型</h2>
+<p>在传统光照上进行修改。使用菲涅尔方程计算反射、折射的光线比（Fresnel-Schlick近似）<br />
+以菲涅尔方程算出来的比例对(漫反射+镜面反射)和环境光进行插值<br />
+<img src="https://www.chinuno.com/blogv4/ta100-2400lighting/light.png" alt="light" /><br />
+效果是个类似铜像的效果。使用这个cubemap环境光的效果不是很明显</p>
+<pre data-lang="glsl" style="background-color:#2b303b;color:#c0c5ce;" class="language-glsl "><code class="language-glsl" data-lang="glsl"><span style="color:#65737e;">// 菲涅尔。计算反射光线比值
+</span><span style="color:#b48ead;">float </span><span style="color:#8fa1b3;">fresnel</span><span>(</span><span style="color:#b48ead;">vec3 </span><span style="color:#bf616a;">n</span><span>, </span><span style="color:#b48ead;">vec3 </span><span style="color:#bf616a;">v</span><span>, </span><span style="color:#b48ead;">float </span><span style="color:#bf616a;">F0</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">return</span><span> F0 + (</span><span style="color:#d08770;">1.0 </span><span>- F0) * </span><span style="color:#96b5b4;">pow</span><span>(</span><span style="color:#d08770;">1.0 </span><span>- </span><span style="color:#96b5b4;">dot</span><span>(n,v), </span><span style="color:#d08770;">5.0</span><span>);
+</span><span>}  
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">main</span><span>(</span><span style="color:#b48ead;">void</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">const vec3</span><span> base = </span><span style="color:#b48ead;">vec3</span><span>(</span><span style="color:#d08770;">0.8</span><span>, </span><span style="color:#d08770;">0.4</span><span>, </span><span style="color:#d08770;">0.15</span><span>);
+</span><span>    </span><span style="color:#b48ead;">const float</span><span> gloss = </span><span style="color:#d08770;">50.0</span><span>;
+</span><span>    </span><span style="color:#65737e;">// 菲涅尔系数
+</span><span>    </span><span style="color:#b48ead;">const float</span><span> f0 = </span><span style="color:#d08770;">0.95</span><span>;
+</span><span>    </span><span style="color:#65737e;">// 根据粗糙度取mipmap等级
+</span><span>    </span><span style="color:#b48ead;">const float</span><span> numMips = </span><span style="color:#d08770;">6.0</span><span>;
+</span><span>    </span><span style="color:#b48ead;">const float</span><span> roughness = </span><span style="color:#d08770;">0.1</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> n = </span><span style="color:#96b5b4;">normalize</span><span>(v_normal);
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> l = </span><span style="color:#96b5b4;">normalize</span><span>(u_light);
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> v = </span><span style="color:#96b5b4;">normalize</span><span>(u_camera - v_position.</span><span style="color:#bf616a;">xyz</span><span>);
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// 漫反射 lambert
+</span><span>    </span><span style="color:#b48ead;">float</span><span> diffuse = </span><span style="color:#96b5b4;">dot</span><span>(n, l) * </span><span style="color:#d08770;">0.5</span><span>;
+</span><span>    </span><span style="color:#b48ead;">vec4</span><span> diff = </span><span style="color:#b48ead;">vec4</span><span>(base * diffuse,</span><span style="color:#d08770;">1.0</span><span>);
+</span><span>    </span><span style="color:#65737e;">// 高光 blinn-phong
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> h = </span><span style="color:#96b5b4;">normalize</span><span>(n+v); </span><span style="color:#65737e;">// 半角
+</span><span>    </span><span style="color:#b48ead;">vec4</span><span> specular = </span><span style="color:#b48ead;">vec4</span><span>(</span><span style="color:#b48ead;">vec3</span><span>(</span><span style="color:#96b5b4;">pow</span><span>(</span><span style="color:#96b5b4;">dot</span><span>(h,n), gloss)),</span><span style="color:#d08770;">1.0</span><span>);
+</span><span>    </span><span style="color:#b48ead;">float</span><span> fres = </span><span style="color:#bf616a;">fresnel</span><span>(n,v,f0);
+</span><span>    </span><span style="color:#65737e;">// 环境光
+</span><span>    </span><span style="color:#b48ead;">vec3</span><span> ref = </span><span style="color:#96b5b4;">reflect</span><span>(-v,n);
+</span><span>    </span><span style="color:#b48ead;">vec4</span><span> amb = </span><span style="color:#96b5b4;">mix</span><span>(</span><span style="color:#96b5b4;">textureCube</span><span>( u_cubeMap, ref, (roughness * numMips) ), 
+</span><span>                   </span><span style="color:#96b5b4;">textureCube</span><span>( u_cubeMap, ref, </span><span style="color:#96b5b4;">min</span><span>((roughness * numMips) + </span><span style="color:#d08770;">1.0</span><span>, numMips)), 
+</span><span>                   </span><span style="color:#96b5b4;">fract</span><span>(roughness * numMips) );
+</span><span>    </span><span style="color:#65737e;">// 插值，环境光和反射光总量固定为入射光
+</span><span>    </span><span style="color:#b48ead;">vec4</span><span> color = </span><span style="color:#96b5b4;">mix</span><span>(amb, specular+diff, fres);
+</span><span>    </span><span style="color:#bf616a;">gl_FragColor </span><span>= color;
+</span><span>}
+</span><span>
+</span></code></pre>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>

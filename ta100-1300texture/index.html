@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>TA百人计划 图形 1.3 纹理的秘密</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/style.css">
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/color/red.css">
+
+    <link rel="stylesheet" href="https://www.chinuno.com/blogv4/font-hack.css">
+
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://www.chinuno.com/blogv4" style="text-decoration: none;">
+                    <div class="logo">
+                            转生成为从零开始的小萌新
+                        </div>
+                </a>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://www.chinuno.com/blogv4">博文</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/tags">标签</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/categories">分类</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/archive">归档</a></li>
+            
+                <li><a href="https://www.chinuno.com/blogv4/about">关于</a></li>
+            
+                <li class="active"><a href="https://www.chinuno.com">前世</a></li>
+            
+                <li><a href="https://github.com/chinuno-usami" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://www.chinuno.com/blogv4/ta100-1300texture/">TA百人计划 图形 1.3 纹理的秘密</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2021-11-10
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/bai-ren-ji-hua/">#百人计划</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/ta/">#TA</a>&nbsp;
+                <a class="post-tag" href="https://www.chinuno.com/blogv4/tags/tu-xing-xue/">#图形学</a></span>
+    
+
+
+    <ul>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1300texture/#bi-ji">笔记</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1300texture/#wen-li-3da-wen">纹理3大问</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1300texture/#wen-li-guan-xian">纹理管线</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1300texture/#wen-li-de-wrapping-mode-texture-addressing-mode">纹理的Wrapping mode&#x2F;Texture addressing mode</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1300texture/#filter-mode">filter mode</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1300texture/#mipmap">mipmap</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://www.chinuno.com/blogv4/ta100-1300texture/#zuo-ye">作业</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1300texture/#filter-modeyou-na-ji-chong">Filter mode有哪几种</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://www.chinuno.com/blogv4/ta100-1300texture/#wen-li-tie-tu-de-you-hua-fang-shi-ji-yuan-li">纹理贴图的优化方式及原理</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+        
+        <div class="post-content">
+            <p>内容突然多了起来</p>
+<span id="continue-reading"></span>
+<p>地址：<a href="https://www.bilibili.com/video/BV1sA411N7z3">【技术美术百人计划】图形 1.3 纹理的秘密</a></p>
+<h1 id="bi-ji">笔记</h1>
+<h2 id="wen-li-3da-wen">纹理3大问</h2>
+<h3 id="wen-li-shi-shen-me">纹理是什么</h3>
+<ul>
+<li>一张图片</li>
+<li>可供着色器读写的存储结构<br />
+不局限于存储图片，可以存储高度、法线等信息</li>
+</ul>
+<h3 id="wei-shen-me-yao-wen-li">为什么要纹理</h3>
+<p>空间换时间。提前计算好结果节省运行时的计算量。</p>
+<h3 id="zen-me-yong-de">怎么用的</h3>
+<p>看下面~</p>
+<h2 id="wen-li-guan-xian">纹理管线</h2>
+<p>$模型空间位置\overset{投影函数}{\rightarrow}参数空间坐标\overset{映射函数}{\rightarrow}纹理空间坐标(uv)\overset{取值采样}{\rightarrow}纹理值\overset{值变换}{\rightarrow}变换后需要的纹理数值$<br />
+依赖纹理读取：着色器计算过程中临时计算出来的uv位置取获取纹理值，会降低效率。新显卡好像没有这个问题？
+程序纹理：不通过查找得到纹理值，而是通过函数计算产生。有些通过屏幕坐标产生的纹理应该属于这一种？</p>
+<h2 id="wen-li-de-wrapping-mode-texture-addressing-mode">纹理的Wrapping mode/Texture addressing mode</h2>
+<p>决定在采样位置超过纹理范围时该取什么值。
+<img src="https://www.chinuno.com/blogv4/ta100-1300texture/wrapping-mode.png" alt="" /></p>
+<h2 id="filter-mode">filter mode</h2>
+<p>纹理缩放旋转等变换时如何采样
+unity里面有三种</p>
+<table><thead><tr><th>类型</th><th>描述</th></tr></thead><tbody>
+<tr><td>Point</td><td>最邻近过滤，直接取最近的点。速度快，视觉效果差，像素游戏可以用</td></tr>
+<tr><td>Bilinear</td><td>双线性过滤，跟附近的四个点取平均值</td></tr>
+<tr><td>Trilinear</td><td>三线性过滤，跟附近的点取平均值，同时还根据梯度获得2层mipmap的纹理进行加权混合。</td></tr>
+</tbody></table>
+<p><img src="https://pic3.zhimg.com/80/v2-15acc5a127110daeb710eea4f0ad4036_720w.jpg" alt="各向异性过滤" /><br />
+DirectX还提供了Anisotropic filtering。各向异性过滤。三线性过滤的梯度取的是uv方向梯度的最大值，而各向异性过滤把u,v方向的梯度单独计算。按照u,v方向的梯度比获取多层mipmap进行加权混合。效果最好，但是消耗算力。<br />
+最邻近和双线性过滤存在多对一映射导致的颜色丢失和像素闪烁问题</p>
+<h3 id="qi-ta-filter-mode">其他filter mode</h3>
+<ul>
+<li>立方卷积</li>
+<li>Quilez光滑曲线</li>
+</ul>
+<h2 id="mipmap">mipmap</h2>
+<p>将纹理按照不同等级进行缩放,查找纹理像素时根据缩放等级到对应的mipmap里进行采样。</p>
+<h3 id="levelxuan-ze">level选择</h3>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">float</span><span> dx = </span><span style="color:#bf616a;">ddx</span><span>(i.</span><span style="color:#bf616a;">uv</span><span>);
+</span><span style="color:#b48ead;">float</span><span> dy = </span><span style="color:#bf616a;">ddy</span><span>(i.</span><span style="color:#bf616a;">uv</span><span>);
+</span><span style="color:#b48ead;">float</span><span> lod = </span><span style="color:#d08770;">0.5</span><span>*</span><span style="color:#96b5b4;">log2</span><span>(</span><span style="color:#bf616a;">max</span><span>(</span><span style="color:#bf616a;">dot</span><span>(dx,dx), </span><span style="color:#bf616a;">dot</span><span>(dy,dy)));
+</span><span style="color:#b48ead;">float</span><span> albedo = </span><span style="color:#bf616a;">tex2Dlod</span><span>(_MainTex, </span><span style="color:#bf616a;">float4</span><span>(i.</span><span style="color:#bf616a;">uv</span><span>,</span><span style="color:#d08770;">0</span><span>,lod)).</span><span style="color:#bf616a;">rgb</span><span>;
+</span></code></pre>
+<h3 id="ge-xiang-yi-xing-guo-lu-you-hua">各向异性过滤优化</h3>
+<p><img src="https://www.chinuno.com/blogv4/ta100-1300texture/aniso.png" alt="各向异性" /><br />
+视频里就是翻译了<code>Real-Time Rendering</code>里的内容。没看懂自己找了原版来看。<br />
+原文：</p>
+<blockquote>
+<p>For current graphics hardware, the most common method to further improve texture filtering is to reuse existing mipmap hardware. The basic idea
+is that the pixel cell is back-projected, this quadrilateral (quad) on the texture is then sampled a number of times, and the samples are combined.
+As outlined above, each mipmap sample has a location and a squarish area
+associated with it. Instead of using a single mipmap sample to approximate
+this quad’s coverage, the algorithm uses a number of squares to cover the
+quad. The shorter side of the quad can be used to determine d (unlike in
+mipmapping, where the longer side is often used); this makes the averaged
+area smaller (and so less blurred) for each mipmap sample. The quad’s longer side is used to create a line of anisotropy parallel to the longer side
+and through the middle of the quad. When the amount of anisotropy is
+between 1:1 and 2:1, two samples are taken along this line (see Figure 6.17).
+At higher ratios of anisotropy, more samples are taken along the axis.</p>
+</blockquote>
+<p>我的理解是。图左边是屏幕上看到的内容。蓝色框就是纹理的平面，因为斜着看所以是个奇怪的四边形。红色框就是屏幕上一个像素。<br />
+这里反向投影，把屏幕变换到纹理的坐标上。那么就是右边这种样子，原来的四边形纹理原来是斜的，现在铺满整个空间是个矩形。一个像素看成原来是个矩形，现在映射过来成了个斜的四边形。<br />
+红框短边上每个点属于同一个缩放级别的点，而长边属于会随着距离变化产生缩放需要多次采样的点。<br />
+那么以两条短边中点画条中线就是lod梯度变化的方向。按照采样等级分段，每个红点代表采样点，在各自的mipmap上采样。最后把所有的采样结果做一个加权混合值作为当前这个像素(左图红框这块)的值。</p>
+<h3 id="cpuxuan-ran-you-hua-wen-li-tu-ji-shu-zu">CPU渲染优化 纹理图集/数组</h3>
+<p>减少Draw Call次数。一次提交多个纹理，减少为了切换纹理带来的额外Draw Call。</p>
+<h3 id="gpuxuan-ran-you-hua-wen-li-ya-suo">GPU渲染优化 纹理压缩</h3>
+<p>减少传输带宽。</p>
+<h3 id="cubemap">CubeMap</h3>
+<p>立方体6个面的贴图。常用在环境光照</p>
+<h3 id="ao-tu-tie-tu">凹凸贴图</h3>
+<p>记录法线信息，在计算光照的时候根据法线贴图的信息进行扰动，达到看起来凹凸的效果</p>
+<h3 id="wei-yi-tie-tu">位移贴图</h3>
+<p>记录了顶点的位移信息。真正的修改了顶点位置。需要顶点数量够多才有效果。</p>
+<h1 id="zuo-ye">作业</h1>
+<h2 id="filter-modeyou-na-ji-chong">Filter mode有哪几种</h2>
+<ol>
+<li>最邻近采样</li>
+<li>双线性插值</li>
+<li>三线性插值</li>
+<li>各向异性过滤</li>
+<li>立方卷积</li>
+<li>光滑曲线</li>
+</ol>
+<h2 id="wen-li-tie-tu-de-you-hua-fang-shi-ji-yuan-li">纹理贴图的优化方式及原理</h2>
+<ol>
+<li>把多张贴图放到一个纹理图集、纹理数组中。减少切换纹理调用的Draw Call次数。</li>
+<li>对贴图进行压缩，减少贴图体积。降低传输贴图需要的带宽，减少传输数据耗时。</li>
+</ol>
+
+        </div>
+
+	<div id="disqus_thread"></div>
+	<script>
+	    /**
+	    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+	    /*
+	    var disqus_config = function () {
+	    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+	    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	    };
+	    */
+	    (function() { // DON'T EDIT BELOW THIS LINE
+	    var d = document, s = d.createElement('script');
+	    s.src = 'https://gensokyo.disqus.com/embed.js';
+	    s.setAttribute('data-timestamp', +new Date());
+	    (d.head || d.body).appendChild(s);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments.</a></noscript>
+        
+    </div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+		<div class="copyright copyright--user"><span>© 2015 -
+    2026
+ Published by Chinuno Usami. All rights reserved q(≧▽≦q)</span></div>
+        </div>
+    </footer>
+
+
+</div>
+</body>
+
+</html>
