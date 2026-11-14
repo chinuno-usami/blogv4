@@ -44,6 +44,7 @@ menu_items = [
     {name = "分类", url = "$BASE_URL/categories"},
     {name = "归档", url = "$BASE_URL/archive"},
     {name = "关于", url = "$BASE_URL/about"},
+    {name = "友链", url = "$BASE_URL/links"},
     {name = "前世", url = "https://www.chinuno.com"},
     
     # set newtab to true to make the link open in new tab

@@ -1,0 +1,28 @@
+{% extends "terminimal/templates/index.html" %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ get_url(path="links.css", trailing_slash=false) | safe }}">
+{% endblock extra_head %}
+
+{% block content %}
+    <div class="post">
+        <h1 class="post-title"><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h1>
+        <div class="post-content">
+            {{ page.content | safe }}
+
+            <ul class="friend-links">
+            {%- for friend in page.extra.friends %}
+                <li>
+                    <a class="friend-link" href="{{ friend.url | safe }}" target="_blank" rel="noopener noreferrer">
+                        <img class="friend-link__avatar" src="{{ friend.avatar | safe }}" alt="{{ friend.name }}" loading="lazy">
+                        <span class="friend-link__info">
+                            <span class="friend-link__name">{{ friend.name }}</span>
+                            <span class="friend-link__desc">{{ friend.description }}</span>
+                        </span>
+                    </a>
+                </li>
+            {%- endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock content %}
